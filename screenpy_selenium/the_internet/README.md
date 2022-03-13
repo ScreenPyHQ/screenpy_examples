@@ -1,8 +1,15 @@
-unittest Example
-================
+The Internet Example
+====================
+
+[The Internet](http://the-internet.herokuapp.com/)
+is a website
+created by Dave Haeffner.
+It provides several examples
+of modern web design
+to practice interacting with
+through Selenium.
 
 This example uses [unittest](https://docs.python.org/3/library/unittest.html)'s test organization style.
-
 
 Setup
 -----

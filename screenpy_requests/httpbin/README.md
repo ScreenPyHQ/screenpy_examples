@@ -1,17 +1,14 @@
-GitHub Example
-==============
+HTTPBin Example
+===============
 
-Yep,
-we're automating some tests
-against GitHub itself!
-
-This example uses [pytest](https://docs.pytest.org/en/latest/)'s
-test organization style.
+[HTTPBin](https://httpbin.org/)
+is a handy website
+for testing HTTP Requests.
+We will be using it
+to try out some API requests.
 
 Setup
 -----
-
-It is assumed you have `chromedriver` installed.
 
 Virtual environment
 ^^^^^^^^^^^^^^^^^^^
