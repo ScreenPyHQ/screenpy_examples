@@ -1,0 +1,2 @@
+screenpy[requests,allure]>=4.0.0
+pytest
