@@ -1,5 +1,4 @@
-GitHub Example
-==============
+# GitHub Example
 
 Yep,
 we're automating some tests
@@ -8,13 +7,11 @@ against GitHub itself!
 This example uses [pytest](https://docs.pytest.org/en/latest/)'s
 test organization style.
 
-Setup
------
+## Setup
 
 It is assumed you have `chromedriver` installed.
 
-Virtual environment
-^^^^^^^^^^^^^^^^^^^
+### Virtual environment
 
     python -m venv env
     source env/bin/activate
@@ -24,13 +21,12 @@ to leave the virtual environment.
 Re-run the `source` command above
 to re-enter your virtual environment.
 
-Install Requirements
-^^^^^^^^^^^^^^^^^^^^
+### Install requirements
 
     pip install -r requirements.txt
 
-Running the Tests
------------------
+## Running the Tests
+
 To run the tests, call the following in the project root folder:
 
     python -m pytest features/

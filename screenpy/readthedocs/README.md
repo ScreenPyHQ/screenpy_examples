@@ -1,15 +1,12 @@
-ReadTheDocs
-===========
+# ReadTheDocs
 
 This is the fully functional example
 used in the [ScreenPy docs](https://screenpy-docs.readthedocs.io/en/latest/).
 
 
-Setup
------
+## Setup
 
-Virtual environment
-^^^^^^^^^^^^^^^^^^^
+### Virtual environment
 
     python -m venv env
     source env/bin/activate
@@ -19,13 +16,12 @@ to leave the virtual environment.
 Re-run the `source` command above
 to re-enter your virtual environment.
 
-Install Requirements
-^^^^^^^^^^^^^^^^^^^^
+### Install requirements
 
     pip install -r requirements.txt
 
-Running the Tests
------------------
+## Running the Tests
+
 To run the tests, call the following in the project root folder:
 
     python -m pytest features/

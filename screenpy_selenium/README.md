@@ -1,5 +1,4 @@
-ScreenPy Selenium
-=================
+# ScreenPy Selenium
 
 The examples in this directory
 use `[screenpy_selenium](https://screenpy-selenium-docs.readthedocs.io/en/latest/)`

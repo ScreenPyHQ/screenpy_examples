@@ -1,5 +1,4 @@
-ScreenPy
-========
+# ScreenPy
 
 The examples in this directory
 use only the base [ScreenPy](https://screenpy-docs.readthedocs.io/en/latest/) library.

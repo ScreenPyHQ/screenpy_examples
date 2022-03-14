@@ -1,5 +1,4 @@
-HTTPBin Example
-===============
+# HTTPBin Example
 
 [HTTPBin](https://httpbin.org/)
 is a handy website
@@ -7,11 +6,9 @@ for testing HTTP Requests.
 We will be using it
 to try out some API requests.
 
-Setup
------
+## Setup
 
-Virtual environment
-^^^^^^^^^^^^^^^^^^^
+### Virtual environment
 
     python -m venv env
     source env/bin/activate
@@ -21,13 +18,12 @@ to leave the virtual environment.
 Re-run the `source` command above
 to re-enter your virtual environment.
 
-Install Requirements
-^^^^^^^^^^^^^^^^^^^^
+### Install requirements
 
     pip install -r requirements.txt
 
-Running the Tests
------------------
+## Running the Tests
+
 To run the tests, call the following in the project root folder:
 
     python -m pytest features/
