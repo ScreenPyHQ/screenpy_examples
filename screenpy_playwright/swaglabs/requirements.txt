@@ -1,0 +1,2 @@
+screenpy[playwright]
+pytest
