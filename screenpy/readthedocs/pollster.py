@@ -18,4 +18,3 @@ laughter_packet.top_mood = constants.LAUGHING
 laughter_packet.saturation = 50
 
 connect_to_audience = mock.Mock()
-connect_to_audience().poll_mood.side_effect = [tense_packet, laughter_packet]
