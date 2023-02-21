@@ -3,6 +3,7 @@ Test our ability to influence the audience's mood with skillful camerawork.
 """
 
 from cam_py import Camera
+from pollster import laughter_packet, tense_packet, mock_mood
 from screenpy import AnActor, given, then, when
 from screenpy.actions import See
 from screenpy.resolutions import Equals
@@ -23,6 +24,7 @@ from ..resolutions import IsPalpable
 from ..scripts import GOOD_WILL_HUNTING, SHAUN_OF_THE_DEAD
 
 
+@mock_mood(tense_packet)
 def test_dramatic_moment(Cameron: AnActor, Polly: AnActor) -> None:
     """We can use the camera to create dramatic tension."""
     Cameron.has_cleanup_tasks(StopRecording())
@@ -41,6 +43,7 @@ def test_dramatic_moment(Cameron: AnActor, Polly: AnActor) -> None:
     then(Polly).should(See.the(AudienceTension(), IsPalpable()))
 
 
+@mock_mood(laughter_packet)
 def test_comedic_timing(Cameron: AnActor, Polly: AnActor) -> None:
     """We can use the camera to make funny moments."""
     Cameron.has_cleanup_tasks(StopRecording())
