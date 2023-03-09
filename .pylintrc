@@ -1,5 +1,5 @@
 [MASTER]
-ignore-paths=^.*/tests/.*$
+ignore-paths=^.*/features/.*$
 disable=
     arguments-renamed,
     duplicate-code,
