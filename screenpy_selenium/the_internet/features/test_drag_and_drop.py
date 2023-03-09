@@ -13,7 +13,7 @@ from screenpy_selenium.abilities import BrowseTheWeb
 from screenpy_selenium.actions import Chain, HoldDown, MoveMouse, Open, Release, Wait
 from screenpy_selenium.questions import Text
 
-from the_internet.user_interface.drag_and_drop import (
+from ..user_interface.drag_and_drop import (
     FIRST_DRAGGABLE_BOX,
     SECOND_DRAGGABLE_BOX,
     URL,

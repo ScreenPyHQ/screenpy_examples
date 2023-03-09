@@ -15,7 +15,7 @@ from screenpy_selenium.abilities import BrowseTheWeb
 from screenpy_selenium.actions import Open, Select
 from screenpy_selenium.questions import Selected
 
-from the_internet.user_interface.dropdown import THE_DROPDOWN, URL
+from ..user_interface.dropdown import THE_DROPDOWN, URL
 
 
 class TestDropdowns(unittest.TestCase):

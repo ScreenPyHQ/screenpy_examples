@@ -13,7 +13,7 @@ from screenpy_selenium.abilities import BrowseTheWeb
 from screenpy_selenium.actions import Click, Open, SwitchToTab
 from screenpy_selenium.questions import BrowserURL, Text
 
-from the_internet.user_interface.multiple_windows import (
+from ..user_interface.multiple_windows import (
     CLICK_HERE_LINK,
     HEADER_MESSAGE,
     URL,

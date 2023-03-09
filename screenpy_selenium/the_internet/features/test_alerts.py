@@ -19,7 +19,7 @@ from screenpy_selenium.actions import (
 )
 from screenpy_selenium.questions import Text, TextOfTheAlert
 
-from the_internet.user_interface.javascript_alerts import (
+from ..user_interface.javascript_alerts import (
     JS_ALERT_BUTTON,
     JS_CONFIRM_BUTTON,
     JS_PROMPT_BUTTON,

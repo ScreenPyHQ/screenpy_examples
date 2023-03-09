@@ -43,6 +43,7 @@ flake8 = {version = "*", optional = true}
 pylint = {version = "*", optional = true}
 coverage = {version = "*", optional = true}
 setuptools = "*"
+screenpy-adapter-allure = "^4.0.2"
 
 [tool.poetry.extras]
 dev = [
