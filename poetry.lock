@@ -799,6 +799,21 @@ files = [
 ]
 
 [[package]]
+name = "pyderman"
+version = "3.3.2"
+description = "Installs the latest Chrome/Firefox/Opera/PhantomJS/Edge web drivers automatically."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pyderman-3.3.2-py3-none-any.whl", hash = "sha256:9e21f6c44bc0fd09335aa935ef309fc2b160bc00b7cea4286c595423f38ad867"},
+    {file = "pyderman-3.3.2.tar.gz", hash = "sha256:43b474355228b89d3e4559d2821e47e3debf5968e71d7e1af680ed13f718445c"},
+]
+
+[package.extras]
+dev = ["black", "flake8", "isort", "mypy", "pre-commit", "setuptools (>=46.4.0)", "twine", "types-setuptools", "wheel"]
+
+[[package]]
 name = "pyee"
 version = "9.0.4"
 description = "A port of node.js's EventEmitter to python."
@@ -1094,6 +1109,22 @@ trio-websocket = ">=0.9,<1.0"
 urllib3 = {version = ">=1.26,<2.0", extras = ["socks"]}
 
 [[package]]
+name = "semantic-version"
+version = "2.10.0"
+description = "A library implementing the 'SemVer' scheme."
+category = "main"
+optional = false
+python-versions = ">=2.7"
+files = [
+    {file = "semantic_version-2.10.0-py2.py3-none-any.whl", hash = "sha256:de78a3b8e0feda74cabc54aab2da702113e33ac9d9eb9d2389bcf1f58b7d9177"},
+    {file = "semantic_version-2.10.0.tar.gz", hash = "sha256:bdabb6d336998cbb378d4b9db3a4b56a1e3235701dc05ea2690d9a997ed5041c"},
+]
+
+[package.extras]
+dev = ["Django (>=1.11)", "check-manifest", "colorama (<=0.4.1)", "coverage", "flake8", "nose2", "readme-renderer (<25.0)", "tox", "wheel", "zest.releaser[recommended]"]
+doc = ["Sphinx", "sphinx-rtd-theme"]
+
+[[package]]
 name = "setuptools"
 version = "67.6.0"
 description = "Easily download, build, install, upgrade, and uninstall Python packages"
@@ -1322,4 +1353,4 @@ dev = ["black", "coverage", "flake8", "isort", "mypy", "pylint"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "d1d54775bf41cab711bff0322c52350c98eaa2ce153bb752e1f5896c69f76417"
+content-hash = "f631ed3c23e8fbfc8693280ea55da165742b446906f8ead58ef456b7413f81cc"

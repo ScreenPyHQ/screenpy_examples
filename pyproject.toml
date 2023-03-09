@@ -44,6 +44,8 @@ pylint = {version = "*", optional = true}
 coverage = {version = "*", optional = true}
 setuptools = "*"
 screenpy-adapter-allure = "^4.0.2"
+semantic-version = "^2.10.0"
+pyderman = "^3.3.2"
 
 [tool.poetry.extras]
 dev = [
