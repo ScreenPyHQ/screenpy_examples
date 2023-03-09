@@ -8,7 +8,7 @@ import pytest
 from screenpy import AnActor
 
 from ..abilities import ControlCameras, PollTheAudience
-from pollster import laughter_packet, tense_packet, connect_to_audience
+from ..pollster import laughter_packet, tense_packet, connect_to_audience
 
 
 @pytest.fixture

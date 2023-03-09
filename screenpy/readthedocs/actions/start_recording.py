@@ -2,7 +2,7 @@
 Start recording a screenplay on one or more cameras!
 """
 
-import cam_py
+from .. import cam_py
 from screenpy import Actor
 from screenpy.pacing import beat
 

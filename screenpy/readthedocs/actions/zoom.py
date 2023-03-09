@@ -2,7 +2,7 @@
 Zoom in/out on the active camera.
 """
 
-import cam_py
+from .. import cam_py
 from screenpy import Actor
 from screenpy.pacing import beat
 
