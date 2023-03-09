@@ -1,0 +1,70 @@
+[tool.poetry]
+name = "screenpy_examples"
+version = "0.1.0"
+description = "Screenpy Examples"
+authors = ["Perry Goy <perry.goy@gmail.com>"]
+maintainers = ["Gabe Langton", "Marcel Wilson"]
+license = "MIT"
+repository = "https://github.com/ScreenPyHQ/screenpy_examples"
+#documentation = "https://screenpy-docs.readthedocs.io"  ????
+readme = "README.md"
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Testing :: BDD",
+    "Natural Language :: English",
+    "License :: OSI Approved :: MIT License",
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pytest = "*"
+screenpy = { git = "git@github.com:ScreenPyHQ/screenpy.git", branch = "trunk"}
+screenpy-selenium = { git = "git@github.com:ScreenPyHQ/screenpy_selenium.git", branch = "trunk"}
+#screenpy = "*"
+#screenpy-selenium = "*"
+screenpy-appium = "*"
+screenpy-playwright = "*"
+screenpy-requests = "*"
+
+#tox = {version = "*", optional = true}
+mypy = {version = "*", optional = true}
+black = {version = "*", optional = true}
+isort = {version = "*", optional = true}
+flake8 = {version = "*", optional = true}
+pylint = {version = "*", optional = true}
+coverage = {version = "*", optional = true}
+setuptools = "*"
+
+[tool.poetry.extras]
+dev = [
+    "pre-commit",
+#    "tox",
+    "pylint",
+    "mypy",
+    "black",
+    "isort",
+    "flake8",
+    "coverage",
+]
+
+
+[tool.isort]
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = "True"
+use_parentheses = "True"
+combine_as_imports = "True"
+src_paths = "screenpy_examples"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
