@@ -6,7 +6,7 @@ This library *purportedly* lets you to do polls on audiences. But it's a mock.
 
 from unittest import mock
 
-import constants
+from . import constants
 
 
 tense_packet = mock.Mock()

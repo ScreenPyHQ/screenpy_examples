@@ -1,4 +1,4 @@
-import pollster
+from .. import pollster
 
 
 class PollTheAudience:

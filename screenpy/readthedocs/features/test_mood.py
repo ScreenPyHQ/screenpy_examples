@@ -2,7 +2,7 @@
 Test our ability to influence the audience's mood with skillful camerawork.
 """
 
-from cam_py import Camera
+from ..cam_py import Camera
 from screenpy import AnActor, given, then, when
 from screenpy.actions import See
 from screenpy.resolutions import Equals

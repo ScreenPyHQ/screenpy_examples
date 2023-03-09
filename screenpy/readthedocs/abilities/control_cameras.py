@@ -1,4 +1,4 @@
-import cam_py
+from .. import cam_py
 
 
 class ControlCameras:
