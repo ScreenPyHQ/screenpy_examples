@@ -5,10 +5,17 @@ Setup and fixtures for our feature tests.
 from typing import Generator
 
 import pytest
+import _pytest.logging
 from screenpy import AnActor
 
 from ..abilities import ControlCameras, PollTheAudience
 from ..pollster import laughter_packet, tense_packet, connect_to_audience
+import logging
+from screenpy.narration.adapters.stdout_adapter import StdOutAdapter, StdOutManager
+from screenpy.pacing import the_narrator
+from ..screenpy_logger import create_logger
+
+the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger("scr")))]
 
 
 @pytest.fixture
@@ -41,3 +48,14 @@ def pytest_runtest_setup(item: pytest.Item) -> Generator:
         side_effect = tense_packet
     connect_to_audience().poll_mood.side_effect = [side_effect]
     yield
+
+
+@pytest.hookimpl(trylast=True)
+def pytest_configure(config):
+    logging_plugin = config.pluginmanager.get_plugin("logging-plugin")
+    formatter = logging_plugin.log_cli_handler.formatter
+
+    if isinstance(formatter, _pytest.logging.ColoredLevelFormatter):
+        formatter.add_color_level(logging.INFO, "green")
+        formatter.add_color_level(logging.ERROR, "red")
+    return
