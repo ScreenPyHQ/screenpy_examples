@@ -2,11 +2,8 @@
 An example of a test module that follows the typical unittest.TestCase
 test structure. These tests exercise the clicking and waiting Actions.
 """
-import pytest
 import random
 
-
-from screenpy import Actor, given, then, when
 from screenpy.actions import See
 from screenpy.pacing import act, scene
 from screenpy.resolutions import ContainsTheText, IsEqualTo
@@ -14,7 +11,8 @@ from screenpy_selenium.actions import Click, Open, Wait
 from screenpy_selenium.questions import Attribute, Element, Number
 from screenpy_selenium.resolutions import IsVisible
 
-from ..user_interface.add_remove_elements import (
+from screenpy_examples.screenpy_selenium.the_internet.user_interface.add_remove_elements import \
+    (
     ADD_BUTTON,
     ADDED_ELEMENTS,
     URL,

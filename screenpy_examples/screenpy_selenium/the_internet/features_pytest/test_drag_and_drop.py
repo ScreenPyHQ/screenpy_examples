@@ -11,7 +11,8 @@ from screenpy.resolutions import ReadsExactly
 from screenpy_selenium.actions import Chain, HoldDown, MoveMouse, Open, Release, Wait, Pause
 from screenpy_selenium.questions import Text
 
-from ..user_interface.drag_and_drop import (
+from screenpy_examples.screenpy_selenium.the_internet.user_interface.drag_and_drop import \
+    (
     FIRST_DRAGGABLE_BOX,
     SECOND_DRAGGABLE_BOX,
     URL,

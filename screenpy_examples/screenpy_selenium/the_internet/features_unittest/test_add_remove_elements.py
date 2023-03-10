@@ -17,7 +17,8 @@ from screenpy_selenium.actions import Click, Open, Wait
 from screenpy_selenium.questions import Attribute, Element, Number
 from screenpy_selenium.resolutions import IsVisible
 
-from ..user_interface.add_remove_elements import (
+from screenpy_examples.screenpy_selenium.the_internet.user_interface.add_remove_elements import \
+    (
     ADD_BUTTON,
     ADDED_ELEMENTS,
     URL,

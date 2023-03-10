@@ -2,14 +2,16 @@
 An example of a test module that follows the typical unittest.TestCase
 test structure. These tests exercise the selecting Actions.
 """
-from screenpy import given, then, when
 from screenpy.actions import See
 from screenpy.pacing import act, scene
 from screenpy.resolutions import ReadsExactly
 from screenpy_selenium.actions import Open, Select
 from screenpy_selenium.questions import Selected
 
-from ..user_interface.dropdown import THE_DROPDOWN, URL
+from screenpy_examples.screenpy_selenium.the_internet.user_interface.dropdown import (
+    THE_DROPDOWN,
+    URL,
+)
 
 
 class TestDropdowns:

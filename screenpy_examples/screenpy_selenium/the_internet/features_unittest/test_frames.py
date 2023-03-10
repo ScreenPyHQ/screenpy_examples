@@ -13,7 +13,11 @@ from screenpy_selenium.abilities import BrowseTheWeb
 from screenpy_selenium.actions import Open, SwitchTo
 from screenpy_selenium.questions import Text
 
-from ..user_interface.iframe import CONTENT_BOX, URL, WYSIWYG_IFRAME
+from screenpy_examples.screenpy_selenium.the_internet.user_interface.iframe import (
+    CONTENT_BOX,
+    URL,
+    WYSIWYG_IFRAME,
+)
 
 
 class TestFrames(unittest.TestCase):
