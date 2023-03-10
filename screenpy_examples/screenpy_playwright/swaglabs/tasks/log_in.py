@@ -1,7 +1,7 @@
 from screenpy import Actor
 from screenpy_playwright.actions import Click, Enter, Visit
 
-from ui.login_page import LOGIN_BUTTON, PASSWORD_FIELD, URL, USERNAME_FIELD
+from ..ui.login_page import LOGIN_BUTTON, PASSWORD_FIELD, URL, USERNAME_FIELD
 from ..user_types import User
 
 
