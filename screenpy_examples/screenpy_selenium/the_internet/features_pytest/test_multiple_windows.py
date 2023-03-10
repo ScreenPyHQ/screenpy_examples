@@ -3,14 +3,15 @@ An example of a test module that follows the typical unittest.TestCase
 test structure. These tests exercise the SwitchToTab Action.
 """
 
-from screenpy import Actor, given, then, when
+from screenpy import Actor
 from screenpy.actions import Pause, See
 from screenpy.pacing import act, scene
 from screenpy.resolutions import ContainsTheText, ReadsExactly
 from screenpy_selenium.actions import Click, Open, SwitchToTab
 from screenpy_selenium.questions import BrowserURL, Text
 
-from ..user_interface.multiple_windows import (
+from screenpy_examples.screenpy_selenium.the_internet.user_interface.multiple_windows import \
+    (
     CLICK_HERE_LINK,
     HEADER_MESSAGE,
     URL,

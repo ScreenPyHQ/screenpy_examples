@@ -8,8 +8,9 @@ from screenpy.pacing import the_narrator
 from screenpy.protocols import Forgettable, Performable
 from screenpy_selenium.abilities import BrowseTheWeb
 from screenpy import settings
-from ..screenpy_logger import create_logger
-from .setup_selenium import Selenium
+from screenpy_examples.screenpy_selenium.the_internet.screenpy_logger import create_logger
+from screenpy_examples.screenpy_selenium.the_internet.features_pytest.setup_selenium import \
+    Selenium
 
 if TYPE_CHECKING:
     # from _pytest.config import Config

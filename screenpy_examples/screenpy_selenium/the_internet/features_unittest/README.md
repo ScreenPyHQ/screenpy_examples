@@ -1,5 +1,4 @@
-# The Internet Example
-
+# The Internet Example (unittest edition)
 [The Internet](http://the-internet.herokuapp.com/)
 is a website
 created by Dave Haeffner.
@@ -19,10 +18,13 @@ It is assumed you have `geckodriver` installed.
     python -m venv env
     source env/bin/activate
 
-You can use `deactivate`
+~~You can use `deactivate`
 to leave the virtual environment.
 Re-run the `source` command above
-to re-enter your virtual environment.
+to re-enter your virtual environment.~~
+
+Create a virtual environment for screenpy_examples. See [link-here]() for
+guidance.  _the link should show how to install the entire package_
 
 ### Install requirements
 
@@ -30,6 +32,8 @@ to re-enter your virtual environment.
 
 ## Running the Tests
 
-To run the tests, call the following in the project root folder:
+Navigate to the features_pytest folder:
 
-    python -m unittest features/*
+    cd your_projects/screenpy_examples/the_internet/features_unittest/
+
+    python -m unittest
