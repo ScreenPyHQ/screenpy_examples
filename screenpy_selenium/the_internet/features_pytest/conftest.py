@@ -70,14 +70,6 @@ def teardown_actor(actor: Actor):
 
 
 @pytest.fixture(scope="session")
-def Oona(selenium: WebDriver) -> Generator[Actor, None, None]:
-    """A simple Actor fixture for the pytest example"""
-    actor = Actor.named("Oona").who_can(BrowseTheWeb.using(selenium))
-    yield actor
-    teardown_actor(actor)
-
-
-@pytest.fixture(scope="session")
 def marcel(selenium: WebDriver) -> Generator[Actor, None, None]:
     """A simple Actor fixture for the pytest example"""
     actor = Actor.named("Marcel").who_can(BrowseTheWeb.using(selenium))
