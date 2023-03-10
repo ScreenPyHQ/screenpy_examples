@@ -1,4 +1,4 @@
-from .. import pollster
+from screenpy_examples.screenpy.readthedocs import pollster
 
 
 class PollTheAudience:

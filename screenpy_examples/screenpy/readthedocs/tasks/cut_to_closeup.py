@@ -5,8 +5,8 @@ Cut to a closeup for some personal reactions.
 from screenpy import Actor
 from screenpy.pacing import beat
 
-from ..abilities import ControlCameras
-from ..actions import JumpToCamera, Zoom
+from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
+from screenpy_examples.screenpy.readthedocs.actions import JumpToCamera, Zoom
 
 
 class CutToCloseup:

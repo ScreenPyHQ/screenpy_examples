@@ -1,6 +1,5 @@
 from screenpy_playwright import Target
 
-
 URL = "https://www.saucedemo.com/"
 
 USERNAME_FIELD = Target.the("username field").located_by("#user-name")

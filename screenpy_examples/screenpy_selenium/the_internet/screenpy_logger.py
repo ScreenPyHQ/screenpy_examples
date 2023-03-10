@@ -8,6 +8,7 @@ from typing import Type
 
 import hamcrest
 import hamcrest.core.base_matcher
+
 import screenpy.actions
 import screenpy.actor
 import screenpy.narration.adapters

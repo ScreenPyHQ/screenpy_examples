@@ -4,12 +4,19 @@ from screenpy.resolutions import ContainsTheText, IsEqualTo
 from screenpy_playwright.actions import Click
 from screenpy_playwright.questions import Number, Text
 
-from ..questions import ShoppingCartBadgeNumber
-from ..tasks import LogIn
-from ..ui.cart_page import CART_ITEMS, FIRST_CART_ITEM
-from ..ui.header import CART_ICON
-from ..ui.store_page import BACKPACK_ADD_TO_CART_BUTTON
-from ..user_types import StandardUser
+from screenpy_examples.screenpy_playwright.swaglabs.questions import (
+    ShoppingCartBadgeNumber,
+)
+from screenpy_examples.screenpy_playwright.swaglabs.tasks import LogIn
+from screenpy_examples.screenpy_playwright.swaglabs.ui.cart_page import (
+    CART_ITEMS,
+    FIRST_CART_ITEM,
+)
+from screenpy_examples.screenpy_playwright.swaglabs.ui.header import CART_ICON
+from screenpy_examples.screenpy_playwright.swaglabs.ui.store_page import (
+    BACKPACK_ADD_TO_CART_BUTTON,
+)
+from screenpy_examples.screenpy_playwright.swaglabs.user_types import StandardUser
 
 
 def test_add_to_cart(Swalter):

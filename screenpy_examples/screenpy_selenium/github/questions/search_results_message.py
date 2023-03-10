@@ -7,7 +7,9 @@ from screenpy import Actor
 from screenpy.pacing import beat
 from screenpy_selenium.questions import Text
 
-from ..ui.github_search_results_page import RESULTS_MESSAGE
+from screenpy_examples.screenpy_selenium.github.ui.github_search_results_page import (
+    RESULTS_MESSAGE,
+)
 
 
 class SearchResultsMessage:

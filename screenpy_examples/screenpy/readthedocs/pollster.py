@@ -6,8 +6,7 @@ This library *purportedly* lets you to do polls on audiences. But it's a mock.
 
 from unittest import mock
 
-from . import constants
-
+from screenpy_examples.screenpy.readthedocs import constants
 
 tense_packet = mock.Mock()
 tense_packet.top_mood = constants.TENSE

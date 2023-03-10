@@ -3,8 +3,8 @@ An example of a test module that follows the typical unittest.TestCase
 test structure. These tests exercise the Wait and Enter Actions.
 """
 from __future__ import annotations
-from typing import TYPE_CHECKING
-from typing import Callable, Tuple
+
+from typing import TYPE_CHECKING, Callable, Tuple
 
 from screenpy import Actor
 from screenpy.actions import See
@@ -13,8 +13,7 @@ from screenpy.resolutions import ReadsExactly
 from screenpy_selenium.actions import Enter, Open, Wait
 from screenpy_selenium.questions import Text
 
-from screenpy_examples.screenpy_selenium.the_internet.user_interface.key_presses import \
-    (
+from screenpy_examples.screenpy_selenium.the_internet.user_interface.key_presses import (
     ENTRY_INPUT,
     RESULT_TEXT,
     URL,

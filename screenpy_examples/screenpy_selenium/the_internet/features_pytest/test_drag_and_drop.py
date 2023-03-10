@@ -5,14 +5,13 @@ structure. These tests exercise the Actions to perform drag and drop.
 
 import pytest
 
-from screenpy.actions import See, Eventually
+from screenpy.actions import Eventually, See
 from screenpy.pacing import act, scene
 from screenpy.resolutions import ReadsExactly
-from screenpy_selenium.actions import Chain, HoldDown, MoveMouse, Open, Release, Wait, Pause
+from screenpy_selenium.actions import Chain, HoldDown, MoveMouse, Open, Release, Wait
 from screenpy_selenium.questions import Text
 
-from screenpy_examples.screenpy_selenium.the_internet.user_interface.drag_and_drop import \
-    (
+from screenpy_examples.screenpy_selenium.the_internet.user_interface.drag_and_drop import (
     FIRST_DRAGGABLE_BOX,
     SECOND_DRAGGABLE_BOX,
     URL,

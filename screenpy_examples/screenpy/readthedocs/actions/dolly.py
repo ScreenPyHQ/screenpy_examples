@@ -2,12 +2,11 @@
 Dolly a camera in a direction.
 """
 
-from screenpy.exceptions import UnableToAct
-
 from screenpy import Actor
+from screenpy.exceptions import UnableToAct
 from screenpy.pacing import beat
 
-from ..abilities import ControlCameras
+from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
 
 
 class Dolly:

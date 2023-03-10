@@ -2,11 +2,11 @@
 Set the active camera.
 """
 
-from .. import cam_py
 from screenpy import Actor
 from screenpy.pacing import beat
 
-from ..abilities import ControlCameras
+from screenpy_examples.screenpy.readthedocs import cam_py
+from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
 
 
 class JumpToCamera:

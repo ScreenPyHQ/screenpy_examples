@@ -14,9 +14,9 @@ from screenpy_selenium.actions import (
     RespondToPrompt,
 )
 from screenpy_selenium.questions import Text, TextOfTheAlert
+
 from screenpy_examples.screenpy_selenium.the_internet.actions import TryTo
-from screenpy_examples.screenpy_selenium.the_internet.user_interface.javascript_alerts import \
-    (
+from screenpy_examples.screenpy_selenium.the_internet.user_interface.javascript_alerts import (
     JS_ALERT_BUTTON,
     JS_CONFIRM_BUTTON,
     JS_PROMPT_BUTTON,

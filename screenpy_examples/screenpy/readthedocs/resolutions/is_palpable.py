@@ -1,6 +1,8 @@
 from screenpy.resolutions import BaseResolution
 
-from .matchers.has_saturation_greater_than import is_palpable
+from screenpy_examples.screenpy.readthedocs.resolutions.matchers.has_saturation_greater_than import (
+    is_palpable,
+)
 
 
 class IsPalpable(BaseResolution):

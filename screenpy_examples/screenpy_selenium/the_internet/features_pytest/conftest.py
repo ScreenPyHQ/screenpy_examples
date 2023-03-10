@@ -1,16 +1,21 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING, Generator, Type
 
 import pytest
-from screenpy import aside, Actor
+
+from screenpy import Actor, aside, settings
 from screenpy.narration.adapters.stdout_adapter import StdOutAdapter, StdOutManager
 from screenpy.pacing import the_narrator
 from screenpy.protocols import Forgettable, Performable
 from screenpy_selenium.abilities import BrowseTheWeb
-from screenpy import settings
-from screenpy_examples.screenpy_selenium.the_internet.screenpy_logger import create_logger
-from screenpy_examples.screenpy_selenium.the_internet.features_pytest.setup_selenium import \
-    Selenium
+
+from screenpy_examples.screenpy_selenium.the_internet.features_pytest.setup_selenium import (
+    Selenium,
+)
+from screenpy_examples.screenpy_selenium.the_internet.screenpy_logger import (
+    create_logger,
+)
 
 if TYPE_CHECKING:
     # from _pytest.config import Config

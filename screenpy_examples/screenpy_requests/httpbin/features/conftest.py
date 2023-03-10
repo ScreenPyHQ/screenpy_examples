@@ -5,12 +5,11 @@ Fixtures for API testing.
 from typing import Generator
 
 import pytest
+from screenpy_adapter_allure import AllureAdapter
 
 from screenpy import AnActor
 from screenpy.pacing import the_narrator
-from screenpy_adapter_allure import AllureAdapter
 from screenpy_requests.abilities import MakeAPIRequests
-
 
 the_narrator.adapters.append(AllureAdapter())
 

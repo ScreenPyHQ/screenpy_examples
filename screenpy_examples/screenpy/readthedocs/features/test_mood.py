@@ -2,25 +2,31 @@
 Test our ability to influence the audience's mood with skillful camerawork.
 """
 
-from ..cam_py import Camera
 from screenpy import AnActor, given, then, when
 from screenpy.actions import See
 from screenpy.resolutions import Equals
 
-from ..actions import (
-    JumpToCamera,
+from screenpy_examples.screenpy.readthedocs.actions import (
     Dolly,
+    JumpToCamera,
     Pan,
     SkipToScene,
     StartRecording,
     StopRecording,
     Zoom,
 )
-from ..constants import LAUGHING
-from ..tasks import CutToCloseup, DollyZoom
-from ..questions import AudienceTension, TopAudienceReaction
-from ..resolutions import IsPalpable
-from ..scripts import GOOD_WILL_HUNTING, SHAUN_OF_THE_DEAD
+from screenpy_examples.screenpy.readthedocs.cam_py import Camera
+from screenpy_examples.screenpy.readthedocs.constants import LAUGHING
+from screenpy_examples.screenpy.readthedocs.questions import (
+    AudienceTension,
+    TopAudienceReaction,
+)
+from screenpy_examples.screenpy.readthedocs.resolutions import IsPalpable
+from screenpy_examples.screenpy.readthedocs.scripts import (
+    GOOD_WILL_HUNTING,
+    SHAUN_OF_THE_DEAD,
+)
+from screenpy_examples.screenpy.readthedocs.tasks import CutToCloseup, DollyZoom
 
 
 def test_dramatic_moment(Cameron: AnActor, Polly: AnActor) -> None:

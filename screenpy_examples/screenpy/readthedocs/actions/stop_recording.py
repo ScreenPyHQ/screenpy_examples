@@ -5,7 +5,7 @@ That's a wrap! Stop recording on all cameras.
 from screenpy import Actor
 from screenpy.pacing import beat
 
-from ..abilities import ControlCameras
+from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
 
 
 class StopRecording:

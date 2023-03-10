@@ -6,7 +6,7 @@ from screenpy import Actor
 from screenpy.pacing import beat
 from screenpy.protocols import Performable
 
-from ..abilities import ControlCameras
+from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
 
 
 class Simultaneously:
