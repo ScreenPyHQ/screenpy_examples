@@ -35,7 +35,6 @@ class TestDragAndDrop:
         Expected to fail because there is currently an issue in ActionChains.
         """
         marcel.will(Open.their_browser_on(URL))
-        marcel.will(Pause(2).second_because("render"))
         marcel.will(Wait.for_the(FIRST_DRAGGABLE_BOX).to_be_clickable())
         marcel.will(Chain(
                 MoveMouse.to_the(FIRST_DRAGGABLE_BOX),
