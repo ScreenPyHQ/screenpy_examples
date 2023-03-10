@@ -21,9 +21,9 @@ from screenpy_examples.screenpy.readthedocs.pollster import (
     laughter_packet,
     tense_packet,
 )
-from screenpy_examples.screenpy.readthedocs.screenpy_logger import create_logger
+from screenpy_examples.screenpy_logger import create_logger
 
-the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger("scr")))]
+the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger()))]
 
 
 @pytest.fixture
