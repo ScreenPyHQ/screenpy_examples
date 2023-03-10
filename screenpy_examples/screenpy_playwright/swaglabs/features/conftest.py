@@ -5,9 +5,9 @@ from screenpy.narration.adapters.stdout_adapter import StdOutAdapter, StdOutMana
 from screenpy.pacing import the_narrator
 from screenpy_playwright.abilities import BrowseTheWebSynchronously
 
-from screenpy_examples.screenpy_playwright.swaglabs.screenpy_logger import create_logger
+from screenpy_examples.screenpy_logger import create_logger
 
-the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger("scr")))]
+the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger()))]
 
 
 @pytest.fixture(scope="function")

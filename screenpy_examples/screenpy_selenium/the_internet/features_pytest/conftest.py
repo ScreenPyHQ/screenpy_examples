@@ -10,11 +10,10 @@ from screenpy.pacing import the_narrator
 from screenpy.protocols import Forgettable, Performable
 from screenpy_selenium.abilities import BrowseTheWeb
 
+import screenpy_examples.screenpy_selenium.the_internet.actions.tryto
+from screenpy_examples.screenpy_logger import create_logger
 from screenpy_examples.screenpy_selenium.the_internet.features_pytest.setup_selenium import (
     Selenium,
-)
-from screenpy_examples.screenpy_selenium.the_internet.screenpy_logger import (
-    create_logger,
 )
 
 if TYPE_CHECKING:
@@ -23,7 +22,9 @@ if TYPE_CHECKING:
     from _pytest.fixtures import SubRequest
     from selenium.webdriver.remote.webdriver import WebDriver
 
-the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger("nxt")))]
+logger = create_logger()
+logger.ignore_file(screenpy_examples.screenpy_selenium.the_internet.actions.tryto)
+the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger()))]
 
 
 class RemoveAbilityWithouClosingSelenium(Performable):
@@ -44,8 +45,8 @@ def selenium(request: "SubRequest") -> Generator["WebDriver", None, None]:
     aside("Creating fixture Selenium Client FIXTURE")
     settings.TIMEOUT = 6
     browser = "chrome"
-    headless = False
-    log_perf = False 
+    headless = True
+    log_perf = False
     log_console = False
     log_driver = False
     log_path = "./logs"

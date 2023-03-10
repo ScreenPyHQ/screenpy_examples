@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import errno
-import logging
 import os as os
 import platform
 from typing import Any, Dict, List, Mapping, Optional, Tuple, Union
@@ -14,6 +13,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.options import ArgOptions
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from semantic_version import Version  # type: ignore
+from screenpy_examples.screenpy_logger import create_logger
 
 __all__ = ["Selenium"]
 
@@ -22,13 +22,6 @@ typeWebDriver = Union[
     webdriver.Chrome,
     webdriver.Edge,
 ]
-
-
-def create_logger(name: str) -> logging.Logger:
-    logger = logging.getLogger(name)
-    logger.setLevel(logging.DEBUG)
-    logger.propagate = True
-    return logger
 
 
 logger = create_logger("sel")

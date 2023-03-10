@@ -8,10 +8,15 @@ import pytest
 from screenpy_adapter_allure import AllureAdapter
 
 from screenpy import AnActor
+from screenpy.narration.adapters.stdout_adapter import StdOutAdapter, StdOutManager
 from screenpy.pacing import the_narrator
 from screenpy_requests.abilities import MakeAPIRequests
 
+from screenpy_examples.screenpy_logger import create_logger
+
 the_narrator.adapters.append(AllureAdapter())
+
+the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger()))]
 
 
 @pytest.fixture
