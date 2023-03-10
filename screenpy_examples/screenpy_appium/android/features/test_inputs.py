@@ -9,9 +9,9 @@ from screenpy.resolutions import ReadsExactly
 from screenpy_appium.actions import Clear, Enter, Tap
 from screenpy_appium.questions import Text
 
-from ui.landing_screen import VIEWS_BUTTON
-from ui.views_screen import TEXTFIELDS_BUTTON
-from ui.text_fields_screen import TEXT_FIELDS
+from ..ui.landing_screen import VIEWS_BUTTON
+from ..ui.views_screen import TEXTFIELDS_BUTTON
+from ..ui.text_fields_screen import TEXT_FIELDS
 
 
 def test_enter_text(Andrew: Actor) -> None:
