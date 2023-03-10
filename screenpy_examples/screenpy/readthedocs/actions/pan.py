@@ -5,7 +5,7 @@ Pan using the active camera.
 from screenpy import Actor
 from screenpy.pacing import beat
 
-from ..abilities import ControlCameras
+from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
 
 
 class Pan:

@@ -4,7 +4,7 @@ Gather information about the audience's tension.
 
 from screenpy import Actor
 
-from ..abilities import PollTheAudience
+from screenpy_examples.screenpy.readthedocs.abilities import PollTheAudience
 
 
 class TopAudienceReaction:

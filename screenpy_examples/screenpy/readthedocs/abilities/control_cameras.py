@@ -1,4 +1,4 @@
-from .. import cam_py
+from screenpy_examples.screenpy.readthedocs import cam_py
 
 
 class ControlCameras:

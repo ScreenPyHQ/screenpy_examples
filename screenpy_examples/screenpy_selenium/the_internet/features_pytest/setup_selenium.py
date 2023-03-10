@@ -9,7 +9,6 @@ from typing import Any, Dict, List, Mapping, Optional, Tuple, Union
 import pyderman as pydm
 import requests
 from selenium import webdriver  # noqa: E402
-from selenium.common.exceptions import NoSuchWindowException, WebDriverException
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.options import ArgOptions
@@ -86,9 +85,6 @@ class Selenium:
             log_path,
             driver_version,
         )
-
-        # driver must be setup before the following
-        # self.set_main_window_handle()
         return
 
     ############################################################################
@@ -649,22 +645,6 @@ class Selenium:
             size, Selenium.DIMENSIONS.get(size, (1280, 720))
         )
         self.driver.set_window_size(width, height)
-
-    # def set_main_window_handle(self, window=None):
-    #     if not window:
-    #         # does the main_window_handle exist and point to an available window?
-    #         if not self.main_window_handle:
-    #             try:
-    #                 window = self.driver.current_window_handle
-    #             except NoSuchWindowException:
-    #                 try:
-    #                     window = self.driver.window_handles[0]
-    #                 except WebDriverException:
-    #                     # Have we closed all the windows?
-    #                     raise
-    #     if window:
-    #         self.main_window_handle = window
-    #     return self.main_window_handle
 
     ############################################################################
     def close(self):

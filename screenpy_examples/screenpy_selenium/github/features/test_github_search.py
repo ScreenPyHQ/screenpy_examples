@@ -12,8 +12,6 @@ from allure_commons.types import AttachmentType
 from screenpy import Actor, given, then, when
 from screenpy.actions import See
 from screenpy.pacing import act, scene
-from screenpy_selenium.abilities import BrowseTheWeb
-from screenpy_selenium.actions import Open, SaveScreenshot
 from screenpy.resolutions import (
     ContainsTheText,
     ContainTheText,
@@ -21,11 +19,17 @@ from screenpy.resolutions import (
     IsEqualTo,
     ReadsExactly,
 )
+from screenpy_selenium.abilities import BrowseTheWeb
+from screenpy_selenium.actions import Open, SaveScreenshot
 
-from ..questions.number_of_search_results import NumberOfSearchResults
-from ..questions.search_results_message import SearchResultsMessage
-from ..tasks.search_github import SearchGitHub
-from ..ui.github_home_page import URL
+from screenpy_examples.screenpy_selenium.github.questions.number_of_search_results import (
+    NumberOfSearchResults,
+)
+from screenpy_examples.screenpy_selenium.github.questions.search_results_message import (
+    SearchResultsMessage,
+)
+from screenpy_examples.screenpy_selenium.github.tasks.search_github import SearchGitHub
+from screenpy_examples.screenpy_selenium.github.ui.github_home_page import URL
 
 
 @pytest.fixture(scope="function", name="Perry")

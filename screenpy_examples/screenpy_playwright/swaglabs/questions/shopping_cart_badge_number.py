@@ -2,7 +2,7 @@ from screenpy import Actor
 from screenpy.pacing import beat
 from screenpy_playwright.questions import Text
 
-from ..ui.header import CART_BADGE
+from screenpy_examples.screenpy_playwright.swaglabs.ui.header import CART_BADGE
 
 
 class ShoppingCartBadgeNumber:

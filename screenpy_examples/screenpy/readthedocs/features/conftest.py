@@ -2,18 +2,26 @@
 Setup and fixtures for our feature tests.
 """
 
+import logging
 from typing import Generator
 
-import pytest
 import _pytest.logging
-from screenpy import AnActor
+import pytest
 
-from ..abilities import ControlCameras, PollTheAudience
-from ..pollster import laughter_packet, tense_packet, connect_to_audience
-import logging
+from screenpy import AnActor
 from screenpy.narration.adapters.stdout_adapter import StdOutAdapter, StdOutManager
 from screenpy.pacing import the_narrator
-from ..screenpy_logger import create_logger
+
+from screenpy_examples.screenpy.readthedocs.abilities import (
+    ControlCameras,
+    PollTheAudience,
+)
+from screenpy_examples.screenpy.readthedocs.pollster import (
+    connect_to_audience,
+    laughter_packet,
+    tense_packet,
+)
+from screenpy_examples.screenpy.readthedocs.screenpy_logger import create_logger
 
 the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger("scr")))]
 

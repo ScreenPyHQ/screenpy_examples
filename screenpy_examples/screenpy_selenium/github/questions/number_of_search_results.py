@@ -7,7 +7,9 @@ from screenpy import Actor
 from screenpy.pacing import beat
 from screenpy_selenium.questions import Number
 
-from ..ui.github_search_results_page import SEARCH_RESULTS
+from screenpy_examples.screenpy_selenium.github.ui.github_search_results_page import (
+    SEARCH_RESULTS,
+)
 
 
 class NumberOfSearchResults:

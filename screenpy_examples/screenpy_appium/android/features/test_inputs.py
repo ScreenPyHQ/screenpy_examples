@@ -3,15 +3,15 @@ Test interacting with inputs on Android.
 """
 
 
-from screenpy import Actor, when, then
+from screenpy import Actor, then, when
 from screenpy.actions import Confirm, See
 from screenpy.resolutions import ReadsExactly
 from screenpy_appium.actions import Clear, Enter, Tap
 from screenpy_appium.questions import Text
 
-from ..ui.landing_screen import VIEWS_BUTTON
-from ..ui.views_screen import TEXTFIELDS_BUTTON
-from ..ui.text_fields_screen import TEXT_FIELDS
+from screenpy_examples.screenpy_appium.android.ui.landing_screen import VIEWS_BUTTON
+from screenpy_examples.screenpy_appium.android.ui.text_fields_screen import TEXT_FIELDS
+from screenpy_examples.screenpy_appium.android.ui.views_screen import TEXTFIELDS_BUTTON
 
 
 def test_enter_text(Andrew: Actor) -> None:

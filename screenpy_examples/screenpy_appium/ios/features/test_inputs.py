@@ -2,14 +2,14 @@
 Test interacting with inputs on iOS.
 """
 
-from screenpy import Actor, when, then
+from screenpy import Actor, then, when
 from screenpy.actions import Confirm, See
 from screenpy.resolutions import ReadsExactly
 from screenpy_appium.actions import Clear, Enter, Tap
 from screenpy_appium.questions import Text
 
-from ui.landing_screen import TEXT_FIELDS_BUTTON
-from ui.text_fields_screen import TEXT_FIELDS
+from screenpy_examples.screenpy_appium.ios.ui.landing_screen import TEXT_FIELDS_BUTTON
+from screenpy_examples.screenpy_appium.ios.ui.text_fields_screen import TEXT_FIELDS
 
 
 def test_enter_text(Io: Actor) -> None:

@@ -13,7 +13,7 @@ from screenpy_requests.questions import (
     StatusCodeOfTheLastResponse,
 )
 
-from ..urls import BASE64_URL, BASE_URL
+from screenpy_examples.screenpy_requests.httpbin.urls import BASE64_URL, BASE_URL
 
 
 @pytest.mark.parametrize("action", ["DELETE", "GET", "PATCH", "POST", "PUT"])

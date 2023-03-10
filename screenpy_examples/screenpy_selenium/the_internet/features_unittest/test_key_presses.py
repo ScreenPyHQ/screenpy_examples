@@ -16,8 +16,7 @@ from screenpy_selenium.abilities import BrowseTheWeb
 from screenpy_selenium.actions import Enter, Open, Wait
 from screenpy_selenium.questions import Text
 
-from screenpy_examples.screenpy_selenium.the_internet.user_interface.key_presses import \
-    (
+from screenpy_examples.screenpy_selenium.the_internet.user_interface.key_presses import (
     ENTRY_INPUT,
     RESULT_TEXT,
     URL,

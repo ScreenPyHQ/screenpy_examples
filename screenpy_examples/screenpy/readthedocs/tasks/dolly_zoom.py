@@ -8,8 +8,8 @@ from typing import Optional
 from screenpy import Actor
 from screenpy.pacing import beat
 
-from ..abilities import ControlCameras
-from ..actions import Dolly, Simultaneously, Zoom
+from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
+from screenpy_examples.screenpy.readthedocs.actions import Dolly, Simultaneously, Zoom
 
 
 class DollyZoom:

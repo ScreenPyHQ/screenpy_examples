@@ -7,6 +7,7 @@ from typing import Generator
 
 import pytest
 from appium.webdriver import Remote
+
 from screenpy import AnActor
 from screenpy_appium.abilities import UseAnIOSDevice
 

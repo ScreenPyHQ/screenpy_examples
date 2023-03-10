@@ -8,7 +8,10 @@ from screenpy.resolutions import IsEqualTo
 from screenpy_requests.actions import AddHeader, SendGETRequest
 from screenpy_requests.questions import StatusCodeOfTheLastResponse
 
-from ..urls import BASIC_AUTH_URL, BEARER_AUTH_URL
+from screenpy_examples.screenpy_requests.httpbin.urls import (
+    BASIC_AUTH_URL,
+    BEARER_AUTH_URL,
+)
 
 
 def test_basic_auth(Perry: Actor) -> None:
