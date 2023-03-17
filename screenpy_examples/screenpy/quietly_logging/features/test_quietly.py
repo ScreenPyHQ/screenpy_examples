@@ -1,7 +1,8 @@
 import pytest
 
 from screenpy import Actor
-from screenpy.actions import Eventually
+from screenpy.actions import Eventually, See
+from screenpy.resolutions import IsEqual
 
 from screenpy_examples.screenpy.quietly_logging.actions import (
     DoA,
@@ -14,6 +15,7 @@ from screenpy_examples.screenpy.quietly_logging.actions import (
     DoPassAfterAWhile,
     Quietly,
 )
+from screenpy_examples.screenpy.quietly_logging.questions import SimpleQuestion
 
 
 def test_eventually_succeeds(marcel: Actor) -> None:
@@ -33,11 +35,15 @@ def test_passes_without_quietly(marcel: Actor) -> None:
             Marcel tries to DoB
                 Marcel tries to DoPass
                     Marcel sees if simple question is equal to True.
+                        Marcel examines SimpleQuestion
+                            => True
                         ... hoping it's equal to True
                             => True
     Marcel tries to DoB
         Marcel tries to DoPass
             Marcel sees if simple question is equal to True.
+                Marcel examines SimpleQuestion
+                    => True
                 ... hoping it's equal to True
                     => True
     """
@@ -65,6 +71,8 @@ def test_fails_without_quietly(marcel) -> None:
             Marcel tries to DoB
                 Marcel tries to DoFail
                     Marcel sees if simple question is equal to False.
+                        Marcel examines SimpleQuestion
+                            => True
                         ... hoping it's equal to False
                             => False
                         ***ERROR***
@@ -87,9 +95,11 @@ def test_fails_with_quietly(marcel) -> None:
             Marcel tries to DoB
                 Marcel tries to DoFail
                     Marcel sees if simple question is equal to False.
+                        Marcel examines SimpleQuestion
+                            => True
                         ... hoping it's equal to False
                             => False
-                        ***ERROR***
+        ***ERROR***
 
     AssertionError:
     Expected: <False>
@@ -97,3 +107,25 @@ def test_fails_with_quietly(marcel) -> None:
     """
     marcel.will(DoChattyFail(Quietly(DoA(DoB(DoFail())))))
     marcel.will(DoB(Quietly(DoPass())))
+
+
+#TODO: need to update log examples to include the question
+
+def test_normal_question(marcel: Actor):
+    """
+    Marcel sees if simple question is equal to True.
+        Marcel examines SimpleQuestion
+            => True
+        ... hoping it's equal to True
+            => True
+    """
+    marcel.will(See(SimpleQuestion(), IsEqual(True)))
+
+
+def test_quiet_question(marcel: Actor):
+    """
+    Marcel sees if quietly answerable is equal to True.
+        ... hoping it's equal to True
+            => True
+    """
+    marcel.will(See(Quietly(SimpleQuestion()), IsEqual(True)))
