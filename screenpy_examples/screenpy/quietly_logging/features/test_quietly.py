@@ -129,6 +129,38 @@ def test_quiet_question(marcel: Actor):
     marcel.will(See(Quietly(SimpleQuestion()), IsEqual(True)))
 
 
+def test_fails_question(marcel: Actor):
+    """
+    Marcel sees if simple question is equal to False.
+        Marcel examines SimpleQuestion
+            => True
+        ... hoping it's equal to False.
+            => <False>
+    ***ERROR***
+
+    AssertionError: 
+    Expected: <False>
+         but: was <True>
+    """
+    marcel.will(See(SimpleQuestion(), IsEqual(False)))
+
+
+def test_fails_quiet_question(marcel: Actor):
+    """
+    Marcel sees if simple question is equal to False.
+        Marcel examines SimpleQuestion
+            => True
+        ... hoping it's equal to False.
+            => <False>
+        ***ERROR***
+
+    AssertionError:
+    Expected: <False>
+         but: was <True>
+    """
+    marcel.will(See(Quietly(SimpleQuestion()), IsEqual(False)))
+
+
 def test_normal_resolution(marcel: Actor):
     """
     Marcel sees if simple question is equal to True.
@@ -156,7 +188,7 @@ def test_fails_resolution(marcel: Actor):
             => True
         ... hoping it's equal to False.
             => <False>
-        ***ERROR***
+    ***ERROR***
 
     AssertionError:
     Expected: <False>
