@@ -27,7 +27,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.11"
 pytest = "*"
-screenpy = { git = "git@github.com:ScreenPyHQ/screenpy.git", branch = "trunk"}
+screenpy = { git = "git@github.com:ScreenPyHQ/screenpy.git", branch = "refactor-resolutions"}
 screenpy-selenium = { git = "git@github.com:ScreenPyHQ/screenpy_selenium.git", branch = "trunk"}
 #screenpy = "*"
 #screenpy-selenium = "*"

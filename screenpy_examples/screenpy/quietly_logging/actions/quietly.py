@@ -2,39 +2,15 @@ from __future__ import annotations
 
 from typing import Any, Optional, Tuple, TypeVar
 
-from hamcrest.core.base_matcher import BaseMatcher
-from hamcrest.core.description import Description
-from typing_extensions import Protocol, runtime_checkable
+from hamcrest.core.base_matcher import BaseMatcher, Matcher
 
 from screenpy import Actor
 from screenpy.pacing import the_narrator
-from screenpy.protocols import Answerable, Performable
-from screenpy.resolutions.base_resolution import BaseResolution
+from screenpy.protocols import Answerable, Performable  , Resolvable
+
 
 T = TypeVar("T")
 DEBUG_MODE = False
-
-
-@runtime_checkable
-class Resolvable(Protocol):
-    """Answers are Resolvable"""
-
-    def _matches(self, item: T) -> bool:
-        ...
-
-    def matches(
-        self, item: T, mismatch_description: Optional[Description] = None
-    ) -> bool:
-        ...
-
-    def describe_mismatch(self, item: T, mismatch_description: Description) -> None:
-        ...
-
-    def describe_match(self, item: T, match_description: Description) -> None:
-        ...
-
-    def describe_to(self, description: Description) -> None:
-        ...
 
 
 class QuietlyMixin:
@@ -67,19 +43,19 @@ class QuietlyAnswerable(Answerable, QuietlyMixin):
         self.duck = duck
 
 
-class QuietlyBaseResolution(BaseMatcher, Resolvable, QuietlyMixin):
-    def _matches(self, item: T) -> bool:
+class QuietlyResolvable(Resolvable, QuietlyMixin):
+    def resolve(self) -> Matcher:
         with the_narrator.mic_cable_kinked():
-            res = self.duck._matches(item)
+            res = self.duck.resolve()
             the_narrator.clear_backup()
             return res
 
-    def __init__(self, duck: BaseResolution):
+    def __init__(self, duck: Resolvable):
         self.duck = duck
 
 
-T_duck = Performable | Answerable | BaseResolution
-T_Q = QuietlyAnswerable | QuietlyPerformable | QuietlyBaseResolution
+T_duck = Performable | Answerable | Resolvable
+T_Q = QuietlyAnswerable | QuietlyPerformable | QuietlyResolvable
 
 
 def __Quietly(duck: T_duck) -> T_duck | T_Q:
@@ -87,8 +63,8 @@ def __Quietly(duck: T_duck) -> T_duck | T_Q:
         return QuietlyPerformable(duck)
     elif isinstance(duck, Answerable):
         return QuietlyAnswerable(duck)
-    elif isinstance(duck, BaseResolution):
-        return QuietlyBaseResolution(duck)
+    elif isinstance(duck, Resolvable):
+        return QuietlyResolvable(duck)
     else:
         return duck
 
