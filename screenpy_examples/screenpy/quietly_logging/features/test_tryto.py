@@ -28,9 +28,7 @@ def test_first_action_pass(marcel: Actor) -> None:
 
     Marcel tries to DoFirst
         Marcel tries to DoPass
-            Marcel sees if simple question is equal to True.
-                ... hoping it's equal to True
-                    => True
+            Marcel sees if simpleQuestion is equal to True.
     """
     marcel.will(TryTo(DoFirst()).otherwise(DoSecond()))
 
@@ -43,9 +41,7 @@ def test_first_action_fail(marcel: Actor) -> None:
 
     Marcel tries to DoSecond
         Marcel tries to DoPass
-            Marcel sees if simple question is equal to True.
-                ... hoping it's equal to True
-                    => True
+            Marcel sees if simpleQuestion is equal to True.
     """
     marcel.will(TryTo(DoFirst(DoFail())).otherwise(DoSecond()))
 
@@ -58,12 +54,14 @@ def test_first_and_second_action_fail(marcel: Actor) -> None:
 
     Marcel tries to DoSecond
         Marcel tries to DoFail
-            Marcel sees if simple question is equal to False.
-                ... hoping it's equal to False
-                    => False
-                ***ERROR***
+            Marcel sees if simpleQuestion is equal to False.
+                Marcel examines SimpleQuestion
+                    => True
+                ... hoping it's equal to False.
+                    => <False>
+    ***ERROR***
 
-    AssertionError:
+    AssertionError: 
     Expected: <False>
          but: was <True>
     """
