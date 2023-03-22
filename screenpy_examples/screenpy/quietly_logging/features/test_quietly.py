@@ -1,7 +1,7 @@
 import pytest
 
 from screenpy import Actor
-from screenpy.actions import Eventually, See
+from screenpy.actions import Eventually
 from screenpy.resolutions import IsEqual
 
 from screenpy_examples.screenpy.quietly_logging.actions import (
@@ -14,8 +14,13 @@ from screenpy_examples.screenpy.quietly_logging.actions import (
     DoPass,
     DoPassAfterAWhile,
     Quietly,
+    See,
 )
-from screenpy_examples.screenpy.quietly_logging.questions import SimpleQuestion
+from screenpy_examples.screenpy.quietly_logging.questions import (
+    SimpleQuestion,
+    SimpleQuestionException,
+)
+from screenpy_examples.screenpy.quietly_logging.resolutions import IsEqualButRaisesException
 
 
 def test_eventually_succeeds(marcel: Actor) -> None:
@@ -26,6 +31,10 @@ def test_eventually_fails(marcel: Actor) -> None:
     marcel.will(Eventually(DoFailCounter()).for_(1).seconds())
 
 
+## TODO: remove this comment after pr is merged
+## all of the exmaples below are using the refactor-resolutions branch
+## https://github.com/ScreenPyHQ/screenpy/pull/57
+
 def test_passes_without_quietly(marcel: Actor) -> None:
     """
     Generates a normal log:
@@ -34,18 +43,10 @@ def test_passes_without_quietly(marcel: Actor) -> None:
         Marcel tries to DoA
             Marcel tries to DoB
                 Marcel tries to DoPass
-                    Marcel sees if simple question is equal to True.
-                        Marcel examines SimpleQuestion
-                            => True
-                        ... hoping it's equal to True
-                            => True
+                    Marcel sees if simpleQuestion is equal to True.
     Marcel tries to DoB
         Marcel tries to DoPass
-            Marcel sees if simple question is equal to True.
-                Marcel examines SimpleQuestion
-                    => True
-                ... hoping it's equal to True
-                    => True
+            Marcel sees if simpleQuestion is equal to True.
     """
     marcel.will(DoChatty(DoA(DoB(DoPass()))))
     marcel.will(DoB(DoPass()))
@@ -70,12 +71,12 @@ def test_fails_without_quietly(marcel) -> None:
         Marcel tries to DoA
             Marcel tries to DoB
                 Marcel tries to DoFail
-                    Marcel sees if simple question is equal to False.
+                    Marcel sees if simpleQuestion is equal to False.
                         Marcel examines SimpleQuestion
                             => True
-                        ... hoping it's equal to False
-                            => False
-                        ***ERROR***
+                        ... hoping it's equal to False.
+                            => <False>
+    ***ERROR***
 
     AssertionError:
     Expected: <False>
@@ -94,12 +95,12 @@ def test_fails_with_quietly(marcel) -> None:
         Marcel tries to DoA
             Marcel tries to DoB
                 Marcel tries to DoFail
-                    Marcel sees if simple question is equal to False.
+                    Marcel sees if simpleQuestion is equal to False.
                         Marcel examines SimpleQuestion
                             => True
-                        ... hoping it's equal to False
-                            => False
-        ***ERROR***
+                        ... hoping it's equal to False.
+                            => <False>
+    ***ERROR***
 
     AssertionError:
     Expected: <False>
@@ -111,102 +112,66 @@ def test_fails_with_quietly(marcel) -> None:
 
 def test_normal_question(marcel: Actor):
     """
-    Marcel sees if simple question is equal to True.
-        Marcel examines SimpleQuestion
-            => True
-        ... hoping it's equal to True
-            => True
+    Marcel sees if simpleQuestion is equal to True.
     """
     marcel.will(See(SimpleQuestion(), IsEqual(True)))
-
-
-def test_quiet_question(marcel: Actor):
-    """
-    Marcel sees if quietly answerable is equal to True.
-        ... hoping it's equal to True
-            => True
-    """
-    marcel.will(See(Quietly(SimpleQuestion()), IsEqual(True)))
 
 
 def test_fails_question(marcel: Actor):
     """
-    Marcel sees if simple question is equal to False.
+    Marcel sees if simpleQuestion is equal to False.
         Marcel examines SimpleQuestion
             => True
         ... hoping it's equal to False.
             => <False>
     ***ERROR***
 
-    AssertionError: 
+    AssertionError:
     Expected: <False>
          but: was <True>
     """
     marcel.will(See(SimpleQuestion(), IsEqual(False)))
 
 
-def test_fails_quiet_question(marcel: Actor):
+def test_exception_in_question(marcel: Actor):
     """
-    Marcel sees if simple question is equal to False.
-        Marcel examines SimpleQuestion
-            => True
-        ... hoping it's equal to False.
-            => <False>
+    Marcel sees if simpleQuestionException is equal to False.
+        Marcel examines SimpleQuestionException
         ***ERROR***
 
-    AssertionError:
-    Expected: <False>
-         but: was <True>
+    Exception: This question raises exception
     """
-    marcel.will(See(Quietly(SimpleQuestion()), IsEqual(False)))
+    marcel.will(See(SimpleQuestionException(), IsEqual(False)))
 
 
-def test_normal_resolution(marcel: Actor):
+def test_exception_in_resolution(marcel: Actor):
     """
-    Marcel sees if simple question is equal to True.
+    Marcel sees if simpleQuestion is equal to True.
         Marcel examines SimpleQuestion
             => True
         ... hoping it's equal to True.
-            => <True>
+    ***ERROR***
+
+    Exception: This resolution raises exception
     """
-    marcel.will(See(SimpleQuestion(), IsEqual(True)))
+    marcel.will(See(SimpleQuestion(), IsEqualButRaisesException(True)))
 
 
-def test_quiet_resolution(marcel: Actor):
+def test_quiet_see(marcel: Actor):
     """
-    Marcel sees if simple question is equal to True.
-        Marcel examines SimpleQuestion
-            => True
+    * logs absolutely nothing
     """
-    marcel.will(See(SimpleQuestion(), Quietly(IsEqual(True))))
+    marcel.will(Quietly(See(SimpleQuestion(), IsEqual(True))))
 
 
-def test_fails_resolution(marcel: Actor):
+def test_fails_quiet_see(marcel: Actor):
     """
-    Marcel sees if simple question is equal to False.
+    This is a little awkward because of the way it doesn't show ***ERROR***
+
+    Marcel sees if simpleQuestion is equal to False.
         Marcel examines SimpleQuestion
             => True
         ... hoping it's equal to False.
             => <False>
-    ***ERROR***
-
-    AssertionError:
-    Expected: <False>
-         but: was <True>
     """
-    marcel.will(See(SimpleQuestion(), IsEqual(False)))
-
-
-#TODO: this test should result in the same logging as above
-def test_fails_quiet_resolution(marcel: Actor):
-    """
-    Marcel sees if simple question is equal to False.
-        Marcel examines SimpleQuestion
-            => True
-        ***ERROR***
-
-    AssertionError:
-    Expected: <False>
-         but: was <True>
-    """
-    marcel.will(See(SimpleQuestion(), Quietly(IsEqual(False))))
+    marcel.will(Quietly(See(SimpleQuestion(), IsEqual(False))))

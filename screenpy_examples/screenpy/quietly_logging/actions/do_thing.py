@@ -1,11 +1,11 @@
 from __future__ import annotations
 
 from screenpy import Actor
-from screenpy.actions import See
 from screenpy.pacing import beat
 from screenpy.protocols import Performable
 from screenpy.resolutions import IsEqual
 
+from screenpy_examples.screenpy.quietly_logging.actions.see import See
 from screenpy_examples.screenpy.quietly_logging.questions import SimpleQuestion
 
 
