@@ -42,11 +42,11 @@ def fixture_actor() -> Generator:
 
 
 @act("Search")
-@scene("Search for the ScreenPy repository on GitHub")
+@scene("Search for the ScreenPy examples repository on GitHub")
 def test_search_for_screenpy(Perry: Actor) -> None:
-    """GitHub search finds the screenpy repository."""
+    """GitHub search finds the screenpy examples repository."""
     given(Perry).was_able_to(Open.their_browser_on(URL))
-    when(Perry).attempts_to(SearchGitHub.for_text("perrygoy/screenpy"))
+    when(Perry).attempts_to(SearchGitHub.for_text("ScreenPyHQ/screenpy_examples"))
     then(Perry).should(
         See.the(SearchResultsMessage(), DoesNot(ContainTheText("couldn’t"))),
         See.the(SearchResultsMessage(), ReadsExactly("1 repository result")),
