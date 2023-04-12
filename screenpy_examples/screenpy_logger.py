@@ -31,7 +31,7 @@ import _pytest.python
 import pluggy
 import screenpy.actions
 import screenpy.actor
-import screenpy.narration.adapters
+import screenpy.narration.stdout_adapter
 import screenpy.narration.narrator
 import screenpy.resolutions
 
@@ -80,7 +80,7 @@ class ScreenpyLogger(__logger):  # type: ignore
         self.ignore_file(logging)
         self.ignore_file(inspect.currentframe())
         self.ignore_file(contextlib)
-        self.ignore_file(screenpy.narration.adapters.stdout_adapter)
+        self.ignore_file(screenpy.narration.stdout_adapter.stdout_adapter)
         self.ignore_file(screenpy.pacing)
         self.ignore_file(screenpy.narration.narrator.Narrator)
         self.ignore_file(screenpy.actor)

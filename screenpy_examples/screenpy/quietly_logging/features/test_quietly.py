@@ -1,19 +1,18 @@
 import pytest
 
 from screenpy import Actor
-from screenpy.actions import Eventually
+from screenpy.actions import Eventually, Quietly
 from screenpy.resolutions import IsEqual
 
 from screenpy_examples.screenpy.quietly_logging.actions import (
-    DoA,
-    DoB,
-    DoChatty,
-    DoChattyFail,
+    PerformA,
+    PerformB,
+    PerformChatty,
+    PerformChattyFail,
     DoFail,
     DoFailCounter,
-    DoPass,
+    PerformPass,
     DoPassAfterAWhile,
-    Quietly,
     See,
 )
 from screenpy_examples.screenpy.quietly_logging.questions import (
@@ -39,37 +38,37 @@ def test_passes_without_quietly(marcel: Actor) -> None:
     """
     Generates a normal log:
 
-    Marcel tries to DoChatty
-        Marcel tries to DoA
-            Marcel tries to DoB
-                Marcel tries to DoPass
+    Marcel tries to PerformChatty
+        Marcel tries to PerformA
+            Marcel tries to PerformB
+                Marcel tries to PerformPass
                     Marcel sees if simpleQuestion is equal to True.
-    Marcel tries to DoB
-        Marcel tries to DoPass
+    Marcel tries to PerformB
+        Marcel tries to PerformPass
             Marcel sees if simpleQuestion is equal to True.
     """
-    marcel.will(DoChatty(DoA(DoB(DoPass()))))
-    marcel.will(DoB(DoPass()))
+    marcel.will(PerformChatty(PerformA(PerformB(PerformPass()))))
+    marcel.will(PerformB(PerformPass()))
 
 
 def test_passes_with_quietly(marcel: Actor) -> None:
     """
     Generates a quiet log:
 
-    Marcel tries to DoChatty
-    Marcel tries to DoB
+    Marcel tries to PerformChatty
+    Marcel tries to PerformB
     """
-    marcel.will(DoChatty(Quietly(DoA(DoB(DoPass())))))
-    marcel.will(DoB(Quietly(DoPass())))
+    marcel.will(PerformChatty(Quietly(PerformA(PerformB(PerformPass())))))
+    marcel.will(PerformB(Quietly(PerformPass())))
 
 
 def test_fails_without_quietly(marcel) -> None:
     """
     Generates a normal log showing failure:
 
-    Marcel tries to DoChattyFail
-        Marcel tries to DoA
-            Marcel tries to DoB
+    Marcel tries to PerformChattyFail
+        Marcel tries to PerformA
+            Marcel tries to PerformB
                 Marcel tries to DoFail
                     Marcel sees if simpleQuestion is equal to False.
                         Marcel examines SimpleQuestion
@@ -82,8 +81,8 @@ def test_fails_without_quietly(marcel) -> None:
     Expected: <False>
          but: was <True>
     """
-    marcel.will(DoChattyFail(DoA(DoB(DoFail()))))
-    marcel.will(DoB(DoPass()))
+    marcel.will(PerformChattyFail(PerformA(PerformB(DoFail()))))
+    marcel.will(PerformB(PerformPass()))
 
 
 def test_fails_with_quietly(marcel) -> None:
@@ -91,9 +90,9 @@ def test_fails_with_quietly(marcel) -> None:
     Generates a "quiet" log, but demonstrates that in a case of failure the output
     looks identical to a normal log.
 
-    Marcel tries to DoChattyFail
-        Marcel tries to DoA
-            Marcel tries to DoB
+    Marcel tries to PerformChattyFail
+        Marcel tries to PerformA
+            Marcel tries to PerformB
                 Marcel tries to DoFail
                     Marcel sees if simpleQuestion is equal to False.
                         Marcel examines SimpleQuestion
@@ -106,8 +105,8 @@ def test_fails_with_quietly(marcel) -> None:
     Expected: <False>
          but: was <True>
     """
-    marcel.will(DoChattyFail(Quietly(DoA(DoB(DoFail())))))
-    marcel.will(DoB(Quietly(DoPass())))
+    marcel.will(PerformChattyFail(Quietly(PerformA(PerformB(DoFail())))))
+    marcel.will(PerformB(Quietly(PerformPass())))
 
 
 def test_normal_question(marcel: Actor):

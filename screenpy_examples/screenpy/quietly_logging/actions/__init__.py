@@ -1,16 +1,16 @@
 from .do_thing import (
-    DoA,
-    DoB,
-    DoChatty,
-    DoChattyFail,
+    PerformA,
+    PerformB,
+    PerformChatty,
+    PerformChattyFail,
     DoFail,
     DoFailCounter,
-    DoFirst,
-    DoPass,
+    PerformFirst,
+    PerformPass,
     DoPassAfterAWhile,
-    DoSecond,
+    PerformSecond,
 )
-from .quietly import Quietly
+# from .quietly import Quietly
 from .see import See
 from .see_all_of import SeeAllOf
 from .see_any_of import SeeAnyOf

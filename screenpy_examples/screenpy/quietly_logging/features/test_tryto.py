@@ -3,19 +3,18 @@ from __future__ import annotations
 import pytest
 
 from screenpy import Actor
-
+from screenpy.actions import Quietly
 from screenpy_examples.screenpy.quietly_logging.actions import (
-    DoA,
-    DoB,
-    DoChatty,
-    DoChattyFail,
+    PerformA,
+    PerformB,
+    PerformChatty,
+    PerformChattyFail,
     DoFail,
     DoFailCounter,
-    DoFirst,
-    DoPass,
+    PerformFirst,
+    PerformPass,
     DoPassAfterAWhile,
-    DoSecond,
-    Quietly,
+    PerformSecond,
     TryTo,
 )
 
@@ -26,11 +25,11 @@ def test_first_action_pass(marcel: Actor) -> None:
         perform first action which passes
         and not perform the second action
 
-    Marcel tries to DoFirst
-        Marcel tries to DoPass
+    Marcel tries to PerformFirst
+        Marcel tries to PerformPass
             Marcel sees if simpleQuestion is equal to True.
     """
-    marcel.will(TryTo(DoFirst()).otherwise(DoSecond()))
+    marcel.will(TryTo(PerformFirst()).otherwise(PerformSecond()))
 
 
 def test_first_action_fail(marcel: Actor) -> None:
@@ -39,11 +38,11 @@ def test_first_action_fail(marcel: Actor) -> None:
         perform first action which fails
         and then perform second action which passes
 
-    Marcel tries to DoSecond
-        Marcel tries to DoPass
+    Marcel tries to PerformSecond
+        Marcel tries to PerformPass
             Marcel sees if simpleQuestion is equal to True.
     """
-    marcel.will(TryTo(DoFirst(DoFail())).otherwise(DoSecond()))
+    marcel.will(TryTo(PerformFirst(DoFail())).otherwise(PerformSecond()))
 
 
 def test_first_and_second_action_fail(marcel: Actor) -> None:
@@ -52,7 +51,7 @@ def test_first_and_second_action_fail(marcel: Actor) -> None:
         perform the first action which fails
         and perform second action which fails
 
-    Marcel tries to DoSecond
+    Marcel tries to PerformSecond
         Marcel tries to DoFail
             Marcel sees if simpleQuestion is equal to False.
                 Marcel examines SimpleQuestion
@@ -65,4 +64,4 @@ def test_first_and_second_action_fail(marcel: Actor) -> None:
     Expected: <False>
          but: was <True>
     """
-    marcel.will(TryTo(DoFirst(DoFail())).otherwise(DoSecond(DoFail())))
+    marcel.will(TryTo(PerformFirst(DoFail())).otherwise(PerformSecond(DoFail())))

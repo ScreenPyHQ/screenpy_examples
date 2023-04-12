@@ -5,7 +5,7 @@ from typing import Generator
 import pytest
 
 from screenpy import Actor, aside, settings
-from screenpy.narration.adapters.stdout_adapter import StdOutAdapter, StdOutManager
+from screenpy.narration import StdOutAdapter, StdOutManager
 from screenpy.pacing import the_narrator
 
 import screenpy_examples.screenpy.quietly_logging.actions.tryto

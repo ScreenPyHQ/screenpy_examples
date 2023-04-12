@@ -11,7 +11,7 @@ from screenpy.pacing import aside, beat
 from screenpy.protocols import Answerable, ErrorKeeper, Resolvable
 from screenpy.resolutions import BaseResolution
 from screenpy.speech_tools import get_additive_description
-from .quietly import Quietly
+from screenpy.actions import Quietly
 
 SelfSee = TypeVar("SelfSee", bound="See")
 T_Q = Union[Answerable, object]

@@ -38,61 +38,61 @@ class DoFail(Performable):
         actor.will(See(SimpleQuestion(), IsEqual(False)))
 
 
-class DoPass(Performable):
-    @beat("{} tries to DoPass")
+class PerformPass(Performable):
+    @beat("{} tries to PerformPass")
     def perform_as(self, actor: Actor):
         actor.will(See(SimpleQuestion(), IsEqual(True)))
 
 
-class DoFirst(Performable):
-    @beat("{} tries to DoFirst")
+class PerformFirst(Performable):
+    @beat("{} tries to PerformFirst")
     def perform_as(self, actor: Actor):
         actor.will(self.action)
 
-    def __init__(self, action: Performable = DoPass()):
+    def __init__(self, action: Performable = PerformPass()):
         self.action = action
 
 
-class DoSecond(Performable):
-    @beat("{} tries to DoSecond")
+class PerformSecond(Performable):
+    @beat("{} tries to PerformSecond")
     def perform_as(self, actor: Actor):
         actor.will(self.action)
 
-    def __init__(self, action: Performable = DoPass()):
+    def __init__(self, action: Performable = PerformPass()):
         self.action = action
 
 
-class DoB(Performable):
-    @beat("{} tries to DoB")
+class PerformB(Performable):
+    @beat("{} tries to PerformB")
     def perform_as(self, actor: Actor):
         actor.will(self.action)
 
-    def __init__(self, action: Performable = DoPass()):
+    def __init__(self, action: Performable = PerformPass()):
         self.action = action
 
 
-class DoA(Performable):
-    @beat("{} tries to DoA")
+class PerformA(Performable):
+    @beat("{} tries to PerformA")
     def perform_as(self, actor: Actor):
         actor.will(self.action)
 
-    def __init__(self, action: Performable = DoB()):
+    def __init__(self, action: Performable = PerformB()):
         self.action = action
 
 
-class DoChatty(Performable):
-    @beat("{} tries to DoChatty")
+class PerformChatty(Performable):
+    @beat("{} tries to PerformChatty")
     def perform_as(self, actor: Actor):
         actor.will(self.action)
 
-    def __init__(self, action: Performable = DoA()):
+    def __init__(self, action: Performable = PerformA()):
         self.action = action
 
 
-class DoChattyFail(Performable):
-    @beat("{} tries to DoChattyFail")
+class PerformChattyFail(Performable):
+    @beat("{} tries to PerformChattyFail")
     def perform_as(self, actor: Actor):
         actor.will(self.action)
 
-    def __init__(self, action: Performable = DoA(DoB(DoFail()))):
+    def __init__(self, action: Performable = PerformA(PerformB(DoFail()))):
         self.action = action
