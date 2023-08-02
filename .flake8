@@ -1,2 +1,29 @@
 [flake8]
 max-line-length = 88
+exclude =
+    .github,
+    .pytest_cache,
+    .venv,
+    venv,
+    dockerfiles,
+    docs,
+    .coverage,
+    .coveragerc,
+    .env,
+    .env.example,
+    .flake8,
+    .gitignore,
+    alembic.ini,
+    bandit.yaml,
+    Makefile,
+    mkdocks.yml,
+    mypy.ini,
+    poetry.lock,
+    pyproject.toml,
+    pytest.ini,
+    README.md,
+    .idea,
+
+statistics = True
+per-file-ignores =
+    __init__.py:F401

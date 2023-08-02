@@ -27,13 +27,15 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.11"
 pytest = "*"
-screenpy = { git = "git@github.com:ScreenPyHQ/screenpy.git", branch = "refactor-resolutions"}
+screenpy = "*"
 screenpy-selenium = { git = "git@github.com:ScreenPyHQ/screenpy_selenium.git", branch = "trunk"}
-#screenpy = "*"
 #screenpy-selenium = "*"
 screenpy-appium = "*"
 screenpy-playwright = "*"
 screenpy-requests = "*"
+screenpy-adapter-allure = "^4.0.2"
+pyderman = "^3.3.2"
+semantic-version = "^2.10.0"
 
 #tox = {version = "*", optional = true}
 mypy = {version = "*", optional = true}
@@ -42,10 +44,8 @@ isort = {version = "*", optional = true}
 flake8 = {version = "*", optional = true}
 pylint = {version = "*", optional = true}
 coverage = {version = "*", optional = true}
+ruff = {version = "*", optional = true}
 setuptools = "*"
-screenpy-adapter-allure = "^4.0.2"
-semantic-version = "^2.10.0"
-pyderman = "^3.3.2"
 
 [tool.poetry.extras]
 dev = [
@@ -57,6 +57,7 @@ dev = [
     "isort",
     "flake8",
     "coverage",
+    "ruff",
 ]
 
 
@@ -72,3 +73,93 @@ known_local_folder = "screenpy_examples"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+# Enable the pycodestyle (`E`) and Pyflakes (`F`) rules by default.
+# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
+# McCabe complexity (`C901`) by default.
+select = [
+    "E",  # pycodestyle error
+    "W",  # pycodestyle warning
+    "F",  # Pyflakes
+    "I",  # isort
+    "C4",  # flake8-comprehensions
+    "TCH",  # type checking
+    "RUF",  # ruff specific
+    "UP",  # python upgrade
+    "A",  # built-ins
+    "B",  # bugbear
+    #    "ARG",  # unused arguments
+    #    "PT",  # Pytest style
+    #    "RET", # flake8 return
+    #    "SIM", # flake8 simplify
+    #    "TD",  #TODOs
+    #    "FBT",  # boolean trap
+    "ANN",  # annotations
+]
+ignore = [
+    #    "PT003",  # pytest fixture scope implied
+    #    "PT004",  # pytest fixture setup doesn't return anything
+    "RUF100",  # blanket noqa
+    "ANN101",  # missing-type-self
+    "ANN102",  # cls 
+    #    "ANN401",  # any-type
+]
+# Avoid trying to fix flake8-bugbear (`B`) violations.
+#unfixable = ["B"]
+
+# Same as Black.
+line-length = 88
+
+exclude = [
+    ".github",
+    ".pytest_cache",
+    ".venv",
+    "venv",
+    "dockerfiles",
+    "docs",
+    ".coverage",
+    ".coveragerc",
+    ".env",
+    ".env.example",
+    ".flake8",
+    ".gitignore",
+    "alembic.ini",
+    "bandit.yaml",
+    "Makefile",
+    "mkdocks.yml",
+    "mypy.ini",
+    "poetry.lock",
+    "pyproject.toml",
+    "pytest.ini",
+    "README.md",
+    ".idea",
+]
+
+# Assume Python 3.11.
+target-version = "py311"
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/ui/admin/budget_configure/modal*.py" = ["F401"]
+"tests/ui/admin/organization_configure/modal*.py" = ["F401"]
+"setup/dbutil.py" = ["E722"] # bare except
+"tests/question/new_expected_conditions.py" = ["ANN"] # this is a copy of the original 
+
+[tool.ruff.isort]
+combine-as-imports = true
+split-on-trailing-comma = true
+
+[tool.ruff.flake8-pytest-style]
+mark-parentheses = false
+
+[tool.ruff.pycodestyle]
+ignore-overlong-task-comments = true
+
+#[tool.ruff.flake8-annotations]
+#mypy-init-return = true
+
+[tool.ruff.flake8-annotations]
+# ignore returns types for functions that implicity or explicitly only return None
+suppress-none-returning = true
+allow-star-arg-any = true
