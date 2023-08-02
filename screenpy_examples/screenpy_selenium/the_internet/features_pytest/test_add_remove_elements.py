@@ -2,6 +2,8 @@
 An example of a test module that follows the typical unittest.TestCase
 test structure. These tests exercise the clicking and waiting Actions.
 """
+from __future__ import annotations
+
 import random
 
 from screenpy.actions import See

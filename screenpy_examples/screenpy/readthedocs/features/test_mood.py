@@ -1,6 +1,7 @@
 """
 Test our ability to influence the audience's mood with skillful camerawork.
 """
+from __future__ import annotations
 
 from screenpy import AnActor, given, then, when
 from screenpy.actions import See
@@ -31,7 +32,7 @@ from screenpy_examples.screenpy.readthedocs.tasks import CutToCloseup, DollyZoom
 
 def test_dramatic_moment(Cameron: AnActor, Polly: AnActor) -> None:
     """We can use the camera to create dramatic tension."""
-    Cameron.has_cleanup_tasks(StopRecording())
+    Cameron.has_independent_cleanup_tasks(StopRecording())
 
     given(Cameron).was_able_to(
         StartRecording(GOOD_WILL_HUNTING).on(Camera("Will")),
@@ -49,7 +50,7 @@ def test_dramatic_moment(Cameron: AnActor, Polly: AnActor) -> None:
 
 def test_comedic_timing(Cameron: AnActor, Polly: AnActor) -> None:
     """We can use the camera to make funny moments."""
-    Cameron.has_cleanup_tasks(StopRecording())
+    Cameron.has_independent_cleanup_tasks(StopRecording())
     one = Camera("Shaun")
     two = Camera("Ed")
 

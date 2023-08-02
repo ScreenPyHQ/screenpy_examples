@@ -1,6 +1,7 @@
 """
 API test example that tests various auths.
 """
+from __future__ import annotations
 
 from screenpy import Actor, given, then, when
 from screenpy.actions import See

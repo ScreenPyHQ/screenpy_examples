@@ -1,10 +1,14 @@
 """
 Gather information about the audience's tension.
 """
+from __future__ import annotations
 
-from screenpy import Actor
+from typing import TYPE_CHECKING
 
 from screenpy_examples.screenpy.readthedocs.abilities import PollTheAudience
+
+if TYPE_CHECKING:
+    from screenpy import Actor
 
 
 class AudienceTension:

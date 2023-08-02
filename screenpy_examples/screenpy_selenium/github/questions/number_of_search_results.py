@@ -2,14 +2,19 @@
 A Question to find out the number of search results on the GitHub search
 page.
 """
+from __future__ import annotations
 
-from screenpy import Actor
+from typing import TYPE_CHECKING
+
 from screenpy.pacing import beat
 from screenpy_selenium.questions import Number
 
 from screenpy_examples.screenpy_selenium.github.ui.github_search_results_page import (
     SEARCH_RESULTS,
 )
+
+if TYPE_CHECKING:
+    from screenpy import Actor
 
 
 class NumberOfSearchResults:

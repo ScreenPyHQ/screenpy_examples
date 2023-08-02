@@ -1,7 +1,7 @@
 """
 Test interacting with inputs on Android.
 """
-
+from __future__ import annotations
 
 from screenpy import Actor, then, when
 from screenpy.actions import Confirm, See

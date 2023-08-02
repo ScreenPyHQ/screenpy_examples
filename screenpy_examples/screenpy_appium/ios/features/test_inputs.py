@@ -1,6 +1,7 @@
 """
 Test interacting with inputs on iOS.
 """
+from __future__ import annotations
 
 from screenpy import Actor, then, when
 from screenpy.actions import Confirm, See

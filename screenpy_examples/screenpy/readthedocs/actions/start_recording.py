@@ -1,12 +1,17 @@
 """
 Start recording a screenplay on one or more cameras!
 """
+from __future__ import annotations
 
-from screenpy import Actor
+from typing import TYPE_CHECKING
+
 from screenpy.pacing import beat
 
 from screenpy_examples.screenpy.readthedocs import cam_py
 from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
+
+if TYPE_CHECKING:
+    from screenpy import Actor
 
 
 class StartRecording:

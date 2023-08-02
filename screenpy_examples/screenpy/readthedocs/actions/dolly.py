@@ -1,10 +1,9 @@
 """
 Dolly a camera in a direction.
 """
+from __future__ import annotations
 
-from screenpy import Actor
-from screenpy.exceptions import UnableToAct
-from screenpy.pacing import beat
+from screenpy import Actor, UnableToAct, beat
 
 from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
 

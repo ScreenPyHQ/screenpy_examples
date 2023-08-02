@@ -1,7 +1,11 @@
-from typing import Any
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any
 
 from hamcrest.core.base_matcher import BaseMatcher
-from hamcrest.core.description import Description
+
+if TYPE_CHECKING:
+    from hamcrest.core.description import Description
 
 
 class HasSaturationGreaterThan(BaseMatcher):

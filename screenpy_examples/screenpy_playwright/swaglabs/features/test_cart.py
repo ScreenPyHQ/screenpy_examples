@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from screenpy import given, then, when
 from screenpy.actions import SeeAllOf
 from screenpy.resolutions import ContainsTheText, IsEqualTo

@@ -1,11 +1,16 @@
 """
 Pan using the active camera.
 """
+from __future__ import annotations
 
-from screenpy import Actor
+from typing import TYPE_CHECKING
+
 from screenpy.pacing import beat
 
 from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
+
+if TYPE_CHECKING:
+    from screenpy import Actor
 
 
 class Pan:

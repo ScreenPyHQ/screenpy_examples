@@ -1,8 +1,14 @@
-from screenpy import Actor
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from screenpy.pacing import beat
 from screenpy_playwright.questions import Text
 
 from screenpy_examples.screenpy_playwright.swaglabs.ui.header import CART_BADGE
+
+if TYPE_CHECKING:
+    from screenpy import Actor
 
 
 class ShoppingCartBadgeNumber:

@@ -1,4 +1,7 @@
-from screenpy import Actor
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from screenpy_playwright.actions import Click, Enter, Visit
 
 from screenpy_examples.screenpy_playwright.swaglabs.ui.login_page import (
@@ -7,7 +10,11 @@ from screenpy_examples.screenpy_playwright.swaglabs.ui.login_page import (
     URL,
     USERNAME_FIELD,
 )
-from screenpy_examples.screenpy_playwright.swaglabs.user_types import User
+
+if TYPE_CHECKING:
+    from screenpy import Actor
+
+    from screenpy_examples.screenpy_playwright.swaglabs.user_types import User
 
 
 class LogIn:

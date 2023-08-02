@@ -1,12 +1,16 @@
 """
 Set the active camera.
 """
+from __future__ import annotations
 
-from screenpy import Actor
-from screenpy.pacing import beat
+from typing import TYPE_CHECKING
 
-from screenpy_examples.screenpy.readthedocs import cam_py
+from screenpy import Actor, beat
+
 from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
+
+if TYPE_CHECKING:
+    from screenpy_examples.screenpy.readthedocs import cam_py
 
 
 class JumpToCamera:

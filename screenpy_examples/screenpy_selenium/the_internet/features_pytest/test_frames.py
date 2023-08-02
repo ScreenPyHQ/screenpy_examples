@@ -2,6 +2,8 @@
 An example of a test module that follows the typical unittest.TestCase
 test structure. These tests exercise the frame switching Actions.
 """
+from __future__ import annotations
+
 from screenpy.actions import Eventually, See
 from screenpy.pacing import act, scene
 from screenpy.resolutions import ReadsExactly

@@ -2,6 +2,7 @@
 An example of a test module that follows the typical unittest.TestCase test
 structure. These tests exercise the Actions to perform drag and drop.
 """
+from __future__ import annotations
 
 import pytest
 from screenpy.actions import Eventually, See
