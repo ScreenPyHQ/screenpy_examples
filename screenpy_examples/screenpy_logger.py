@@ -42,8 +42,10 @@ TRACE = DEBUG - 5  # 5
 
 
 if hasattr(sys, "_getframe"):
+
     def currentframe():
         return sys._getframe(1)
+
 else:  # pragma: no cover
 
     def currentframe():
