@@ -19,13 +19,17 @@ class TestFrames:
     """
     Flexes the SwitchTo Action.
     """
+
     @act("Perform")
     @scene("SwitchTo")
     def test_switch_to_iframe(self, marcel) -> None:
         """User is able to switch to an iframe."""
         marcel.will(Open.their_browser_on(URL))
         marcel.will(SwitchTo.the(WYSIWYG_IFRAME))
-        marcel.shall(Eventually(
-            See.the(Text.of_the(CONTENT_BOX), ReadsExactly("Your content goes here."))
-        ))
-
+        marcel.shall(
+            Eventually(
+                See.the(
+                    Text.of_the(CONTENT_BOX), ReadsExactly("Your content goes here.")
+                )
+            )
+        )

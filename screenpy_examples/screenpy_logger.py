@@ -9,30 +9,23 @@ to the logged filename and line numbers to be incorrect. When this occurs, clean
 pycache.  Or just run without caching enabled. PYTHONDONTWRITEBYTECODE=1
 
 """
+from __future__ import annotations
 
-import inspect
 import contextlib
+import inspect
 import io
 import logging
 import os
 import sys
 import traceback
-from typing import Type
-import pathlib
-from types import ModuleType
+from typing import ClassVar, Type
 
 import hamcrest
 import hamcrest.core.base_matcher
-
-import _pytest.config
-import _pytest.main
-import _pytest.runner
-import _pytest.python
-import pluggy
 import screenpy.actions
 import screenpy.actor
-import screenpy.narration.stdout_adapter
 import screenpy.narration.narrator
+import screenpy.narration.stdout_adapter
 import screenpy.resolutions
 
 __logger: Type[logging.Logger] = logging.getLoggerClass()
@@ -49,8 +42,10 @@ TRACE = DEBUG - 5  # 5
 
 
 if hasattr(sys, "_getframe"):
-    currentframe = lambda: sys._getframe(1)
-else:  #pragma: no cover
+    def currentframe():
+        return sys._getframe(1)
+else:  # pragma: no cover
+
     def currentframe():
         """Return the frame object for the caller's stack frame."""
         try:
@@ -71,7 +66,7 @@ class ScreenpyLogger(__logger):  # type: ignore
     TRACE = TRACE
 
     # when adding functions to this list, you must avoid those which have decorators.
-    ignore_srcfiles = set()
+    ignore_srcfiles: ClassVar[set] = set()
 
     def __init__(self, name, level=DEBUG):
         super().__init__(name, level)
@@ -99,20 +94,28 @@ class ScreenpyLogger(__logger):  # type: ignore
         logging.addLevelName(level, name)
         setattr(logging, name, level)
 
-    def _log(self, level: int, msg, args, exc_info=None, extra=None, stack_info=False,
-             stacklevel=1):
+    def _log(
+        self,
+        level: int,
+        msg,
+        args,
+        exc_info=None,
+        extra=None,
+        stack_info=False,
+        stacklevel=1,
+    ):
         """
         Low-level logging routine which creates a LogRecord and then calls
         all the handlers of this logger to handle the record.
         """
         sinfo = None
         if self.ignore_srcfiles:
-            #IronPython doesn't track Python frames, so findCaller raises an
-            #exception on some versions of IronPython. We trap it here so that
-            #IronPython can use logging.
+            # IronPython doesn't track Python frames, so findCaller raises an
+            # exception on some versions of IronPython. We trap it here so that
+            # IronPython can use logging.
             try:
                 fn, lno, func, sinfo = self.findCaller(stack_info, stacklevel)
-            except ValueError: # pragma: no cover
+            except ValueError:  # pragma: no cover
                 fn, lno, func = "(unknown file)", 0, "(unknown function)"
         else:  # pragma: no cover
             fn, lno, func = "(unknown file)", 0, "(unknown function)"
@@ -127,10 +130,10 @@ class ScreenpyLogger(__logger):  # type: ignore
                 exc_info = (type(exc_info), exc_info, exc_info.__traceback__)
             elif not isinstance(exc_info, tuple):
                 exc_info = sys.exc_info()
-        record = self.makeRecord(self.name, level, fn, lno, msg, args,
-                                 exc_info, func, extra, sinfo)
+        record = self.makeRecord(
+            self.name, level, fn, lno, msg, args, exc_info, func, extra, sinfo
+        )
         self.handle(record)
-
 
     # def findCaller2(self, stack_info=False, stacklevel=1):
     #     """
@@ -141,7 +144,7 @@ class ScreenpyLogger(__logger):  # type: ignore
     #     stack = inspect.stack()[2:]
     #     f = stack[0][0]
     #     info = inspect.getframeinfo(f)
-    # 
+    #
     #     for i in range(stacklevel, len(stack)):
     #         f = stack[i][0]
     #         info = inspect.getframeinfo(f)
@@ -149,7 +152,7 @@ class ScreenpyLogger(__logger):  # type: ignore
     #         if filename in self.ignore_srcfiles:
     #             continue
     #         break
-    # 
+    #
     #     sinfo = None
     #     if stack_info:
     #         sio = io.StringIO()
@@ -159,7 +162,7 @@ class ScreenpyLogger(__logger):  # type: ignore
     #         if sinfo[-1] == '\n':
     #             sinfo = sinfo[:-1]
     #         sio.close()
-    # 
+    #
     #     rv = (info.filename, info.lineno, info.function, sinfo)
     #     return rv
 
@@ -169,8 +172,8 @@ class ScreenpyLogger(__logger):  # type: ignore
         file name, line number and function name.
         """
         f = currentframe()
-        #On some versions of IronPython, currentframe() returns None if
-        #IronPython isn't run with -X:Frames.
+        # On some versions of IronPython, currentframe() returns None if
+        # IronPython isn't run with -X:Frames.
         if f is not None:
             f = f.f_back
         orig_f = f
@@ -189,10 +192,10 @@ class ScreenpyLogger(__logger):  # type: ignore
             sinfo = None
             if stack_info:
                 sio = io.StringIO()
-                sio.write('Stack (most recent call last):\n')
+                sio.write("Stack (most recent call last):\n")
                 traceback.print_stack(f, file=sio)
                 sinfo = sio.getvalue()
-                if sinfo[-1] == '\n':
+                if sinfo[-1] == "\n":
                     sinfo = sinfo[:-1]
                 sio.close()
             rv = (co.co_filename, f.f_lineno, co.co_name, sinfo)
@@ -204,7 +207,7 @@ class ScreenpyLogger(__logger):  # type: ignore
         self.ignore_srcfiles.add(p)
 
 
-def create_logger(name: str  = "scrnpy") -> ScreenpyLogger:
+def create_logger(name: str = "scrnpy") -> ScreenpyLogger:
     # NOTE: do not use "screenpy" for logger name. It already exists.
     logging.setLoggerClass(ScreenpyLogger)
     # pycharm gets confused about getLogger returning ScreenpyLogger.

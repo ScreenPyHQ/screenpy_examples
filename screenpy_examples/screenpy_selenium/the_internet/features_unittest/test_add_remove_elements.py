@@ -2,26 +2,29 @@
 An example of a test module that follows the typical unittest.TestCase
 test structure. These tests exercise the clicking and waiting Actions.
 """
+from __future__ import annotations
 
 import random
 import unittest
 
-from selenium.webdriver import Firefox
-
-from screenpy import AnActor, given, then, when
-from screenpy.actions import See
-from screenpy.pacing import act, scene
-from screenpy.resolutions import ContainsTheText, IsEqualTo
+from screenpy import (
+    AnActor,
+    ContainsTheText,
+    IsEqualTo,
+    See,
+    act,
+    given,
+    scene,
+    then,
+    when,
+)
 from screenpy_selenium.abilities import BrowseTheWeb
 from screenpy_selenium.actions import Click, Open, Wait
 from screenpy_selenium.questions import Attribute, Element, Number
 from screenpy_selenium.resolutions import IsVisible
+from selenium.webdriver import Firefox
 
-from screenpy_examples.screenpy_selenium.the_internet.user_interface.add_remove_elements import (
-    ADD_BUTTON,
-    ADDED_ELEMENTS,
-    URL,
-)
+from ..user_interface.add_remove_elements import ADD_BUTTON, ADDED_ELEMENTS, URL
 
 
 class TestAddRemoveElements(unittest.TestCase):

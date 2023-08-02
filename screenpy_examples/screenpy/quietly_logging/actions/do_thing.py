@@ -1,12 +1,16 @@
 from __future__ import annotations
 
-from screenpy import Actor
+from typing import TYPE_CHECKING
+
 from screenpy.pacing import beat
 from screenpy.protocols import Performable
 from screenpy.resolutions import IsEqual
 
 from screenpy_examples.screenpy.quietly_logging.actions.see import See
 from screenpy_examples.screenpy.quietly_logging.questions import SimpleQuestion
+
+if TYPE_CHECKING:
+    from screenpy import Actor
 
 
 class DoPassAfterAWhile(Performable):

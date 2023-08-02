@@ -1,8 +1,8 @@
+from __future__ import annotations
+
 from screenpy.resolutions import BaseResolution
 
-from screenpy_examples.screenpy.readthedocs.resolutions.matchers.has_saturation_greater_than import (
-    is_palpable,
-)
+from .matchers.has_saturation_greater_than import is_palpable
 
 
 class IsPalpable(BaseResolution):
@@ -12,5 +12,6 @@ class IsPalpable(BaseResolution):
 
         the_actor.should(See.the(AudienceTension(), IsPalpable()))
     """
+
     line = "a palpable tension!"
     matcher_function = is_palpable

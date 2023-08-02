@@ -3,17 +3,20 @@ from __future__ import annotations
 import errno
 import os as os
 import platform
-from typing import Any, Dict, List, Mapping, Optional, Tuple, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Mapping, Optional, Tuple, Union
 
 import pyderman as pydm
 import requests
 from selenium import webdriver  # noqa: E402
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from selenium.webdriver.common.options import ArgOptions
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from semantic_version import Version  # type: ignore
+
 from screenpy_examples.screenpy_logger import create_logger
+
+if TYPE_CHECKING:
+    from selenium.webdriver.common.options import ArgOptions
 
 __all__ = ["Selenium"]
 
@@ -49,16 +52,16 @@ class Selenium:
     }
 
     def __init__(
-            self,
-            browser: str = CHROME,
-            baseurl: str = "",
-            timeout: int = 15,
-            headless: bool = False,
-            enable_log_performance=False,
-            enable_log_console=False,
-            enable_log_driver=False,
-            log_path: str = "./logs",
-            driver_version="auto",
+        self,
+        browser: str = CHROME,
+        baseurl: str = "",
+        timeout: int = 15,
+        headless: bool = False,
+        enable_log_performance=False,
+        enable_log_console=False,
+        enable_log_driver=False,
+        log_path: str = "./logs",
+        driver_version="auto",
     ) -> None:
         """
         driver_version: the options are 'latest', 'auto', or a specific version
@@ -108,22 +111,24 @@ class Selenium:
 
     @staticmethod
     def create_driver(
-            browser: str,
-            headless: bool = False,
-            enable_log_performance=False,
-            enable_log_console=False,
-            enable_log_driver=False,
-            log_path: str = "./logs",
-            version="auto",
+        browser: str,
+        headless: bool = False,
+        enable_log_performance=False,
+        enable_log_console=False,
+        enable_log_driver=False,
+        log_path: str = "./logs",
+        version="auto",
     ):
         """
         driver_version: the options are 'latest', 'auto', or a specific version
         """
         if browser.lower() == FIREFOX:
-            driver = Selenium.firefox(headless=headless,
-                                      enable_log_driver=enable_log_driver,
-                                      log_path=log_path,
-                                      version=version)
+            driver = Selenium.firefox(
+                headless=headless,
+                enable_log_driver=enable_log_driver,
+                log_path=log_path,
+                version=version,
+            )
 
         elif browser.lower() == CHROME:
             driver = Selenium.chrome(
@@ -170,13 +175,13 @@ class Selenium:
 
     @staticmethod
     def firefox(
-            headless=False,
-            enable_log_performance=False,
-            enable_log_console=False,
-            enable_log_driver=False,
-            log_path: str = "./logs",
-            version="auto",
-            options: webdriver.FirefoxOptions = None,
+        headless=False,
+        enable_log_performance=False,
+        enable_log_console=False,
+        enable_log_driver=False,
+        log_path: str = "./logs",
+        version="auto",
+        options: webdriver.FirefoxOptions = None,
     ):
         """
         version: the options are 'auto', or a specific version
@@ -193,8 +198,10 @@ class Selenium:
         # 20.1 has a bug where headless doesn't work
         # 19 has a bug where it closes a frame?
 
-        # setting log_path to /dev/null will prevent geckodriver from creating it's own log file.
-        # if we enable root logging, we can capture the logging from geckodriver, ourselves.
+        # setting log_path to /dev/null will prevent geckodriver from creating it's
+        # own log file.
+        # if we enable root logging, we can capture the logging from geckodriver
+        # ourselves.
         logpath = "/dev/null"
         options.log.level = "fatal"
         if enable_log_driver:
@@ -253,7 +260,9 @@ class Selenium:
     @staticmethod
     def get_chrome_version():
         install_paths = {
-            "Darwin": "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome",
+            "Darwin": (
+                "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome"
+            ),
             "Windows": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
             "Linux": "/usr/bin/google-chrome",
         }
@@ -307,13 +316,13 @@ class Selenium:
 
     @staticmethod
     def chrome(
-            headless=False,
-            enable_log_performance=False,
-            enable_log_console=False,
-            enable_log_driver=False,
-            log_path: str = "./logs",
-            version="auto",
-            options: webdriver.ChromeOptions = None,
+        headless=False,
+        enable_log_performance=False,
+        enable_log_console=False,
+        enable_log_driver=False,
+        log_path: str = "./logs",
+        version="auto",
+        options: webdriver.ChromeOptions = None,
     ):
         """
         version: the options are 'latest', 'auto', or a specific version
@@ -457,8 +466,12 @@ class Selenium:
         }
 
         install_paths = {
-            "Darwin": "/Applications/Microsoft\\ Edge.app/Contents/MacOS/Microsoft\\ Edge",
-            "Windows": "C:\\Windows\\SystemApps\\Edge\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\\MicrosoftEdge.exe",
+            "Darwin": (
+                "/Applications/Microsoft\\ Edge.app/Contents/MacOS/Microsoft\\ Edge"
+            ),
+            "Windows": (
+                "C:\\Windows\\SystemApps\\Edge\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\\MicrosoftEdge.exe"
+            ),
             "Linux": "/usr/bin/microsoft-edge",
         }
         osname = platform.system()
@@ -509,13 +522,13 @@ class Selenium:
 
     @staticmethod
     def edge(
-            headless=False,
-            enable_log_performance=False,
-            enable_log_console=False,
-            enable_log_driver=False,
-            log_path: str = "./logs",
-            version="auto",
-            options: webdriver.EdgeOptions = None,
+        headless=False,
+        enable_log_performance=False,
+        enable_log_console=False,
+        enable_log_driver=False,
+        log_path: str = "./logs",
+        version="auto",
+        options: webdriver.EdgeOptions = None,
     ):
         # edge
         # https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/
@@ -554,7 +567,7 @@ class Selenium:
         if version == "auto":
             try:
                 version = Selenium.get_edge_version()
-            except Exception as exc:
+            except Exception:
                 logger.critical(
                     "Exception raised while trying to auto determine edgedriver "
                     "version.  Using 'latest' instead."

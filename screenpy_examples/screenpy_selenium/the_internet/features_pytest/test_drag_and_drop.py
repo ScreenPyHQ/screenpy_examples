@@ -4,14 +4,13 @@ structure. These tests exercise the Actions to perform drag and drop.
 """
 
 import pytest
-
 from screenpy.actions import Eventually, See
 from screenpy.pacing import act, scene
 from screenpy.resolutions import ReadsExactly
 from screenpy_selenium.actions import Chain, HoldDown, MoveMouse, Open, Release, Wait
 from screenpy_selenium.questions import Text
 
-from screenpy_examples.screenpy_selenium.the_internet.user_interface.drag_and_drop import (
+from ..user_interface.drag_and_drop import (
     FIRST_DRAGGABLE_BOX,
     SECOND_DRAGGABLE_BOX,
     URL,
@@ -22,6 +21,7 @@ class TestDragAndDrop:
     """
     Shows how to do a drag-and-drop Action.
     """
+
     @act("Chain")
     @scene("HoldDown")
     @scene("MoveMouse")
@@ -35,12 +35,14 @@ class TestDragAndDrop:
         """
         marcel.will(Open.their_browser_on(URL))
         marcel.will(Wait.for_the(FIRST_DRAGGABLE_BOX).to_be_clickable())
-        marcel.will(Chain(
+        marcel.will(
+            Chain(
                 MoveMouse.to_the(FIRST_DRAGGABLE_BOX),
                 HoldDown.left_mouse_button().on_the(FIRST_DRAGGABLE_BOX),
                 MoveMouse.to_the(SECOND_DRAGGABLE_BOX),
                 Release.left_mouse_button(),
             ),
         )
-        marcel.shall(Eventually(See.the(Text.of_the(FIRST_DRAGGABLE_BOX), ReadsExactly("B"))))
-
+        marcel.shall(
+            Eventually(See.the(Text.of_the(FIRST_DRAGGABLE_BOX), ReadsExactly("B")))
+        )

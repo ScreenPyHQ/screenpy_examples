@@ -2,25 +2,16 @@
 An example of a test module that follows the typical unittest.TestCase
 test structure. These tests exercise the Wait and Enter Actions.
 """
+from __future__ import annotations
 
 import unittest
 from typing import Callable, Tuple
 
+from screenpy import AnActor, ReadsExactly, See, act, given, scene, then, when
+from screenpy_selenium import BrowseTheWeb, Enter, Open, Text, Wait
 from selenium.webdriver import Firefox, Remote
 
-from screenpy import AnActor, given, then, when
-from screenpy.actions import See
-from screenpy.pacing import act, scene
-from screenpy.resolutions import ReadsExactly
-from screenpy_selenium.abilities import BrowseTheWeb
-from screenpy_selenium.actions import Enter, Open, Wait
-from screenpy_selenium.questions import Text
-
-from screenpy_examples.screenpy_selenium.the_internet.user_interface.key_presses import (
-    ENTRY_INPUT,
-    RESULT_TEXT,
-    URL,
-)
+from ..user_interface.key_presses import ENTRY_INPUT, RESULT_TEXT, URL
 
 
 class TestKeyPresses(unittest.TestCase):

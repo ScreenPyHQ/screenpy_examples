@@ -2,16 +2,20 @@
 Make an assertion using a Question and a Resolution.
 """
 
-from typing import Type, TypeVar, Union
+from typing import Self, TypeVar, Union
 
 from hamcrest import assert_that
-
-from screenpy import Actor
-from screenpy.pacing import aside, beat
-from screenpy.protocols import Answerable, ErrorKeeper, Resolvable
-from screenpy.resolutions import BaseResolution
+from screenpy import (
+    Actor,
+    Answerable,
+    BaseResolution,
+    ErrorKeeper,
+    Quietly,
+    Resolvable,
+    aside,
+    beat,
+)
 from screenpy.speech_tools import get_additive_description
-from screenpy.actions import Quietly
 
 SelfSee = TypeVar("SelfSee", bound="See")
 T_Q = Union[Answerable, object]
@@ -26,14 +30,14 @@ class _See:
     #         # must be a value instead of a question!
     #         value = self.question
     #         aside(f"the actual value is: {value}")
-    # 
+    #
     #     reason = ""
     #     if isinstance(self.question, ErrorKeeper):
     #         reason = f"{self.question.caught_exception}"
-    # 
+    #
     #     assert_that(value, self.resolution, reason)
 
-    def perform_as(self: SelfSee, the_actor: Actor) -> None:
+    def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to make an observation."""
         if isinstance(self.question, Answerable):
             value: object = self.question.answered_by(the_actor)
@@ -53,7 +57,9 @@ class _See:
 
         assert_that(value, matcher, reason)
 
-    def __init__(self, question: T_Q, resolution: Union[BaseResolution, Resolvable]) -> None:
+    def __init__(
+        self, question: T_Q, resolution: Union[BaseResolution, Resolvable]
+    ) -> None:
         self.question = question
         self.resolution = resolution
 
@@ -82,20 +88,22 @@ class See:
     resolution_to_log: str
 
     @classmethod
-    def the(cls: Type[SelfSee], question: T_Q, resolution: Union[BaseResolution, Resolvable]) -> SelfSee:
+    def the(cls, question: T_Q, resolution: Union[BaseResolution, Resolvable]) -> Self:
         """Supply the Question (or value) and Resolution to test."""
         return cls(question, resolution)
 
-    def describe(self: SelfSee) -> str:
+    def describe(self) -> str:
         """Describe the Action in present tense."""
         return f"See if {self.question_to_log} is {self.resolution_to_log}."
 
     @beat("{} sees if {question_to_log} is {resolution_to_log}.")
-    def perform_as(self: SelfSee, the_actor: Actor) -> None:
+    def perform_as(self, the_actor: Actor) -> None:
         """Direct the Actor to make an observation."""
         the_actor.will(Quietly(_See(self.question, self.resolution)))
 
-    def __init__(self: SelfSee, question: T_Q, resolution: Union[BaseResolution, Resolvable]) -> None:
+    def __init__(
+        self, question: T_Q, resolution: Union[BaseResolution, Resolvable]
+    ) -> None:
         self.question = question
         self.question_to_log = get_additive_description(question)
         self.resolution = resolution

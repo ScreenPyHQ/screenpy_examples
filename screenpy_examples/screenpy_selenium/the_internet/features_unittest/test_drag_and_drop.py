@@ -2,18 +2,23 @@
 An example of a test module that follows the typical unittest.TestCase test
 structure. These tests exercise the Actions to perform drag and drop.
 """
+from __future__ import annotations
 
 import unittest
 
-from screenpy import AnActor, given, then, when
-from screenpy.actions import See
-from screenpy.pacing import act, scene
-from screenpy.resolutions import ReadsExactly
-from screenpy_selenium.abilities import BrowseTheWeb
-from screenpy_selenium.actions import Chain, HoldDown, MoveMouse, Open, Release, Wait
-from screenpy_selenium.questions import Text
+from screenpy import AnActor, ReadsExactly, See, act, given, scene, then, when
+from screenpy_selenium import (
+    BrowseTheWeb,
+    Chain,
+    HoldDown,
+    MoveMouse,
+    Open,
+    Release,
+    Text,
+    Wait,
+)
 
-from screenpy_examples.screenpy_selenium.the_internet.user_interface.drag_and_drop import (
+from ..user_interface.drag_and_drop import (
     FIRST_DRAGGABLE_BOX,
     SECOND_DRAGGABLE_BOX,
     URL,

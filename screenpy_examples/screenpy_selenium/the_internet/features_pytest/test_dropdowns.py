@@ -48,4 +48,3 @@ class TestDropdowns:
         marcel.shall(
             See.the(Selected.option_from(THE_DROPDOWN), ReadsExactly("Option 2"))
         )
-

@@ -31,9 +31,6 @@ def test_add_to_cart(Swalter):
         SeeAllOf.the(
             (ShoppingCartBadgeNumber(), IsEqualTo(1)),
             (Number.of(CART_ITEMS), IsEqualTo(1)),
-            (
-                Text.of_the(FIRST_CART_ITEM),
-                ContainsTheText("Sauce Labs Backpack")
-            ),
+            (Text.of_the(FIRST_CART_ITEM), ContainsTheText("Sauce Labs Backpack")),
         )
     )

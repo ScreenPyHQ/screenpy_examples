@@ -1,15 +1,14 @@
 """
 Setup and fixtures for our feature tests.
 """
+from __future__ import annotations
 
 import logging
 from typing import Generator
 
 import _pytest.logging
 import pytest
-
-from screenpy import AnActor
-from screenpy.narration.adapters.stdout_adapter import StdOutAdapter, StdOutManager
+from screenpy import AnActor, StdOutAdapter, StdOutManager
 from screenpy.pacing import the_narrator
 
 from screenpy_examples.screenpy.readthedocs.abilities import (

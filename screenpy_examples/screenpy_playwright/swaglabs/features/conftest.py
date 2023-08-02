@@ -1,7 +1,7 @@
-import pytest
+from __future__ import annotations
 
-from screenpy import AnActor
-from screenpy.narration.adapters.stdout_adapter import StdOutAdapter, StdOutManager
+import pytest
+from screenpy import AnActor, StdOutAdapter, StdOutManager
 from screenpy.pacing import the_narrator
 from screenpy_playwright.abilities import BrowseTheWebSynchronously
 

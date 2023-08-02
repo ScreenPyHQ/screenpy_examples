@@ -1,7 +1,11 @@
 from __future__ import annotations
-from typing import Any
+
+from typing import TYPE_CHECKING, Any
+
 from screenpy.pacing import beat
-from hamcrest.core.base_matcher import Matcher
+
+if TYPE_CHECKING:
+    from hamcrest.core.base_matcher import Matcher
 
 
 class IsEqualButRaisesException:

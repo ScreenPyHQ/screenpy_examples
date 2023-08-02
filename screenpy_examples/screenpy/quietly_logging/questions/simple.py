@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from screenpy import Actor, beat
 from screenpy.protocols import Answerable
 

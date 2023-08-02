@@ -3,10 +3,7 @@ from __future__ import annotations
 from typing import Generator
 
 import pytest
-
-from screenpy import Actor, aside, settings
-from screenpy.narration import StdOutAdapter, StdOutManager
-from screenpy.pacing import the_narrator
+from screenpy import Actor, StdOutAdapter, StdOutManager, aside, settings, the_narrator
 
 import screenpy_examples.screenpy.quietly_logging.actions.tryto
 from screenpy_examples.screenpy_logger import create_logger

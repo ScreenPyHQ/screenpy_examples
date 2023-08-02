@@ -1,9 +1,9 @@
 """
 API test examples that use all the HTTP methods.
 """
+from __future__ import annotations
 
 import pytest
-
 from screenpy import Actor, then, when
 from screenpy.actions import See
 from screenpy.resolutions import IsEqualTo, ReadsExactly

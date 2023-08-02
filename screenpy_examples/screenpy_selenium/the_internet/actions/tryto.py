@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-from typing import Tuple
+from typing import TYPE_CHECKING, Tuple
 
-from screenpy import Actor
-from screenpy.pacing import the_narrator
-from screenpy.protocols import Performable
+from screenpy import Performable, the_narrator
+
+if TYPE_CHECKING:
+    from screenpy import Actor
 
 
 class TryTo(Performable):

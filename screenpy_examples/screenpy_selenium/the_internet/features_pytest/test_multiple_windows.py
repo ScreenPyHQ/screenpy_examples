@@ -10,11 +10,7 @@ from screenpy.resolutions import ContainsTheText, ReadsExactly
 from screenpy_selenium.actions import Click, Open, SwitchToTab
 from screenpy_selenium.questions import BrowserURL, Text
 
-from screenpy_examples.screenpy_selenium.the_internet.user_interface.multiple_windows import (
-    CLICK_HERE_LINK,
-    HEADER_MESSAGE,
-    URL,
-)
+from ..user_interface.multiple_windows import CLICK_HERE_LINK, HEADER_MESSAGE, URL
 
 
 class TestTabs:

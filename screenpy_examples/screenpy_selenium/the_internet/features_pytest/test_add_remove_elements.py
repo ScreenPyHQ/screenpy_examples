@@ -11,11 +11,7 @@ from screenpy_selenium.actions import Click, Open, Wait
 from screenpy_selenium.questions import Attribute, Element, Number
 from screenpy_selenium.resolutions import IsVisible
 
-from screenpy_examples.screenpy_selenium.the_internet.user_interface.add_remove_elements import (
-    ADD_BUTTON,
-    ADDED_ELEMENTS,
-    URL,
-)
+from ..user_interface.add_remove_elements import ADD_BUTTON, ADDED_ELEMENTS, URL
 
 
 class TestAddRemoveElements:
@@ -42,12 +38,8 @@ class TestAddRemoveElements:
         number_of_times = random.choice(range(2, 10))
 
         marcel.will(Open.their_browser_on(URL))
-        marcel.will(
-            *(Click.on_the(ADD_BUTTON) for each_time in range(number_of_times))
-        )
-        marcel.shall(
-            See.the(Number.of(ADDED_ELEMENTS), IsEqualTo(number_of_times))
-        )
+        marcel.will(*(Click.on_the(ADD_BUTTON) for each_time in range(number_of_times)))
+        marcel.shall(See.the(Number.of(ADDED_ELEMENTS), IsEqualTo(number_of_times)))
 
     @act("Perform")
     @scene("Click")

@@ -1,22 +1,16 @@
 from __future__ import annotations
 
-import pytest
+from typing import TYPE_CHECKING
 
-from screenpy import Actor
-from screenpy.actions import Quietly
 from screenpy_examples.screenpy.quietly_logging.actions import (
-    PerformA,
-    PerformB,
-    PerformChatty,
-    PerformChattyFail,
     DoFail,
-    DoFailCounter,
     PerformFirst,
-    PerformPass,
-    DoPassAfterAWhile,
     PerformSecond,
     TryTo,
 )
+
+if TYPE_CHECKING:
+    from screenpy import Actor
 
 
 def test_first_action_pass(marcel: Actor) -> None:
@@ -60,7 +54,7 @@ def test_first_and_second_action_fail(marcel: Actor) -> None:
                     => <False>
     ***ERROR***
 
-    AssertionError: 
+    AssertionError:
     Expected: <False>
          but: was <True>
     """

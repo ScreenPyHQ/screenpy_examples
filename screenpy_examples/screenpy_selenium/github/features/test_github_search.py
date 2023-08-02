@@ -3,33 +3,34 @@ An example of a test module that follows the typical pytest test
 structure. These tests show off how to use custom tasks and Questions,
 though they are a little bit contrived.
 """
+from __future__ import annotations
 
 from typing import Generator
 
 import pytest
 from allure_commons.types import AttachmentType
-
-from screenpy import Actor, given, then, when
-from screenpy.actions import See
-from screenpy.pacing import act, scene
-from screenpy.resolutions import (
+from screenpy import (
+    Actor,
     ContainsTheText,
     ContainTheText,
     DoesNot,
     IsEqualTo,
     ReadsExactly,
+    See,
+    act,
+    given,
+    scene,
+    then,
+    when,
 )
 from screenpy_selenium.abilities import BrowseTheWeb
 from screenpy_selenium.actions import Open, SaveScreenshot
 
-from screenpy_examples.screenpy_selenium.github.questions.number_of_search_results import (
-    NumberOfSearchResults,
-)
-from screenpy_examples.screenpy_selenium.github.questions.search_results_message import (
-    SearchResultsMessage,
-)
 from screenpy_examples.screenpy_selenium.github.tasks.search_github import SearchGitHub
 from screenpy_examples.screenpy_selenium.github.ui.github_home_page import URL
+
+from ..questions.number_of_search_results import NumberOfSearchResults
+from ..questions.search_results_message import SearchResultsMessage
 
 
 @pytest.fixture(scope="function", name="Perry")
@@ -52,7 +53,7 @@ def test_search_for_screenpy(Perry: Actor) -> None:
     given(Perry).was_able_to(Open.their_browser_on(URL))
     when(Perry).attempts_to(SearchGitHub.for_text("ScreenPyHQ/screenpy_examples"))
     then(Perry).should(
-        See.the(SearchResultsMessage(), DoesNot(ContainTheText("couldn’t"))),
+        See.the(SearchResultsMessage(), DoesNot(ContainTheText("couldn`t"))),
         See.the(SearchResultsMessage(), ReadsExactly("1 repository result")),
         See.the(NumberOfSearchResults(), IsEqualTo(1)),
     )
@@ -67,7 +68,7 @@ def test_search_for_nonexistent_repo(Perry: Actor) -> None:
     given(Perry).was_able_to(Open.their_browser_on(URL))
     when(Perry).attempts_to(SearchGitHub.for_text(nonexistant_repository))
     then(Perry).should(
-        See.the(SearchResultsMessage(), ContainsTheText("We couldn’t find any")),
+        See.the(SearchResultsMessage(), ContainsTheText("We couldn`t find any")),
         See.the(SearchResultsMessage(), ContainsTheText(nonexistant_repository)),
         See.the(NumberOfSearchResults(), IsEqualTo(0)),
     )

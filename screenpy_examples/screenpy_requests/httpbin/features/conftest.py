@@ -1,15 +1,13 @@
 """
 Fixtures for API testing.
 """
+from __future__ import annotations
 
 from typing import Generator
 
 import pytest
+from screenpy import AnActor, StdOutAdapter, StdOutManager, the_narrator
 from screenpy_adapter_allure import AllureAdapter
-
-from screenpy import AnActor
-from screenpy.narration.adapters.stdout_adapter import StdOutAdapter, StdOutManager
-from screenpy.pacing import the_narrator
 from screenpy_requests.abilities import MakeAPIRequests
 
 from screenpy_examples.screenpy_logger import create_logger

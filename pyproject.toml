@@ -86,16 +86,16 @@ select = [
     "C4",  # flake8-comprehensions
     "TCH",  # type checking
     "RUF",  # ruff specific
-    "UP",  # python upgrade
+#    "UP",  # python upgrade
     "A",  # built-ins
-    "B",  # bugbear
+#    "B",  # bugbear
     #    "ARG",  # unused arguments
     #    "PT",  # Pytest style
     #    "RET", # flake8 return
     #    "SIM", # flake8 simplify
     #    "TD",  #TODOs
     #    "FBT",  # boolean trap
-    "ANN",  # annotations
+#    "ANN",  # annotations
 ]
 ignore = [
     #    "PT003",  # pytest fixture scope implied
@@ -141,10 +141,9 @@ target-version = "py311"
 
 [tool.ruff.per-file-ignores]
 "__init__.py" = ["F401"]
-"tests/ui/admin/budget_configure/modal*.py" = ["F401"]
-"tests/ui/admin/organization_configure/modal*.py" = ["F401"]
-"setup/dbutil.py" = ["E722"] # bare except
-"tests/question/new_expected_conditions.py" = ["ANN"] # this is a copy of the original 
+#"screenpy_examples/screenpy/readthedocs/resolutions/is_palpable.py" = ["E501"]
+#"screenpy_examples/screenpy_selenium/github/features/test_github_search.py" = ["E501"]
+"screenpy_examples/screenpy_selenium/the_internet/features_pytest/setup_selenium.py" = ["A003"]
 
 [tool.ruff.isort]
 combine-as-imports = true
@@ -163,3 +162,20 @@ ignore-overlong-task-comments = true
 # ignore returns types for functions that implicity or explicitly only return None
 suppress-none-returning = true
 allow-star-arg-any = true
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+# 'extend-exclude' excludes files or directories in addition to the defaults
+extend-exclude = '''
+# A regex preceded with ^/ will apply only to files and directories
+# in the root of the project.
+(
+    \.idea
+    | \.git
+    | \.mypy_cache
+    | \.tox
+)
+
+'''

@@ -1,25 +1,31 @@
-import pytest
+from __future__ import annotations
 
-from screenpy import Actor
+from typing import TYPE_CHECKING
+
 from screenpy.actions import Eventually, Quietly
 from screenpy.resolutions import IsEqual
 
 from screenpy_examples.screenpy.quietly_logging.actions import (
+    DoFail,
+    DoFailCounter,
+    DoPassAfterAWhile,
     PerformA,
     PerformB,
     PerformChatty,
     PerformChattyFail,
-    DoFail,
-    DoFailCounter,
     PerformPass,
-    DoPassAfterAWhile,
     See,
 )
 from screenpy_examples.screenpy.quietly_logging.questions import (
     SimpleQuestion,
     SimpleQuestionException,
 )
-from screenpy_examples.screenpy.quietly_logging.resolutions import IsEqualButRaisesException
+from screenpy_examples.screenpy.quietly_logging.resolutions import (
+    IsEqualButRaisesException,
+)
+
+if TYPE_CHECKING:
+    from screenpy import Actor
 
 
 def test_eventually_succeeds(marcel: Actor) -> None:
@@ -33,6 +39,7 @@ def test_eventually_fails(marcel: Actor) -> None:
 ## TODO: remove this comment after pr is merged
 ## all of the exmaples below are using the refactor-resolutions branch
 ## https://github.com/ScreenPyHQ/screenpy/pull/57
+
 
 def test_passes_without_quietly(marcel: Actor) -> None:
     """

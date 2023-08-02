@@ -6,20 +6,14 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Callable, Tuple
 
-from screenpy import Actor
-from screenpy.actions import See
-from screenpy.pacing import act, scene
-from screenpy.resolutions import ReadsExactly
+from screenpy import ReadsExactly, See, act, scene
 from screenpy_selenium.actions import Enter, Open, Wait
 from screenpy_selenium.questions import Text
 
-from screenpy_examples.screenpy_selenium.the_internet.user_interface.key_presses import (
-    ENTRY_INPUT,
-    RESULT_TEXT,
-    URL,
-)
+from ..user_interface.key_presses import ENTRY_INPUT, RESULT_TEXT, URL
 
 if TYPE_CHECKING:
+    from screenpy import Actor
     from selenium.webdriver.remote.webdriver import WebDriver
 
 
@@ -69,4 +63,3 @@ class TestKeyPresses:
         marcel.shall(
             See.the(Text.of_the(RESULT_TEXT), ReadsExactly(f"You entered: {test_text}"))
         )
-

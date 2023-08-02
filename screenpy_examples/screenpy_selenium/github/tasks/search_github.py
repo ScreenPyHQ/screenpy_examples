@@ -1,18 +1,21 @@
 """
 A slightly more interesting task to search GitHub for a string.
 """
+from __future__ import annotations
 
+from typing import TYPE_CHECKING
 
+from screenpy import beat
+from screenpy_selenium import Enter, Wait
 from selenium.webdriver.common.keys import Keys
-
-from screenpy import Actor
-from screenpy.pacing import beat
-from screenpy_selenium.actions import Enter, Wait
 
 from screenpy_examples.screenpy_selenium.github.ui.github_header_bar import SEARCH_INPUT
 from screenpy_examples.screenpy_selenium.github.ui.github_search_results_page import (
     RESULTS_MESSAGE,
 )
+
+if TYPE_CHECKING:
+    from screenpy import Actor
 
 
 class SearchGitHub:
