@@ -46,6 +46,7 @@ pylint = {version = "*", optional = true}
 coverage = {version = "*", optional = true}
 ruff = {version = "*", optional = true}
 setuptools = "*"
+types-requests = {version = "^2.31.0.2", optional = true}
 
 [tool.poetry.extras]
 dev = [
@@ -58,6 +59,7 @@ dev = [
     "flake8",
     "coverage",
     "ruff",
+    "types-requests",
 ]
 
 

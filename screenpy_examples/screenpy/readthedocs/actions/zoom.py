@@ -10,9 +10,9 @@ from screenpy.pacing import beat
 from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
 
 if TYPE_CHECKING:
-    from screenpy import Actor
+    from unittest import mock
 
-    from screenpy_examples.screenpy.readthedocs import cam_py
+    from screenpy import Actor
 
 
 class Zoom:
@@ -26,6 +26,7 @@ class Zoom:
 
         the_actor.attempts_to(Zoom.in_().on("Norman Bates"))
     """
+    camera: mock.MagicMock | None
 
     @staticmethod
     def out() -> "Zoom":
@@ -37,7 +38,7 @@ class Zoom:
         """Zoom in!"""
         return Zoom(1, "in")
 
-    def on_camera(self, camera: cam_py.Camera) -> "Zoom":
+    def on_camera(self, camera: mock.MagicMock) -> "Zoom":
         """Zoom in on a specific camera (camera)."""
         self.camera = camera
         return self

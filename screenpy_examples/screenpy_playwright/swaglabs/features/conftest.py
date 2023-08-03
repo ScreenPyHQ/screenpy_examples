@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any, Generator
+
 import pytest
 from screenpy import AnActor, StdOutAdapter, StdOutManager
 from screenpy.pacing import the_narrator
@@ -11,7 +13,7 @@ the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger()))]
 
 
 @pytest.fixture(scope="function")
-def Swalter() -> AnActor:
+def Swalter() -> Generator[AnActor, Any, None]:
     """Swalter tests Swaglabs."""
     the_actor = AnActor.named("Swalter").who_can(
         BrowseTheWebSynchronously.using_firefox()

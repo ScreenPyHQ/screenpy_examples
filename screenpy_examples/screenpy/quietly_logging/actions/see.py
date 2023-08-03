@@ -84,7 +84,7 @@ class See:
 
     question: T_Q
     question_to_log: str
-    resolution: BaseResolution
+    resolution: Union[BaseResolution, Resolvable]
     resolution_to_log: str
 
     @classmethod

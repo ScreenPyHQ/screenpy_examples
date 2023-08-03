@@ -20,6 +20,9 @@ class Dolly:
         the_actor.attempts_to(Dolly().forward().right())
     """
 
+    def __init__(self) -> None:
+        self.vector: tuple[int, int] = (0, 0)
+
     def forward(self) -> "Dolly":
         """Dolly forward!"""
         self.vector = (self.vector[0], self.vector[1] + 1)
@@ -69,5 +72,4 @@ class Dolly:
 
         camera.dolly(*self.vector)
 
-    def __init__(self) -> None:
-        self.vector = (0, 0)
+

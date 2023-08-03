@@ -10,7 +10,7 @@ from screenpy import Actor, beat
 from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
 
 if TYPE_CHECKING:
-    from screenpy_examples.screenpy.readthedocs import cam_py
+    from unittest import mock
 
 
 class JumpToCamera:
@@ -27,6 +27,6 @@ class JumpToCamera:
         campy_session = the_actor.ability_to(ControlCameras).campy_session
         campy_session.set_active_camera(self.camera)
 
-    def __init__(self, camera: cam_py.Camera) -> None:
+    def __init__(self, camera: mock.MagicMock) -> None:
         self.camera = camera
         self.character = camera.character

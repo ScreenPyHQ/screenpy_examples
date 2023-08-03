@@ -11,6 +11,8 @@ from screenpy_examples.screenpy.readthedocs import cam_py
 from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
 
 if TYPE_CHECKING:
+    from unittest import mock
+
     from screenpy import Actor
 
 
@@ -28,8 +30,9 @@ class StartRecording:
         camera2 = Camera("Character2")
         the_actor.attempts_to(StartRecording.on(camera1).and_(camera2))
     """
+    cameras: list[mock.MagicMock]
 
-    def on(self, camera: cam_py.Camera) -> "StartRecording":
+    def on(self, camera: mock.MagicMock) -> "StartRecording":
         """Record on an already-created camera."""
         self.cameras.append(camera)
         return self
