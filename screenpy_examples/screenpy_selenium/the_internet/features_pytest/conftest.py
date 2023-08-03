@@ -46,8 +46,31 @@ def selenium(request: "SubRequest") -> Generator["WebDriver", None, None]:
     log_perf = False
     log_console = False
     log_driver = False
-    log_path = "./logs"
-    driver_version = "auto"
+    log_dir = "./logs"
+    # driver_version = "auto"
+    driver_version = "114.0.5735.90"
+    driver_dir = "./driver"
+    driver_path = None
+    binary = None
+
+    if not binary:
+        binary = Selenium.auto_determine_binary(browser)
+        aside(f"Using binary in native install: {binary}")
+    else:
+        aside(f"Using binary from config: {binary}")
+
+    if driver_path:
+        aside(f"Using driver from config: {driver_path}")
+        # if the path doesn't exist.. let selenium raise the exception?
+    elif driver_path := Selenium.webdriver_native_install_path(browser):
+        aside(f"Using driver found in native install: {driver_path}")
+        # selenium doesn't technically need a path, it'll find the native installs
+        # but it doesn't hurt to be specific
+    else:
+        driver_path = Selenium.install_driver(
+            browser, driver_dir, driver_version, binary
+        )
+        aside(f"Using driver installed by pyderman: {driver_path}")
 
     driver = Selenium.create_driver(
         browser=browser,
@@ -55,8 +78,9 @@ def selenium(request: "SubRequest") -> Generator["WebDriver", None, None]:
         enable_log_performance=log_perf,
         enable_log_console=log_console,
         enable_log_driver=log_driver,
-        log_path=log_path,
-        version=driver_version,
+        log_dir=log_dir,
+        binary=binary,
+        driver_path=driver_path,
     )
     driver.set_window_size(1280, 960)
     driver.set_window_position(0, 0)

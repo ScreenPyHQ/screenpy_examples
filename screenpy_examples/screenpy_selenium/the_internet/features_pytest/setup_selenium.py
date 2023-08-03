@@ -1,43 +1,108 @@
 from __future__ import annotations
 
 import errno
+import logging
 import os as os
 import platform
-from typing import TYPE_CHECKING, Any, Dict, List, Mapping, Optional, Tuple, Union
+import shutil
+from typing import TYPE_CHECKING
 
 import pyderman as pydm
 import requests
 from selenium import webdriver  # noqa: E402
-from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.common.exceptions import NoSuchWindowException, WebDriverException
+from selenium.webdriver.chrome.service import (
+    Service as ChromeService,
+)
+from selenium.webdriver.edge.service import (
+    Service as EdgeService,
+)
+from selenium.webdriver.firefox.service import (
+    Service as FirefoxService,
+)
 from semantic_version import Version  # type: ignore
 
-from screenpy_examples.screenpy_logger import create_logger
-
 if TYPE_CHECKING:
+    from collections.abc import Mapping
+
     from selenium.webdriver.common.options import ArgOptions
 
 __all__ = ["Selenium"]
 
-typeWebDriver = Union[
-    webdriver.Firefox,
-    webdriver.Chrome,
-    webdriver.Edge,
-]
+typeWebDriver = webdriver.Firefox | webdriver.Chrome | webdriver.Edge
+
+
+CHROME_DEFAULT_DRIVER_PATH = "chromedriver"
+EDGE_DEFAULT_DRIVER_PATH = "msedgedriver"
+FF_DEFAULT_DRIVER_PATH = "geckodriver"
+
+
+def create_logger(name: str) -> logging.Logger:
+    log = logging.getLogger(name)
+    log.setLevel(logging.DEBUG)
+    log.propagate = False
+    return log
 
 
 logger = create_logger("sel")
 
+
+def _log_method(msg: str | None = None) -> None:
+    # if msg is None:
+    #     msg = get_methodcall(1)
+    # logger.info(msg)
+    return
+
+
 EDGE = "edge"
 CHROME = "chrome"
+CHROMIUM = "chromium"
 FIREFOX = "firefox"
 
+CHROME_PATHS = {
+    "Darwin": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "Windows": r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+    "Linux": "/usr/bin/google-chrome",
+}
 
+CHROMIUM_PATHS = {
+    "Darwin": "/Applications/Chromium.app/Contents/MacOS/Chromium",
+    # "Windows": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "Linux": "/usr/bin/chromium",
+}
+
+EDGE_PATHS = {
+    "Darwin": "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
+    # "Windows": (
+    #     "C:\\Windows\\SystemApps\\Edge\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\\"
+    #     "MicrosoftEdge.exe"
+    # ),
+    "Windows": r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+    "Linux": "/usr/bin/microsoft-edge",
+}
+
+FIREFOX_PATHS = {
+    "Darwin": "/Applications/Firefox.app/Contents/MacOS/firefox",
+    "Windows": r"C:\Program Files\Mozilla Firefox\firefox.exe",
+    "Linux": "/usr/bin/firefox",
+}
+
+DEFAULT_WEBDRIVER_PATHS: dict[str, str] = {
+    EDGE: EDGE_DEFAULT_DRIVER_PATH,
+    CHROME: CHROME_DEFAULT_DRIVER_PATH,
+    CHROMIUM: CHROME_DEFAULT_DRIVER_PATH,
+    FIREFOX: FF_DEFAULT_DRIVER_PATH,
+}
+
+
+# geckodriver is reported to only work with selenium 3.11 or higher
+# https://firefox-source-docs.mozilla.org/testing/geckodriver/geckodriver/Support.html
+# safari does not work with selenium 3.10 or 3.11 -- use 3.9 or 3.14?
+# safari doesn't seem to like the frame navigation currently implemented in base
 ################################################################################
 ################################################################################
 class Selenium:
-    DIMENSIONS: Mapping[str, Tuple[int, int]] = {
+    DIMENSIONS: Mapping[str, tuple[int, int]] = {
         # 4:3
         "1024": (1024, 768),
         "1280": (1280, 960),
@@ -52,16 +117,17 @@ class Selenium:
     }
 
     def __init__(
-        self,
-        browser: str = CHROME,
-        baseurl: str = "",
-        timeout: int = 15,
-        headless: bool = False,
-        enable_log_performance=False,
-        enable_log_console=False,
-        enable_log_driver=False,
-        log_path: str = "./logs",
-        driver_version="auto",
+            self,
+            browser: str = CHROME,
+            baseurl: str = "",
+            timeout: int = 15,
+            headless: bool = False,
+            window_size: str = "720",
+            enable_log_performance: bool = False,
+            enable_log_console: bool = False,
+            enable_log_driver: bool = False,
+            log_path: str = "./logs",
+            driver_version: str = "auto",
     ) -> None:
         """
         driver_version: the options are 'latest', 'auto', or a specific version
@@ -81,11 +147,19 @@ class Selenium:
             log_path,
             driver_version,
         )
+
+        # driver must be setup before the following
+        self.set_window_size(window_size)
+        # self.driver.set_window_position(0, 0)
+        # self.driver.maximize_window()
+        self.set_main_window_handle()
         return
 
     ############################################################################
     @staticmethod
-    def make_screenshot_path(output_dir="./logs", screenshots="screenshots"):
+    def make_screenshot_path(
+            output_dir: str = "./logs", screenshots: str = "screenshots"
+    ) -> str:
         """
         Set the output directory for where screenshots should go.
         """
@@ -105,49 +179,150 @@ class Selenium:
 
     ############################################################################
     @staticmethod
-    def log_options(options: ArgOptions):
+    def log_options(options: ArgOptions) -> None:
         opts = "\n".join(options.arguments)
         logger.debug(f"{opts}")
 
     @staticmethod
+    def webdriver_native_install_path(browser: str) -> str | None:
+        browser = browser.lower()
+        driver_path = DEFAULT_WEBDRIVER_PATHS.get(browser)
+        return shutil.which(f"{driver_path}")
+
+    @staticmethod
+    def install_driver(
+            browser: str,
+            drv_dir: str = "./driver",
+            version: str | None = None,
+            binary: str | None = None,
+    ) -> str:
+        browser = browser.lower()
+        drvdir = os.path.abspath(os.path.expanduser(drv_dir))
+        version = version or "latest"
+        binary = binary or Selenium.auto_determine_binary(browser)
+
+        if browser == FIREFOX:
+            if version == "auto":
+                version = "latest"
+                # version = Selenium.get_firefox_version(binary)
+                # TODO: need a "best" version function
+
+            logger.debug(f"installing geckodriver {drvdir}")
+            driver_path = pydm.install(
+                browser=pydm.firefox,
+                file_directory=drvdir,
+                verbose=True,
+                chmod=True,
+                overwrite=False,
+                return_info=False,
+                version=version,
+            )
+            if not os.path.exists(f"{driver_path}"):
+                raise FileNotFoundError("Geckodriver was not downloaded.")
+
+        elif browser in CHROME:
+            if version == "auto":
+                browser_version = Selenium.get_chrome_version(binary)
+                version = Selenium.get_chromedriver_best_version(browser_version)
+
+            logger.debug(f"installing chromedriver {drvdir}")
+            driver_path = pydm.install(
+                browser=pydm.chrome,
+                file_directory=drvdir,
+                verbose=True,
+                chmod=True,
+                overwrite=False,
+                return_info=False,
+                version=version,
+            )
+            if not os.path.exists(f"{driver_path}"):
+                raise FileNotFoundError("Chromedriver was not downloaded.")
+
+        elif browser == CHROMIUM:
+            # chromedriver releases almost never conform to the versions
+            # so it's unknown how well the 'closest' verison will work.
+            # if version == "auto":
+            #     browser_version = Selenium.get_chromium_version(binary)
+            #     version = Selenium.get_chromedriver_best_version(browser_version)
+
+            driver_path = None
+            raise Exception("We can't really determine the version of chromium")
+
+        elif browser == EDGE:
+            if version == "auto":
+                browser_version = Selenium.get_edge_version(binary)
+                version = Selenium.get_edgedriver_best_version(browser_version)
+
+            logger.debug(f"installing msedgedriver {drvdir}")
+            driver_path = pydm.install(
+                browser=pydm.edge,
+                file_directory=drvdir,
+                verbose=True,
+                chmod=True,
+                overwrite=False,
+                return_info=False,
+                version=version,
+            )
+            if not os.path.exists(f"{driver_path}"):
+                raise FileNotFoundError("Edgedriver was not downloaded.")
+        else:
+            raise ValueError(f"Unknown browser: {browser}")
+
+        return driver_path  # type: ignore[return-value]
+
+    @staticmethod
     def create_driver(
-        browser: str,
-        headless: bool = False,
-        enable_log_performance=False,
-        enable_log_console=False,
-        enable_log_driver=False,
-        log_path: str = "./logs",
-        version="auto",
-    ):
-        """
-        driver_version: the options are 'latest', 'auto', or a specific version
-        """
-        if browser.lower() == FIREFOX:
+            browser: str,
+            headless: bool = False,
+            enable_log_performance: bool = False,
+            enable_log_console: bool = False,
+            enable_log_driver: bool = False,
+            log_dir: str = "./logs",
+            binary: str | None = None,
+            driver_path: str | None = None,
+    ) -> typeWebDriver:
+        browser = browser.lower()
+        driver: typeWebDriver
+        if browser == FIREFOX:
             driver = Selenium.firefox(
                 headless=headless,
                 enable_log_driver=enable_log_driver,
-                log_path=log_path,
-                version=version,
+                log_dir=log_dir,
+                binary=binary,
+                driver_path=driver_path,
             )
 
-        elif browser.lower() == CHROME:
+        elif browser == CHROME:
             driver = Selenium.chrome(
-                headless,
-                enable_log_performance,
-                enable_log_console,
-                enable_log_driver,
-                log_path,
-                version,
+                headless=headless,
+                enable_log_performance=enable_log_performance,
+                enable_log_console=enable_log_console,
+                enable_log_driver=enable_log_driver,
+                log_dir=log_dir,
+                binary=binary,
+                driver_path=driver_path,
             )
 
-        elif browser.lower() == EDGE:
+        elif browser == CHROMIUM:
+            driver = Selenium.chromium(
+                headless=headless,
+                enable_log_performance=enable_log_performance,
+                enable_log_console=enable_log_console,
+                enable_log_driver=enable_log_driver,
+                log_dir=log_dir,
+                binary=binary,
+                driver_path=driver_path,
+            )
+
+        elif browser == EDGE:
             driver = Selenium.edge(
-                headless,
-                enable_log_performance,
-                enable_log_console,
-                enable_log_driver,
-                log_path,
-                version,
+                headless=headless,
+                enable_log_performance=enable_log_performance,
+                enable_log_console=enable_log_console,
+                enable_log_driver=enable_log_driver,
+                log_dir=log_dir,
+                binary=binary,
+                driver_path=driver_path,
             )
 
         else:
@@ -158,11 +333,56 @@ class Selenium:
         return driver
 
     @staticmethod
-    def firefox_version():
-        return
+    def auto_determine_binary(browser: str) -> str | None:
+        osname = platform.system()
+        # arch = platform.processor()
+
+        if browser == FIREFOX:
+            binary = FIREFOX_PATHS[osname]
+
+        elif browser == CHROME:
+            binary = CHROME_PATHS[osname]
+
+        elif browser == CHROMIUM:
+            binary = CHROMIUM_PATHS[osname]
+
+        elif browser == EDGE:
+            binary = EDGE_PATHS[osname]
+        else:
+            raise ValueError(f"Unknown browser: {browser}")
+
+        if os.path.exists(binary):
+            return binary
+        return None
 
     @staticmethod
-    def firefox_options():
+    def get_firefox_version(binary: str | None = None) -> str:
+        logger.debug("get_firefox_version")
+        osname = platform.system()
+
+        if not binary:
+            binary = CHROME_PATHS.get(osname, None)
+            if not binary:
+                raise OSError(f"Unknown OS '{osname}'")
+
+        if osname == "Windows":
+            cmd = rf"""wmic datafile where "name={binary!r}" get version /value"""
+            verstr = os.popen(cmd).read().strip().removeprefix("Version=")
+        else:
+            verstr = (
+                os.popen(f"'{binary}' --version")
+                .read()
+                .removeprefix("Google Chrome ")
+                .strip()
+            )
+        return verstr
+
+    # @staticmethod
+    # def get_geckodriver_best_version(verstr):
+    #     return
+
+    @staticmethod
+    def firefox_options() -> webdriver.FirefoxOptions:
         options = webdriver.FirefoxOptions()
         options.set_capability("unhandledPromptBehavior", "ignore")
 
@@ -175,75 +395,43 @@ class Selenium:
 
     @staticmethod
     def firefox(
-        headless=False,
-        enable_log_performance=False,
-        enable_log_console=False,
-        enable_log_driver=False,
-        log_path: str = "./logs",
-        version="auto",
-        options: webdriver.FirefoxOptions = None,
-    ):
+            headless: bool = False,
+            # enable_log_performance=False,
+            # enable_log_console=False,
+            enable_log_driver: bool = False,
+            log_dir: str = "./logs",
+            driver_path: str | None = None,
+            binary: str | None = None,
+            options: webdriver.FirefoxOptions | None = None,
+    ) -> webdriver.Firefox:
         """
         version: the options are 'auto', or a specific version
         this method doesn't auto match geckodriver to firefox version
         """
-        if not options:
-            options = Selenium.firefox_options()
+        _log_method()
+
+        options = options or Selenium.firefox_options()
+        if binary:
+            options.binary_location = binary
+
         if headless:
             options.add_argument("--headless")
 
-        if version == "auto":
-            version = "latest"
-
-        # 20.1 has a bug where headless doesn't work
-        # 19 has a bug where it closes a frame?
-
-        # setting log_path to /dev/null will prevent geckodriver from creating it's
-        # own log file.
-        # if we enable root logging, we can capture the logging from geckodriver
-        # ourselves.
+        # setting log_dir to /dev/null will prevent geckodriver from creating it's own
+        # log file. if we enable root logging, we can capture the logging from
+        # geckodriver, ourselves.
         logpath = "/dev/null"
-        options.log.level = "fatal"
+        options.log.level = "fatal"  # type: ignore[assignment]
         if enable_log_driver:
-            log_path = os.path.abspath(os.path.expanduser(log_path))
-            logpath = os.path.join(log_path, "geckodriver.log")
+            lp = os.path.abspath(os.path.expanduser(log_dir))
+            logpath = os.path.join(lp, "geckodriver.log")
 
-        drvdir = os.path.abspath(os.path.join(log_path, os.pardir, "driver/"))
-        driverpath = pydm.install(
-            browser=pydm.firefox,
-            file_directory=drvdir,
-            verbose=True,
-            chmod=True,
-            overwrite=False,
-            return_info=False,
-            version=version,
-        )
-        if not os.path.exists(driverpath):
-            raise FileNotFoundError("Geckodriver was not downloaded.")
+        if driver_path:
+            service = FirefoxService(executable_path=driver_path, log_path=logpath)
+        else:
+            service = FirefoxService(log_path=logpath)
 
-        try:
-            driver = webdriver.Firefox(
-                service=FirefoxService(executable_path=driverpath, log_path=logpath),
-                options=options,
-            )
-        except OSError:
-            logger.critical(
-                "OSError: it's possible this ran with the wrong binary already in the "
-                "folder.  Attempting to overwrite."
-            )
-            driverpath = pydm.install(
-                browser=pydm.firefox,
-                file_directory=drvdir,
-                verbose=True,
-                chmod=True,
-                overwrite=True,
-                return_info=False,
-                version=version,
-            )
-            driver = webdriver.Firefox(
-                service=FirefoxService(executable_path=driverpath, log_path=logpath),
-                options=options,
-            )
+        driver = webdriver.Firefox(service=service, options=options)
 
         driverversion = driver.capabilities["moz:geckodriverVersion"]
         browserversion = driver.capabilities["browserVersion"]
@@ -251,27 +439,31 @@ class Selenium:
         logger.info(f"Driver info: geckodriver={driverversion}")
         logger.info(f"Browser info:    firefox={browserversion}")
         Selenium.log_options(options)
-
-        if driverversion == "0.20.1":
-            if headless:
-                raise Exception("Headless mode doesn't work in Gecko Driver 0.20.1")
         return driver
 
     @staticmethod
-    def get_chrome_version():
-        install_paths = {
-            "Darwin": (
-                "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome"
-            ),
-            "Windows": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            "Linux": "/usr/bin/google-chrome",
-        }
+    def get_chrome_version(binary: str | None = None) -> str:
+        logger.debug("get_chrome_version")
         osname = platform.system()
-        path = install_paths.get(osname, None)
-        if not path:
+        binary = binary or CHROME_PATHS.get(osname, None)
+        if not binary:
             raise OSError(f"Unknown OS '{osname}'")
 
-        verstr = os.popen(f"{path} --version").read().strip("Google Chrome ").strip()
+        if osname == "Windows":
+            # work around for https://bugs.chromium.org/p/chromium/issues/detail?id=158372
+            cmd = rf"""wmic datafile where "name={binary!r}" get version /value"""
+            verstr = os.popen(cmd).read().strip().removeprefix("Version=")
+        else:
+            verstr = (
+                os.popen(f"'{binary}' --version")
+                .read()
+                .removeprefix("Google Chrome ")
+                .strip()
+            )
+        return verstr
+
+    @staticmethod
+    def get_chromedriver_best_version(verstr: str) -> str:
         version = Version.coerce(verstr)
 
         major_version = version.major
@@ -282,10 +474,12 @@ class Selenium:
         if resp.status_code != 200:
             raise Exception(f"Unexpected status {resp.status_code} {resp.reason} {url}")
 
+        logger.debug(f"Chrome version {resp.content.decode('utf-8')}")
         return resp.content.decode("utf-8")
 
     @staticmethod
     def chrome_options() -> webdriver.ChromeOptions:
+        logger.debug("Setting up chrome options")
         # The list of options set below mostly came from this StackOverflow post
         # https://stackoverflow.com/q/48450594/2532408
         opts = (
@@ -316,20 +510,30 @@ class Selenium:
 
     @staticmethod
     def chrome(
-        headless=False,
-        enable_log_performance=False,
-        enable_log_console=False,
-        enable_log_driver=False,
-        log_path: str = "./logs",
-        version="auto",
-        options: webdriver.ChromeOptions = None,
-    ):
+            headless: bool = False,
+            enable_log_performance: bool = False,
+            enable_log_console: bool = False,
+            enable_log_driver: bool = False,
+            log_dir: str = "./logs",
+            driver_path: str | None = None,
+            binary: str | None = None,
+            options: webdriver.ChromeOptions | None = None,
+    ) -> webdriver.Chrome:
         """
         version: the options are 'latest', 'auto', or a specific version
         """
-        if not options:
-            options = Selenium.chrome_options()
+        _log_method()
+
+        options = options or Selenium.chrome_options()
+        if binary:
+            options.binary_location = binary
+
         options.headless = headless
+        # This is the new way to run headless. Unfortunately it crashes a lot.
+        # https://crbug.com/chromedriver/4353
+        # https://crbug.com/chromedriver/4406
+        # if headless:
+        #     options.add_argument("--headless=new")
 
         logging_prefs = {"browser": "OFF", "performance": "OFF", "driver": "OFF"}
         # https://www.skptricks.com/2018/08/timed-out-receiving-message-from-renderer-selenium.html
@@ -351,69 +555,32 @@ class Selenium:
                 },
             )
 
-        args: Optional[List] = None
+        args: list | None = None
         logpath = None
         if enable_log_driver:
-            log_path = os.path.abspath(os.path.expanduser(log_path))
-            logpath = os.path.join(log_path, "chromedriver.log")
+            lp = os.path.abspath(os.path.expanduser(log_dir))
+            logpath = os.path.join(lp, "chromedriver.log")
             args = [
                 # "--verbose"
             ]
             logging_prefs["driver"] = "ALL"
 
-        options.set_capability("loggingPrefs", logging_prefs)
-        if version == "auto":
-            try:
-                version = Selenium.get_chrome_version()
-            except Exception:
-                logger.critical(
-                    "Exception raised while trying to auto determine chromedriver "
-                    "version.  Using 'latest' instead."
-                )
-                # logger.print_stack_trace()
-                version = "latest"
+        options.set_capability("goog:loggingPrefs", logging_prefs)
 
-        # create the driver/ folder next to the logs directory
-        drvdir = os.path.abspath(os.path.join(log_path, os.pardir, "driver/"))
-        driverpath = pydm.install(
-            browser=pydm.chrome,
-            file_directory=drvdir,
-            verbose=True,
-            chmod=True,
-            overwrite=False,
-            return_info=False,
-            version=version,
-        )
-        if not os.path.exists(driverpath):
-            raise FileNotFoundError("Chromedriver was not downloaded.")
+        logger.debug("initializing chromedriver")
+        if driver_path:
+            service = ChromeService(
+                executable_path=driver_path,
+                service_args=args,
+                log_path=logpath,
+            )
+        else:
+            service = ChromeService(
+                service_args=args,
+                log_path=logpath,
+            )
 
-        try:
-            driver = webdriver.Chrome(
-                service=ChromeService(
-                    executable_path=driverpath, service_args=args, log_path=logpath
-                ),
-                options=options,
-            )
-        except OSError:
-            logger.critical(
-                "OSError: it's possible this ran with the wrong binary already in the "
-                "folder.  Attempting to overwrite."
-            )
-            driverpath = pydm.install(
-                browser=pydm.chrome,
-                file_directory=drvdir,
-                verbose=True,
-                chmod=True,
-                overwrite=True,
-                return_info=False,
-                version=version,
-            )
-            driver = webdriver.Chrome(
-                service=ChromeService(
-                    executable_path=driverpath, service_args=args, log_path=logpath
-                ),
-                options=options,
-            )
+        driver = webdriver.Chrome(service=service, options=options)
 
         driver_vers = driver.capabilities["chrome"]["chromedriverVersion"].split(" ")[0]
         browser_vers = driver.capabilities["browserVersion"]
@@ -458,29 +625,153 @@ class Selenium:
         return driver
 
     @staticmethod
-    def get_edge_version():
+    def get_chromium_version(binary: str | None = None) -> str:
+        logger.debug("get_chromium_version")
+        osname = platform.system()
+        binary = binary or CHROMIUM_PATHS.get(osname, None)
+        if not binary:
+            raise OSError(f"Unknown OS '{osname}'")
+
+        if osname == "Windows":
+            # work around for https://bugs.chromium.org/p/chromium/issues/detail?id=158372
+            cmd = rf"""wmic datafile where "name={binary!r}" get version /value"""
+            verstr = os.popen(cmd).read().strip().removeprefix("Version=")
+        else:
+            verstr = (
+                os.popen(f"'{binary}' --version")
+                .read()
+                .removeprefix("Chromium ")
+                .strip()
+            )
+        return verstr
+
+    @staticmethod
+    def chromium(
+            headless: bool = False,
+            enable_log_performance: bool = False,
+            enable_log_console: bool = False,
+            enable_log_driver: bool = False,
+            log_dir: str = "./logs",
+            driver_path: str | None = None,
+            binary: str | None = None,
+            options: webdriver.ChromeOptions | None = None,
+    ) -> webdriver.Chrome:
+        """
+        this method assumes you're on linux and the driver is already installed
+        """
+        _log_method()
+
+        options = options or Selenium.chrome_options()
+        if binary:
+            options.binary_location = binary
+        else:
+            raise FileNotFoundError("Must provide Chromium path.")
+
+        options.headless = headless
+
+        # This is the new way to run headless in the future. Unfortunately it crashes a lot.  # noqa: E501
+        # https://crbug.com/chromedriver/4353
+        # https://crbug.com/chromedriver/4406
+        # if headless:
+        #     options.add_argument("--headless=new")
+
+        logging_prefs = {"browser": "OFF", "performance": "OFF", "driver": "OFF"}
+        # https://www.skptricks.com/2018/08/timed-out-receiving-message-from-renderer-selenium.html
+        # options.set_capability('pageLoadStrategy', 'none')
+        # options.set_capability('pageLoadStrategy', 'normal')
+
+        if enable_log_console:
+            logging_prefs["browser"] = "ALL"
+
+        # by default performance is disabled.
+        if enable_log_performance:
+            logging_prefs["performance"] = "ALL"
+            options.set_capability(
+                "perfLoggingPrefs",
+                {
+                    "enableNetwork": True,
+                    "enablePage": False,
+                    "enableTimeline": False,
+                },
+            )
+
+        args: list | None = None
+        logpath = None
+        if enable_log_driver:
+            lp = os.path.abspath(os.path.expanduser(log_dir))
+            logpath = os.path.join(lp, "chromedriver.log")
+            args = [
+                # "--verbose"
+            ]
+            logging_prefs["driver"] = "ALL"
+
+        options.set_capability("loggingPrefs", logging_prefs)
+
+        logger.debug("initializing chromedriver")
+        if driver_path:
+            service = ChromeService(
+                executable_path=driver_path,
+                service_args=args,
+                log_path=logpath,
+            )
+        else:
+            service = ChromeService(
+                service_args=args,
+                log_path=logpath,
+            )
+
+        driver = webdriver.Chrome(service=service, options=options)
+
+        driver_vers = driver.capabilities["chrome"]["chromedriverVersion"].split(" ")[0]
+        browser_vers = driver.capabilities["browserVersion"]
+
+        drvmsg = f"Driver info: chromedriver={driver_vers}"
+        bsrmsg = f"Browser info:    chromium={browser_vers}"
+
+        dver = Version.coerce(driver_vers)
+        bver = Version.coerce(browser_vers)
+        if dver.major != bver.major:
+            logger.critical(drvmsg)
+            logger.critical(bsrmsg)
+            logger.critical("chromedriver and browser versions not in sync!!")
+            logger.warning(
+                "https://chromedriver.chromium.org/downloads for the latest version"
+            )
+        else:
+            logger.info(drvmsg)
+            logger.info(bsrmsg)
+        Selenium.log_options(options)
+
+        return driver
+
+    @staticmethod
+    def get_edge_version(binary: str | None = None) -> str:
+        logger.debug("get_edge_version")
+        osname = platform.system()
+        if not binary:
+            binary = EDGE_PATHS.get(osname, None)
+            if not binary:
+                raise OSError(f"Unknown OS '{osname}'")
+
+        if osname == "Windows":
+            # work around for https://bugs.chromium.org/p/chromium/issues/detail?id=158372
+            cmd = rf"""wmic datafile where "name={binary!r}" get version /value"""
+            verstr = os.popen(cmd).read().strip().removeprefix("Version=")
+        else:
+            cmd = f"'{binary}' --version"
+            verstr = os.popen(cmd).read().removeprefix("Microsoft Edge ").strip()
+        return verstr
+
+    @staticmethod
+    def get_edgedriver_best_version(verstr: str) -> str:
         os_to_azure = {
             "Darwin": "MACOS",
             "Windows": "WINDOWS",
             "Linux": "LINUX",
         }
-
-        install_paths = {
-            "Darwin": (
-                "/Applications/Microsoft\\ Edge.app/Contents/MacOS/Microsoft\\ Edge"
-            ),
-            "Windows": (
-                "C:\\Windows\\SystemApps\\Edge\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe\\MicrosoftEdge.exe"
-            ),
-            "Linux": "/usr/bin/microsoft-edge",
-        }
         osname = platform.system()
-        path = install_paths.get(osname, None)
         _os_name = os_to_azure.get(osname, None)
-        if not path:
-            raise OSError(f"Unknown OS '{osname}'")
 
-        verstr = os.popen(f"{path} --version").read().strip("Microsoft Edge ").strip()
         version = Version.coerce(verstr)
 
         major_version = version.major
@@ -522,102 +813,72 @@ class Selenium:
 
     @staticmethod
     def edge(
-        headless=False,
-        enable_log_performance=False,
-        enable_log_console=False,
-        enable_log_driver=False,
-        log_path: str = "./logs",
-        version="auto",
-        options: webdriver.EdgeOptions = None,
-    ):
+            headless: bool = False,
+            enable_log_performance: bool = False,
+            enable_log_console: bool = False,
+            enable_log_driver: bool = False,
+            log_dir: str = "./logs",
+            driver_path: str | None = None,
+            binary: str | None = None,
+            options: webdriver.EdgeOptions | None = None,
+    ) -> webdriver.Edge:
+        _log_method()
+
         # edge
         # https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/
 
-        if not options:
-            options = Selenium.edge_options()
+        options = options or Selenium.edge_options()
+        if binary:
+            options.binary_location = binary
+
         options.headless = headless
 
-        caps: Dict[str, Any] = DesiredCapabilities.EDGE
-        caps["loggingPrefs"] = {"browser": "OFF", "performance": "OFF", "driver": "OFF"}
-        # https://www.skptricks.com/2018/08/timed-out-receiving-message-from-renderer-selenium.html
-        # caps['pageLoadStrategy'] = 'none'
-        # caps['pageLoadStrategy'] = 'normal'
+        logging_prefs = {"browser": "OFF", "performance": "OFF", "driver": "OFF"}
+        # https://www.skptricks.com/2018/08/timed-out-receiving-message-from-renderer
+        # -selenium.html
+        # options.set_capability('pageLoadStrategy', 'none')
+        # options.set_capability('pageLoadStrategy', 'normal')
 
         if enable_log_console:
-            caps["loggingPrefs"]["browser"] = "ALL"
+            logging_prefs["browser"] = "ALL"
 
         # by default performance is disabled.
         if enable_log_performance:
-            caps["loggingPrefs"]["performance"] = "ALL"
-            caps["perfLoggingPrefs"] = {
-                "enableNetwork": True,
-                "enablePage": False,
-                "enableTimeline": False,
-            }
+            logging_prefs["performance"] = "ALL"
+            options.set_capability(
+                "perfLoggingPrefs",
+                {
+                    "enableNetwork": True,
+                    "enablePage": False,
+                    "enableTimeline": False,
+                },
+            )
 
-        args: Optional[List] = None
+        args: list | None = None
         logpath = None
         if enable_log_driver:
-            log_path = os.path.abspath(os.path.expanduser(log_path))
-            logpath = os.path.join(log_path, "msedgedriver.log")
+            lp = os.path.abspath(os.path.expanduser(log_dir))
+            logpath = os.path.join(lp, "chromedriver.log")
             args = [
                 # "--verbose"
             ]
-            caps["loggingPrefs"]["driver"] = "ALL"
-        if version == "auto":
-            try:
-                version = Selenium.get_edge_version()
-            except Exception:
-                logger.critical(
-                    "Exception raised while trying to auto determine edgedriver "
-                    "version.  Using 'latest' instead."
-                )
-                # logger.print_stack_trace()
-                version = "latest"
+            logging_prefs["driver"] = "ALL"
 
-        drvdir = os.path.abspath(os.path.join(log_path, os.pardir, "driver/"))
-        driverpath = pydm.install(
-            browser=pydm.edge,
-            file_directory=drvdir,
-            verbose=True,
-            chmod=True,
-            overwrite=False,
-            return_info=False,
-            version=version,
-        )
-        if not os.path.exists(driverpath):
-            raise FileNotFoundError("Edgedriver was not downloaded.")
+        options.set_capability("loggingPrefs", logging_prefs)
 
-        try:
-            driver = webdriver.Edge(
-                executable_path=driverpath,
-                options=options,
-                service_log_path=logpath,
+        logger.debug("initializing edgedriver")
+        if driver_path:
+            service = EdgeService(
+                executable_path=driver_path,
                 service_args=args,
-                capabilities=caps,
+                log_path=logpath,
             )
-        except OSError:
-            logger.critical(
-                "OSError: it's possible this ran with the wrong binary already in the "
-                "folder.  Attempting to overwrite."
-            )
-            # try again.
-            driverpath = pydm.install(
-                browser=pydm.edge,
-                file_directory=drvdir,
-                verbose=True,
-                chmod=True,
-                overwrite=True,
-                return_info=False,
-                version=version,
-            )
-            driver = webdriver.Edge(
-                executable_path=driverpath,
-                options=options,
-                service_log_path=logpath,
+        else:
+            service = EdgeService(
                 service_args=args,
-                capabilities=caps,
+                log_path=logpath,
             )
+        driver = webdriver.Edge(service=service, options=options)
 
         driver_vers = driver.capabilities["msedge"]["msedgedriverVersion"].split(" ")[0]
         browser_vers = driver.capabilities["browserVersion"]
@@ -642,7 +903,7 @@ class Selenium:
         return driver
 
     ############################################################################
-    def set_window_size(self, size: str = "720"):
+    def set_window_size(self, size: str = "720") -> None:
         if size == "max":
             self.driver.maximize_window()
             return
@@ -652,22 +913,39 @@ class Selenium:
         )
         self.driver.set_window_size(width, height)
 
+    def set_main_window_handle(self, window: str | None = None) -> str:
+        if not window:
+            # does the main_window_handle exist and point to an available window?
+            if not self.main_window_handle:
+                try:
+                    window = self.driver.current_window_handle
+                except NoSuchWindowException:
+                    try:
+                        window = self.driver.window_handles[0]
+                    except WebDriverException:
+                        # Have we closed all the windows?
+                        raise
+        if window:
+            self.main_window_handle = window
+        return self.main_window_handle
+
     ############################################################################
-    def close(self):
+    def close(self) -> None:
         if self.driver is not None:
             self.driver.close()
 
     ############################################################################
-    def quit(self):
+    def quit(self) -> None:  # noqa: A003
         if self.driver is not None:
             self.driver.quit()
 
     ############################################################################
     # def __del__(self):
+    #     print("__del__ called in acuselenium")
     #     self.quit()
 
     ############################################################################
-    def __repr__(self):
+    def __repr__(self) -> str:
         browser = self.driver.name if self.driver is not None else "NoBrowserSet"
         url = self.baseurl
         return f"{self.__class__.__name__} :: {browser} -> {url}"
