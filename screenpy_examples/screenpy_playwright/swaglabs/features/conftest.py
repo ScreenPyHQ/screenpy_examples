@@ -3,8 +3,7 @@ from __future__ import annotations
 from typing import Any, Generator
 
 import pytest
-from screenpy import AnActor, StdOutAdapter, StdOutManager
-from screenpy.pacing import the_narrator
+from screenpy import AnActor, StdOutAdapter, StdOutManager, the_narrator
 from screenpy_playwright.abilities import BrowseTheWebSynchronously
 
 from screenpy_examples.screenpy_logger import create_logger

@@ -3,9 +3,7 @@ Test our ability to influence the audience's mood with skillful camerawork.
 """
 from __future__ import annotations
 
-from screenpy import AnActor, given, then, when
-from screenpy.actions import See
-from screenpy.resolutions import Equals
+from screenpy import AnActor, Equals, See, given, then, when
 
 from screenpy_examples.screenpy.readthedocs.actions import (
     Dolly,

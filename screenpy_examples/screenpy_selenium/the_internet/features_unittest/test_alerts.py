@@ -7,15 +7,16 @@ from __future__ import annotations
 import unittest
 
 from screenpy import AnActor, ReadsExactly, See, act, given, scene, then, when
-from screenpy_selenium.abilities import BrowseTheWeb
-from screenpy_selenium.actions import (
+from screenpy_selenium import (
     AcceptAlert,
+    BrowseTheWeb,
     Click,
     DismissAlert,
     Open,
     RespondToPrompt,
+    Text,
+    TextOfTheAlert,
 )
-from screenpy_selenium.questions import Text, TextOfTheAlert
 
 from ..user_interface.javascript_alerts import (
     JS_ALERT_BUTTON,

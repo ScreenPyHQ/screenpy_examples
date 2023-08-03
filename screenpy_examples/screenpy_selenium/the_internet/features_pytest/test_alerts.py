@@ -4,19 +4,19 @@ test structure. These tests exercise the alert checking Actions.
 """
 from __future__ import annotations
 
-from screenpy.actions import See
-from screenpy.pacing import act, scene
-from screenpy.resolutions import ReadsExactly
-from screenpy_selenium.actions import (
+from screenpy import ReadsExactly, See, act, scene
+from screenpy_selenium import (
     AcceptAlert,
     Click,
     DismissAlert,
     Open,
     RespondToPrompt,
+    Text,
+    TextOfTheAlert,
 )
-from screenpy_selenium.questions import Text, TextOfTheAlert
 
-from ..actions import TryTo
+from screenpy_examples.screenpy_selenium.the_internet.actions import TryTo
+
 from ..user_interface.javascript_alerts import (
     JS_ALERT_BUTTON,
     JS_CONFIRM_BUTTON,

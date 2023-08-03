@@ -8,8 +8,7 @@ from typing import Generator
 
 import _pytest.logging
 import pytest
-from screenpy import AnActor, StdOutAdapter, StdOutManager
-from screenpy.pacing import the_narrator
+from screenpy import AnActor, StdOutAdapter, StdOutManager, the_narrator
 
 from screenpy_examples.screenpy.readthedocs.abilities import (
     ControlCameras,

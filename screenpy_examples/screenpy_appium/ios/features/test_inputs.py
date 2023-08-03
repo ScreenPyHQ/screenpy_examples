@@ -3,9 +3,7 @@ Test interacting with inputs on iOS.
 """
 from __future__ import annotations
 
-from screenpy import Actor, then, when
-from screenpy.actions import Confirm, See
-from screenpy.resolutions import ReadsExactly
+from screenpy import Actor, Confirm, ReadsExactly, See, then, when
 from screenpy_appium.actions import Clear, Enter, Tap
 from screenpy_appium.questions import Text
 

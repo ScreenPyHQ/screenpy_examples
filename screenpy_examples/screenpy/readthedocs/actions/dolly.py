@@ -71,5 +71,3 @@ class Dolly:
         camera = campy_session.get_active_camera()
 
         camera.dolly(*self.vector)
-
-

@@ -22,17 +22,27 @@ black-check:
 black:
 	black .
 
+isort-check:
+	isort . --check
+
+isort:
+	isort .
+
 ruff:
 	ruff .
+
+ruff-fix:
+	ruff . --fix --show-fixes
 
 mypy:
 	mypy .
 
-lint: ruff mypy
+lint: isort-check ruff mypy
 
-test:
-	python3 -m pytest ./selenium_axe_python/tests/
+.PHONY: black-check black isort-check isort ruff ruff-fix mypy lint 
 
-pre-check-in: black-check lint test
+pre-check-in: black-check lint
 
-.PHONY: black-check black ruff mypy lint test pre-check-in
+pre-check-in-fix: black isort ruff-fix mypy
+
+.PHONY: pre-check-in pre-check-in-fix

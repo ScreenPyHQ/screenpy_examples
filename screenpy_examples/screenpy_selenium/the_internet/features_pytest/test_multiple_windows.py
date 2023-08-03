@@ -6,11 +6,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from screenpy.actions import Pause, See
-from screenpy.pacing import act, scene
-from screenpy.resolutions import ContainsTheText, ReadsExactly
-from screenpy_selenium.actions import Click, Open, SwitchToTab
-from screenpy_selenium.questions import BrowserURL, Text
+from screenpy import ContainsTheText, Pause, ReadsExactly, See, act, scene
+from screenpy_selenium import BrowserURL, Click, Open, SwitchToTab, Text
 
 from ..user_interface.multiple_windows import CLICK_HERE_LINK, HEADER_MESSAGE, URL
 

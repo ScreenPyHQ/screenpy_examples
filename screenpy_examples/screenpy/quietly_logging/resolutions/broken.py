@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from screenpy.pacing import beat
+from screenpy import beat
 
 if TYPE_CHECKING:
     from hamcrest.core.base_matcher import Matcher

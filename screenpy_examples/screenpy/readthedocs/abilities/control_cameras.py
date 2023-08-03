@@ -1,4 +1,3 @@
-
 from typing import TYPE_CHECKING
 
 from screenpy_examples.screenpy.readthedocs import cam_py

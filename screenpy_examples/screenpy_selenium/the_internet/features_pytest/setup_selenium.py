@@ -11,15 +11,9 @@ import pyderman as pydm
 import requests
 from selenium import webdriver  # noqa: E402
 from selenium.common.exceptions import NoSuchWindowException, WebDriverException
-from selenium.webdriver.chrome.service import (
-    Service as ChromeService,
-)
-from selenium.webdriver.edge.service import (
-    Service as EdgeService,
-)
-from selenium.webdriver.firefox.service import (
-    Service as FirefoxService,
-)
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.edge.service import Service as EdgeService
+from selenium.webdriver.firefox.service import Service as FirefoxService
 from semantic_version import Version  # type: ignore
 
 if TYPE_CHECKING:
@@ -117,17 +111,17 @@ class Selenium:
     }
 
     def __init__(
-            self,
-            browser: str = CHROME,
-            baseurl: str = "",
-            timeout: int = 15,
-            headless: bool = False,
-            window_size: str = "720",
-            enable_log_performance: bool = False,
-            enable_log_console: bool = False,
-            enable_log_driver: bool = False,
-            log_path: str = "./logs",
-            driver_version: str = "auto",
+        self,
+        browser: str = CHROME,
+        baseurl: str = "",
+        timeout: int = 15,
+        headless: bool = False,
+        window_size: str = "720",
+        enable_log_performance: bool = False,
+        enable_log_console: bool = False,
+        enable_log_driver: bool = False,
+        log_path: str = "./logs",
+        driver_version: str = "auto",
     ) -> None:
         """
         driver_version: the options are 'latest', 'auto', or a specific version
@@ -158,7 +152,7 @@ class Selenium:
     ############################################################################
     @staticmethod
     def make_screenshot_path(
-            output_dir: str = "./logs", screenshots: str = "screenshots"
+        output_dir: str = "./logs", screenshots: str = "screenshots"
     ) -> str:
         """
         Set the output directory for where screenshots should go.
@@ -191,10 +185,10 @@ class Selenium:
 
     @staticmethod
     def install_driver(
-            browser: str,
-            drv_dir: str = "./driver",
-            version: str | None = None,
-            binary: str | None = None,
+        browser: str,
+        drv_dir: str = "./driver",
+        version: str | None = None,
+        binary: str | None = None,
     ) -> str:
         browser = browser.lower()
         drvdir = os.path.abspath(os.path.expanduser(drv_dir))
@@ -272,14 +266,14 @@ class Selenium:
 
     @staticmethod
     def create_driver(
-            browser: str,
-            headless: bool = False,
-            enable_log_performance: bool = False,
-            enable_log_console: bool = False,
-            enable_log_driver: bool = False,
-            log_dir: str = "./logs",
-            binary: str | None = None,
-            driver_path: str | None = None,
+        browser: str,
+        headless: bool = False,
+        enable_log_performance: bool = False,
+        enable_log_console: bool = False,
+        enable_log_driver: bool = False,
+        log_dir: str = "./logs",
+        binary: str | None = None,
+        driver_path: str | None = None,
     ) -> typeWebDriver:
         browser = browser.lower()
         driver: typeWebDriver
@@ -395,14 +389,14 @@ class Selenium:
 
     @staticmethod
     def firefox(
-            headless: bool = False,
-            # enable_log_performance=False,
-            # enable_log_console=False,
-            enable_log_driver: bool = False,
-            log_dir: str = "./logs",
-            driver_path: str | None = None,
-            binary: str | None = None,
-            options: webdriver.FirefoxOptions | None = None,
+        headless: bool = False,
+        # enable_log_performance=False,
+        # enable_log_console=False,
+        enable_log_driver: bool = False,
+        log_dir: str = "./logs",
+        driver_path: str | None = None,
+        binary: str | None = None,
+        options: webdriver.FirefoxOptions | None = None,
     ) -> webdriver.Firefox:
         """
         version: the options are 'auto', or a specific version
@@ -510,14 +504,14 @@ class Selenium:
 
     @staticmethod
     def chrome(
-            headless: bool = False,
-            enable_log_performance: bool = False,
-            enable_log_console: bool = False,
-            enable_log_driver: bool = False,
-            log_dir: str = "./logs",
-            driver_path: str | None = None,
-            binary: str | None = None,
-            options: webdriver.ChromeOptions | None = None,
+        headless: bool = False,
+        enable_log_performance: bool = False,
+        enable_log_console: bool = False,
+        enable_log_driver: bool = False,
+        log_dir: str = "./logs",
+        driver_path: str | None = None,
+        binary: str | None = None,
+        options: webdriver.ChromeOptions | None = None,
     ) -> webdriver.Chrome:
         """
         version: the options are 'latest', 'auto', or a specific version
@@ -647,14 +641,14 @@ class Selenium:
 
     @staticmethod
     def chromium(
-            headless: bool = False,
-            enable_log_performance: bool = False,
-            enable_log_console: bool = False,
-            enable_log_driver: bool = False,
-            log_dir: str = "./logs",
-            driver_path: str | None = None,
-            binary: str | None = None,
-            options: webdriver.ChromeOptions | None = None,
+        headless: bool = False,
+        enable_log_performance: bool = False,
+        enable_log_console: bool = False,
+        enable_log_driver: bool = False,
+        log_dir: str = "./logs",
+        driver_path: str | None = None,
+        binary: str | None = None,
+        options: webdriver.ChromeOptions | None = None,
     ) -> webdriver.Chrome:
         """
         this method assumes you're on linux and the driver is already installed
@@ -813,14 +807,14 @@ class Selenium:
 
     @staticmethod
     def edge(
-            headless: bool = False,
-            enable_log_performance: bool = False,
-            enable_log_console: bool = False,
-            enable_log_driver: bool = False,
-            log_dir: str = "./logs",
-            driver_path: str | None = None,
-            binary: str | None = None,
-            options: webdriver.EdgeOptions | None = None,
+        headless: bool = False,
+        enable_log_performance: bool = False,
+        enable_log_console: bool = False,
+        enable_log_driver: bool = False,
+        log_dir: str = "./logs",
+        driver_path: str | None = None,
+        binary: str | None = None,
+        options: webdriver.EdgeOptions | None = None,
     ) -> webdriver.Edge:
         _log_method()
 

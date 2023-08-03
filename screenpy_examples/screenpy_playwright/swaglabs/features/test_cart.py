@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-from screenpy import given, then, when
-from screenpy.actions import SeeAllOf
-from screenpy.resolutions import ContainsTheText, IsEqualTo
+from screenpy import ContainsTheText, IsEqualTo, SeeAllOf, given, then, when
 from screenpy_playwright.actions import Click
 from screenpy_playwright.questions import Number, Text
 

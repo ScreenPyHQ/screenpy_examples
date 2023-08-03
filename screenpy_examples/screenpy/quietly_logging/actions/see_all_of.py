@@ -5,11 +5,7 @@ all of which are expected to be true.
 
 from typing import Tuple, Type, TypeVar, Union
 
-from screenpy import Actor
-from screenpy.exceptions import UnableToAct
-from screenpy.pacing import beat
-from screenpy.protocols import Answerable
-from screenpy.resolutions import BaseResolution
+from screenpy import Actor, Answerable, BaseResolution, UnableToAct, beat
 
 from .see import See
 

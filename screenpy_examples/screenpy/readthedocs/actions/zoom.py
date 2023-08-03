@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from screenpy.pacing import beat
+from screenpy import beat
 
 from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
 
@@ -26,6 +26,7 @@ class Zoom:
 
         the_actor.attempts_to(Zoom.in_().on("Norman Bates"))
     """
+
     camera: mock.MagicMock | None
 
     @staticmethod

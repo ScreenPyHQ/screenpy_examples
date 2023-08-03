@@ -3,9 +3,7 @@ API test example that tests various auths.
 """
 from __future__ import annotations
 
-from screenpy import Actor, given, then, when
-from screenpy.actions import See
-from screenpy.resolutions import IsEqualTo
+from screenpy import Actor, IsEqualTo, See, given, then, when
 from screenpy_requests.actions import AddHeader, SendGETRequest
 from screenpy_requests.questions import StatusCodeOfTheLastResponse
 

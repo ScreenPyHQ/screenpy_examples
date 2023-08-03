@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from screenpy import Actor, beat
-from screenpy.protocols import Answerable
+from screenpy import Actor, Answerable, beat
 
 
 class SimpleQuestion(Answerable):

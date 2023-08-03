@@ -5,11 +5,8 @@ structure. These tests exercise the Actions to perform drag and drop.
 from __future__ import annotations
 
 import pytest
-from screenpy.actions import Eventually, See
-from screenpy.pacing import act, scene
-from screenpy.resolutions import ReadsExactly
-from screenpy_selenium.actions import Chain, HoldDown, MoveMouse, Open, Release, Wait
-from screenpy_selenium.questions import Text
+from screenpy import Eventually, ReadsExactly, See, act, scene
+from screenpy_selenium import Chain, HoldDown, MoveMouse, Open, Release, Text, Wait
 
 from ..user_interface.drag_and_drop import (
     FIRST_DRAGGABLE_BOX,

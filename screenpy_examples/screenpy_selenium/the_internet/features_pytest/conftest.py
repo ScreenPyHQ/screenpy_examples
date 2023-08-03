@@ -3,10 +3,17 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Generator, Type
 
 import pytest
-from screenpy import Actor, StdOutAdapter, StdOutManager, aside, settings
-from screenpy.pacing import the_narrator
-from screenpy.protocols import Forgettable, Performable
-from screenpy_selenium.abilities import BrowseTheWeb
+from screenpy import (
+    Actor,
+    Forgettable,
+    Performable,
+    StdOutAdapter,
+    StdOutManager,
+    aside,
+    settings,
+    the_narrator,
+)
+from screenpy_selenium import BrowseTheWeb
 
 import screenpy_examples.screenpy_selenium.the_internet.actions.tryto
 from screenpy_examples.screenpy_logger import create_logger

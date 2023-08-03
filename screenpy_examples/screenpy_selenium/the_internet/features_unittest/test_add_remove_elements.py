@@ -18,10 +18,16 @@ from screenpy import (
     then,
     when,
 )
-from screenpy_selenium.abilities import BrowseTheWeb
-from screenpy_selenium.actions import Click, Open, Wait
-from screenpy_selenium.questions import Attribute, Element, Number
-from screenpy_selenium.resolutions import IsVisible
+from screenpy_selenium import (
+    Attribute,
+    BrowseTheWeb,
+    Click,
+    Element,
+    IsVisible,
+    Number,
+    Open,
+    Wait,
+)
 from selenium.webdriver import Firefox
 
 from ..user_interface.add_remove_elements import ADD_BUTTON, ADDED_ELEMENTS, URL

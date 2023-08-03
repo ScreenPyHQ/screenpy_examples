@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from screenpy.resolutions import BaseResolution
+from screenpy import BaseResolution
 
 from .matchers.has_saturation_greater_than import is_palpable
 

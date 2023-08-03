@@ -3,9 +3,7 @@ API test example that tests cookies.
 """
 from __future__ import annotations
 
-from screenpy import Actor, then, when
-from screenpy.actions import SeeAllOf
-from screenpy.resolutions import ContainTheEntry, IsEqualTo
+from screenpy import Actor, ContainTheEntry, IsEqualTo, SeeAllOf, then, when
 from screenpy_requests.actions import SendGETRequest
 from screenpy_requests.questions import Cookies, StatusCodeOfTheLastResponse
 

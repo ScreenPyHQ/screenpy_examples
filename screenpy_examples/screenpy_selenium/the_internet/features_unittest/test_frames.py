@@ -6,13 +6,8 @@ from __future__ import annotations
 
 import unittest
 
-from screenpy import AnActor, given, then, when
-from screenpy.actions import See
-from screenpy.pacing import act, scene
-from screenpy.resolutions import ReadsExactly
-from screenpy_selenium.abilities import BrowseTheWeb
-from screenpy_selenium.actions import Open, SwitchTo
-from screenpy_selenium.questions import Text
+from screenpy import AnActor, ReadsExactly, See, act, given, scene, then, when
+from screenpy_selenium import BrowseTheWeb, Open, SwitchTo, Text
 
 from screenpy_examples.screenpy_selenium.the_internet.user_interface.iframe import (
     CONTENT_BOX,

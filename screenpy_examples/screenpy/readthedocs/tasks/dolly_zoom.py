@@ -5,8 +5,7 @@ https://en.wikipedia.org/wiki/Dolly_zoom
 
 from typing import Optional
 
-from screenpy import Actor
-from screenpy.pacing import beat
+from screenpy import Actor, beat
 
 from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
 from screenpy_examples.screenpy.readthedocs.actions import Dolly, Simultaneously, Zoom

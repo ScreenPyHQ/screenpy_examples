@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from screenpy.pacing import beat
+from screenpy import beat
 
 from screenpy_examples.screenpy.readthedocs import cam_py
 from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
@@ -30,6 +30,7 @@ class StartRecording:
         camera2 = Camera("Character2")
         the_actor.attempts_to(StartRecording.on(camera1).and_(camera2))
     """
+
     cameras: list[mock.MagicMock]
 
     def on(self, camera: mock.MagicMock) -> "StartRecording":

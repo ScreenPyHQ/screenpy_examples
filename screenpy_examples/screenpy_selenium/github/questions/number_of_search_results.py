@@ -6,8 +6,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from screenpy.pacing import beat
-from screenpy_selenium.questions import Number
+from screenpy import beat
+from screenpy_selenium import Number
 
 from screenpy_examples.screenpy_selenium.github.ui.github_search_results_page import (
     SEARCH_RESULTS,

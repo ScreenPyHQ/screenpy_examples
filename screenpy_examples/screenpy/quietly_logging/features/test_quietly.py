@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from screenpy.actions import Eventually, Quietly
-from screenpy.resolutions import IsEqual
+from screenpy import Eventually, IsEqual, Quietly
 
 from screenpy_examples.screenpy.quietly_logging.actions import (
     DoFail,
