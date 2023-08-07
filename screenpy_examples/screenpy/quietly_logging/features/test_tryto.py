@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from screenpy_examples.screenpy.quietly_logging.actions import (
-    DoFail,
+    PerformFail,
     PerformFirst,
     PerformSecond,
     TryTo,
@@ -36,7 +36,7 @@ def test_first_action_fail(marcel: Actor) -> None:
         Marcel tries to PerformPass
             Marcel sees if simpleQuestion is equal to True.
     """
-    marcel.will(TryTo(PerformFirst(DoFail())).otherwise(PerformSecond()))
+    marcel.will(TryTo(PerformFirst(PerformFail())).otherwise(PerformSecond()))
 
 
 def test_first_and_second_action_fail(marcel: Actor) -> None:
@@ -46,7 +46,7 @@ def test_first_and_second_action_fail(marcel: Actor) -> None:
         and perform second action which fails
 
     Marcel tries to PerformSecond
-        Marcel tries to DoFail
+        Marcel tries to PerformFail
             Marcel sees if simpleQuestion is equal to False.
                 Marcel examines SimpleQuestion
                     => True
@@ -58,4 +58,6 @@ def test_first_and_second_action_fail(marcel: Actor) -> None:
     Expected: <False>
          but: was <True>
     """
-    marcel.will(TryTo(PerformFirst(DoFail())).otherwise(PerformSecond(DoFail())))
+    marcel.will(
+        TryTo(PerformFirst(PerformFail())).otherwise(PerformSecond(PerformFail()))
+    )

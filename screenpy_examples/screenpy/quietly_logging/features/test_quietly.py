@@ -5,14 +5,14 @@ from typing import TYPE_CHECKING
 from screenpy import Eventually, IsEqual, Quietly
 
 from screenpy_examples.screenpy.quietly_logging.actions import (
-    DoFail,
-    DoFailCounter,
-    DoPassAfterAWhile,
     PerformA,
     PerformB,
     PerformChatty,
     PerformChattyFail,
+    PerformFail,
+    PerformFailCounter,
     PerformPass,
+    PerformPassAfterAWhile,
     See,
 )
 from screenpy_examples.screenpy.quietly_logging.questions import (
@@ -28,11 +28,11 @@ if TYPE_CHECKING:
 
 
 def test_eventually_succeeds(marcel: Actor) -> None:
-    marcel.will(Eventually(DoPassAfterAWhile()).for_(1).seconds())
+    marcel.will(Eventually(PerformPassAfterAWhile()).for_(1).seconds())
 
 
 def test_eventually_fails(marcel: Actor) -> None:
-    marcel.will(Eventually(DoFailCounter()).for_(1).seconds())
+    marcel.will(Eventually(PerformFailCounter()).for_(1).seconds())
 
 
 ## TODO: remove this comment after pr is merged
@@ -75,7 +75,7 @@ def test_fails_without_quietly(marcel) -> None:
     Marcel tries to PerformChattyFail
         Marcel tries to PerformA
             Marcel tries to PerformB
-                Marcel tries to DoFail
+                Marcel tries to PerformFail
                     Marcel sees if simpleQuestion is equal to False.
                         Marcel examines SimpleQuestion
                             => True
@@ -87,7 +87,7 @@ def test_fails_without_quietly(marcel) -> None:
     Expected: <False>
          but: was <True>
     """
-    marcel.will(PerformChattyFail(PerformA(PerformB(DoFail()))))
+    marcel.will(PerformChattyFail(PerformA(PerformB(PerformFail()))))
     marcel.will(PerformB(PerformPass()))
 
 
@@ -99,7 +99,7 @@ def test_fails_with_quietly(marcel) -> None:
     Marcel tries to PerformChattyFail
         Marcel tries to PerformA
             Marcel tries to PerformB
-                Marcel tries to DoFail
+                Marcel tries to PerformFail
                     Marcel sees if simpleQuestion is equal to False.
                         Marcel examines SimpleQuestion
                             => True
@@ -111,7 +111,7 @@ def test_fails_with_quietly(marcel) -> None:
     Expected: <False>
          but: was <True>
     """
-    marcel.will(PerformChattyFail(Quietly(PerformA(PerformB(DoFail())))))
+    marcel.will(PerformChattyFail(Quietly(PerformA(PerformB(PerformFail())))))
     marcel.will(PerformB(Quietly(PerformPass())))
 
 

@@ -1,13 +1,13 @@
-from .do_thing import (
-    DoFail,
-    DoFailCounter,
-    DoPassAfterAWhile,
+from .perform_thing import (
     PerformA,
     PerformB,
     PerformChatty,
     PerformChattyFail,
+    PerformFail,
+    PerformFailCounter,
     PerformFirst,
     PerformPass,
+    PerformPassAfterAWhile,
     PerformSecond,
 )
 from .see import See

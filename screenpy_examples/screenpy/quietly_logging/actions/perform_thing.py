@@ -11,31 +11,31 @@ if TYPE_CHECKING:
     from screenpy import Actor
 
 
-class DoPassAfterAWhile(Performable):
+class PerformPassAfterAWhile(Performable):
     LIMIT = 5
     COUNTER = 0
 
-    @beat("{} tries to DoPassAfterAWhile")
+    @beat("{} tries to PerformPassAfterAWhile")
     def perform_as(self, actor: Actor):
-        if DoPassAfterAWhile.COUNTER > DoPassAfterAWhile.LIMIT:
-            DoPassAfterAWhile.COUNTER = 0
+        if PerformPassAfterAWhile.COUNTER > PerformPassAfterAWhile.LIMIT:
+            PerformPassAfterAWhile.COUNTER = 0
             return
 
-        DoPassAfterAWhile.COUNTER += 1
-        raise AssertionError(f"This is going to Fail {DoPassAfterAWhile.COUNTER}")
+        PerformPassAfterAWhile.COUNTER += 1
+        raise AssertionError(f"This is going to Fail {PerformPassAfterAWhile.COUNTER}")
 
 
-class DoFailCounter(Performable):
+class PerformFailCounter(Performable):
     COUNTER = 0
 
-    @beat("{} tries to DoFailCounter")
+    @beat("{} tries to PerformFailCounter")
     def perform_as(self, actor: Actor):
-        DoFailCounter.COUNTER += 1
-        raise AssertionError(f"This is going to Fail {DoFailCounter.COUNTER}")
+        PerformFailCounter.COUNTER += 1
+        raise AssertionError(f"This is going to Fail {PerformFailCounter.COUNTER}")
 
 
-class DoFail(Performable):
-    @beat("{} tries to DoFail")
+class PerformFail(Performable):
+    @beat("{} tries to PerformFail")
     def perform_as(self, actor: Actor):
         actor.will(See(SimpleQuestion(), IsEqual(False)))
 
@@ -96,5 +96,5 @@ class PerformChattyFail(Performable):
     def perform_as(self, actor: Actor):
         actor.will(self.action)
 
-    def __init__(self, action: Performable = PerformA(PerformB(DoFail()))):
+    def __init__(self, action: Performable = PerformA(PerformB(PerformFail()))):
         self.action = action
