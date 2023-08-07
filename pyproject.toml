@@ -29,8 +29,7 @@ classifiers = [
 python = "^3.11"
 pytest = "*"
 screenpy = "*"
-screenpy-selenium = { git = "git@github.com:ScreenPyHQ/screenpy_selenium.git", branch = "trunk"}
-#screenpy-selenium = "*"
+screenpy-selenium = "*"
 screenpy-appium = "*"
 screenpy-playwright = "*"
 screenpy-requests = "*"
@@ -38,7 +37,6 @@ screenpy-adapter-allure = "^4.0.2"
 pyderman = "^3.3.2"
 semantic-version = "^2.10.0"
 
-#tox = {version = "*", optional = true}
 mypy = {version = "*", optional = true}
 black = {version = "*", optional = true}
 isort = {version = "*", optional = true}
@@ -53,7 +51,6 @@ types-requests = {version = "^2.31.0.2", optional = true}
 [tool.poetry.extras]
 dev = [
     "pre-commit",
-#    "tox",
     "pylint",
     "mypy",
     "black",
