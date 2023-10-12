@@ -59,7 +59,20 @@ dev = [
     "coverage",
     "ruff",
     "types-requests",
+    "screenpy-selenium",
+    "screenpy-appium",
+    "screenpy-playwright",
+    "screenpy-requests",
+    "screenpy-adapter-allure",
 ]
+
+#allure = ["screenpy-adapter-allure"] # dont have one yet
+appium = ["screenpy-appium"]
+playwright = ["screenpy-playwright"]
+pyotp = ["screenpy-pyotp"]
+requests = ["screenpy-requests"]
+selenium = ["screenpy-selenium"]
+
 
 
 [tool.isort]
