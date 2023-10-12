@@ -180,3 +180,19 @@ def test_fails_quiet_see(marcel: Actor):
             => <False>
     """
     marcel.will(Quietly(See(SimpleQuestion(), IsEqual(False))))
+
+
+def test_fails_quiet_question(marcel: Actor):
+    """
+    This is a little awkward because of the way it doesn't show ***ERROR***
+
+    Marcel sees if simpleQuestion is equal to False.
+        ... hoping it's equal to False.
+            => <False>
+        ***ERROR***
+
+    AssertionError:
+    Expected: <False>
+         but: was <True>
+    """
+    marcel.will(See(Quietly(SimpleQuestion()), IsEqual(False)))
