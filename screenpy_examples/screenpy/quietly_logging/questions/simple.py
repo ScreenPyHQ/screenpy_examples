@@ -5,10 +5,10 @@ from screenpy import Actor, Answerable, beat
 
 class SimpleQuestion(Answerable):
     @beat("{} examines SimpleQuestion")
-    def answered_by(self, actor: Actor):
+    def answered_by(self, actor: Actor) -> bool:
         return True
 
-    def describe(self):
+    def describe(self) -> str:
         return "SimpleQuestion"
 
 
