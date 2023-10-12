@@ -27,6 +27,7 @@ import screenpy.actor
 import screenpy.narration.narrator
 import screenpy.narration.stdout_adapter
 import screenpy.resolutions
+import webdriver_manager.core.logger
 
 __logger: Type[logging.Logger] = logging.getLoggerClass()
 
@@ -85,10 +86,12 @@ class ScreenpyLogger(__logger):  # type: ignore
         self.ignore_file(screenpy.actions.see)
         self.ignore_file(screenpy.actions.see_any_of)
         self.ignore_file(screenpy.actions.see_all_of)
+        self.ignore_file(screenpy.actions.either)
         self.ignore_file(screenpy.resolutions.base_resolution)
         self.ignore_file(hamcrest.core.base_matcher)
         self.ignore_file(hamcrest.core.assert_that)
         self.ignore_file(hamcrest.core.core.isnot)
+        self.ignore_file(webdriver_manager.core.logger)
         return
 
     @staticmethod

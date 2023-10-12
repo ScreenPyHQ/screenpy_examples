@@ -28,6 +28,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.11"
 pytest = "*"
+selenium = "4.12.0" # just until we figure out the new headless issues
 #screenpy = "*"
 screenpy = { git = "git@github.com:ScreenPyHQ/screenpy.git", branch = "trunk"}
 screenpy-selenium = "*"
@@ -35,8 +36,11 @@ screenpy-appium = "*"
 screenpy-playwright = "*"
 screenpy-requests = "*"
 screenpy-adapter-allure = "^4.0.2"
-pyderman = "^3.3.2"
+#webdriver-manager = "*"
+# master has a bugfix they haven't pushed to pypi yet
+webdriver-manager = { git = "git@github.com:SergeyPirogov/webdriver_manager.git", branch = "master"}
 semantic-version = "^2.10.0"
+setup_selenium = {git = "git@github.com:bandophahita/setup_selenium.git", branch = "main"}
 
 mypy = {version = "*", optional = true}
 black = {version = "*", optional = true}
