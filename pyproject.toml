@@ -28,7 +28,8 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.11"
 pytest = "*"
-screenpy = "*"
+#screenpy = "*"
+screenpy = { git = "git@github.com:ScreenPyHQ/screenpy.git", branch = "trunk"}
 screenpy-selenium = "*"
 screenpy-appium = "*"
 screenpy-playwright = "*"
