@@ -19,7 +19,7 @@ import os
 import sys
 import traceback
 from types import FrameType, FunctionType, TracebackType
-from typing import Callable, Type, cast, TYPE_CHECKING, TypeAlias, Mapping, Any
+from typing import TYPE_CHECKING, Any, Callable, Mapping, Type, TypeAlias, cast
 
 import hamcrest
 import hamcrest.core.base_matcher
@@ -30,7 +30,6 @@ import screenpy.narration.stdout_adapter
 import screenpy.resolutions
 
 import screenpy_examples.screenpy.silently_logging.actions.see
-
 
 if TYPE_CHECKING:
     T_exc: TypeAlias = (
