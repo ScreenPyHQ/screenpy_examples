@@ -19,9 +19,6 @@ from screenpy_examples.screenpy_logger import create_logger
 from screenpy_selenium import BrowseTheWeb
 
 if TYPE_CHECKING:
-    # from _pytest.config import Config
-    # from _pytest.config.argparsing import Parser
-    # from _pytest.fixtures import SubRequest
     from selenium.webdriver import Chrome, Edge, Firefox, Ie, Safari
     from selenium.webdriver.remote.webdriver import WebDriver
     from setup_selenium.selenium_module import T_DrvOpts

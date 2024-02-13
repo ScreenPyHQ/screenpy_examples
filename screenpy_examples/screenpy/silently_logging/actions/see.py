@@ -1,3 +1,4 @@
+# ruff: noqa: ERA001
 """
 Make an assertion using a Question and a Resolution.
 """
