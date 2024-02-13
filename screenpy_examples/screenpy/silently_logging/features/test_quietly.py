@@ -35,11 +35,6 @@ def test_eventually_fails(marcel: Actor) -> None:
     marcel.will(Eventually(PerformFailCounter()).for_(1).seconds())
 
 
-## TODO: remove this comment after pr is merged
-## all of the exmaples below are using the refactor-resolutions branch
-## https://github.com/ScreenPyHQ/screenpy/pull/57
-
-
 def test_passes_without_quietly(marcel: Actor) -> None:
     """
     Generates a normal log:
