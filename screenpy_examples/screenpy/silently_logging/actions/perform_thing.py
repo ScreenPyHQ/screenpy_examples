@@ -51,7 +51,9 @@ class PerformFirst(Performable):
     def perform_as(self, actor: Actor):
         actor.will(self.action)
 
-    def __init__(self, action: Performable = PerformPass()):
+    def __init__(self, action: Performable | None = None):
+        if action is None:
+            action = PerformPass()
         self.action = action
 
 
@@ -60,7 +62,9 @@ class PerformSecond(Performable):
     def perform_as(self, actor: Actor):
         actor.will(self.action)
 
-    def __init__(self, action: Performable = PerformPass()):
+    def __init__(self, action: Performable | None = None):
+        if action is None:
+            action = PerformPass()
         self.action = action
 
 
@@ -69,7 +73,9 @@ class PerformB(Performable):
     def perform_as(self, actor: Actor):
         actor.will(self.action)
 
-    def __init__(self, action: Performable = PerformPass()):
+    def __init__(self, action: Performable | None = None):
+        if action is None:
+            action = PerformPass()
         self.action = action
 
 
@@ -78,7 +84,9 @@ class PerformA(Performable):
     def perform_as(self, actor: Actor):
         actor.will(self.action)
 
-    def __init__(self, action: Performable = PerformB()):
+    def __init__(self, action: Performable | None = None):
+        if action is None:
+            action = PerformB()
         self.action = action
 
 
@@ -87,7 +95,9 @@ class PerformChatty(Performable):
     def perform_as(self, actor: Actor):
         actor.will(self.action)
 
-    def __init__(self, action: Performable = PerformA()):
+    def __init__(self, action: Performable | None = None):
+        if action is None:
+            action = PerformA()
         self.action = action
 
 
@@ -96,5 +106,7 @@ class PerformChattyFail(Performable):
     def perform_as(self, actor: Actor):
         actor.will(self.action)
 
-    def __init__(self, action: Performable = PerformA(PerformB(PerformFail()))):
+    def __init__(self, action: Performable | None = None):
+        if action is None:
+            action = PerformA(PerformB(PerformFail()))
         self.action = action
