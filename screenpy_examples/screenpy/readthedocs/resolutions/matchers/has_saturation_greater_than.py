@@ -22,13 +22,13 @@ class HasSaturationGreaterThan(BaseMatcher):
             f"the mood has a saturation level of at least {self.saturation_level}"
         )
 
-    def describe_mismatch(self, item: Any, mismatch_description: Description) -> None:
+    def describe_mismatch(self, _: Any, mismatch_description: Description) -> None:
         """Description used when a match fails."""
         mismatch_description.append_text(
             f"the saturation level was less than {self.saturation_level}"
         )
 
-    def describe_match(self, item: Any, match_description: Description) -> None:
+    def describe_match(self, _: Any, match_description: Description) -> None:
         """Description used when a negated match fails."""
         match_description.append_text(
             f"the saturation level was at least {self.saturation_level}"

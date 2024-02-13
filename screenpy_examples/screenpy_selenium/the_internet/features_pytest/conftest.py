@@ -21,7 +21,7 @@ from screenpy_selenium import BrowseTheWeb
 if TYPE_CHECKING:
     # from _pytest.config import Config
     # from _pytest.config.argparsing import Parser
-    from _pytest.fixtures import SubRequest
+    # from _pytest.fixtures import SubRequest
     from selenium.webdriver import Chrome, Edge, Firefox, Ie, Safari
     from selenium.webdriver.remote.webdriver import WebDriver
     from setup_selenium.selenium_module import T_DrvOpts
@@ -47,9 +47,7 @@ class RemoveAbilityWithouClosingSelenium(Performable):
 
 
 @pytest.fixture(scope="session", autouse=True)
-def selenium(
-    request: SubRequest,
-) -> Generator[WebDriver, None, None]:
+def selenium() -> Generator[WebDriver, None, None]:
     aside("Creating fixture Selenium Client FIXTURE")
 
     browser: Browser = Browser.CHROME

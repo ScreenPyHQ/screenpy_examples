@@ -16,7 +16,7 @@ class PerformPassAfterAWhile(Performable):
     COUNTER = 0
 
     @beat("{} tries to PerformPassAfterAWhile")
-    def perform_as(self, actor: Actor):
+    def perform_as(self, _: Actor):
         if PerformPassAfterAWhile.COUNTER > PerformPassAfterAWhile.LIMIT:
             PerformPassAfterAWhile.COUNTER = 0
             return
@@ -29,7 +29,7 @@ class PerformFailCounter(Performable):
     COUNTER = 0
 
     @beat("{} tries to PerformFailCounter")
-    def perform_as(self, actor: Actor):
+    def perform_as(self, _: Actor):
         PerformFailCounter.COUNTER += 1
         raise AssertionError(f"This is going to Fail {PerformFailCounter.COUNTER}")
 
