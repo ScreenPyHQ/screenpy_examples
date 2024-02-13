@@ -18,7 +18,8 @@ class IsEqualButRaisesException:
     @beat("... hoping it's equal to {expected}.")
     def resolve(self) -> Matcher[Any]:
         """Produce the Matcher to make the assertion."""
-        raise Exception("This resolution raises exception")
+        msg = "This resolution raises exception"
+        raise Exception(msg)
 
     def __init__(self, obj: Any) -> None:  # noqa: ANN401
         self.expected = obj

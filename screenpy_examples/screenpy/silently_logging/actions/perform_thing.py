@@ -22,7 +22,8 @@ class PerformPassAfterAWhile(Performable):
             return
 
         PerformPassAfterAWhile.COUNTER += 1
-        raise AssertionError(f"This is going to Fail {PerformPassAfterAWhile.COUNTER}")
+        msg = f"This is going to Fail {PerformPassAfterAWhile.COUNTER}"
+        raise AssertionError(msg)
 
 
 class PerformFailCounter(Performable):
@@ -31,7 +32,8 @@ class PerformFailCounter(Performable):
     @beat("{} tries to PerformFailCounter")
     def perform_as(self, _: Actor):
         PerformFailCounter.COUNTER += 1
-        raise AssertionError(f"This is going to Fail {PerformFailCounter.COUNTER}")
+        msg = f"This is going to Fail {PerformFailCounter.COUNTER}"
+        raise AssertionError(msg)
 
 
 class PerformFail(Performable):

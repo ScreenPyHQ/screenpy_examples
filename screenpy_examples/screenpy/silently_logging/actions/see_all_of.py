@@ -56,9 +56,11 @@ class SeeAllOf:
         for tup in tests:
             if isinstance(tup, tuple):
                 if len(tup) != 2:
-                    raise UnableToAct("Tuple must contain Question and Resolution")
+                    msg = "Tuple must contain Question and Resolution"
+                    raise UnableToAct(msg)
             else:
-                raise TypeError("Arguments must be tuples")
+                msg = "Arguments must be tuples"
+                raise TypeError(msg)
 
         self.tests = tests
         self.number_of_tests = len(tests)

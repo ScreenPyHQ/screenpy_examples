@@ -66,7 +66,8 @@ class Dolly:
     def perform_as(self, the_actor: Actor) -> None:
         """Direct the actor to dolly their active camera."""
         if self.vector == (0, 0):
-            raise UnableToAct("No direction was given to Dolly!")
+            msg = "No direction was given to Dolly!"
+            raise UnableToAct(msg)
 
         campy_session = the_actor.ability_to(ControlCameras).campy_session
         camera = campy_session.get_active_camera()
