@@ -9,16 +9,17 @@ to the logged filename and line numbers to be incorrect. When this occurs, clean
 pycache.  Or just run without caching enabled. PYTHONDONTWRITEBYTECODE=1
 
 """
+
 from __future__ import annotations
 
 import contextlib
-import inspect
 import io
 import logging
 import os
 import sys
 import traceback
-from typing import ClassVar, Type
+from types import FrameType, FunctionType, TracebackType
+from typing import Callable, Type, cast, TYPE_CHECKING, TypeAlias, Mapping, Any
 
 import hamcrest
 import hamcrest.core.base_matcher
@@ -27,11 +28,24 @@ import screenpy.actor
 import screenpy.narration.narrator
 import screenpy.narration.stdout_adapter
 import screenpy.resolutions
-import webdriver_manager.core.logger
+
+import screenpy_examples.screenpy.silently_logging.actions.see
+
+
+if TYPE_CHECKING:
+    T_exc: TypeAlias = (
+        tuple[type[BaseException], BaseException, TracebackType | None]
+        | tuple[None, None, None]
+        | None
+    )
 
 __logger: Type[logging.Logger] = logging.getLoggerClass()
+_logRecordFactory = logging.getLogRecordFactory()
 
 
+ALL = logging.CRITICAL * 10  # 500 #IO  # Trace.always
+STDERR = logging.CRITICAL * 2  # 100
+STDOUT = STDERR - 10  # 90
 CRITICAL = logging.CRITICAL  # 50
 FATAL = logging.FATAL  # 50
 ERROR = logging.ERROR  # 40
@@ -40,25 +54,51 @@ WARN = logging.WARNING  # 30
 INFO = logging.INFO  # 20
 DEBUG = logging.DEBUG  # 10
 TRACE = DEBUG - 5  # 5
+NOTSET = logging.NOTSET  # 0
 
 
 if hasattr(sys, "_getframe"):
 
-    def currentframe():
-        return sys._getframe(1)
+    def currentframe() -> FrameType:
+        return sys._getframe(3)
 
 else:  # pragma: no cover
 
-    def currentframe():
+    def currentframe() -> FrameType:
         """Return the frame object for the caller's stack frame."""
         try:
             raise Exception
         except Exception:
-            return sys.exc_info()[2].tb_frame.f_back
+            rt = sys.exc_info()
+            return rt[2].tb_frame.f_back  # type: ignore
+
+
+def mod_path(function: FunctionType | Callable) -> str:
+    return os.path.normcase(function.__code__.co_filename)
+
+
+ignore_srcfiles = [
+    mod_path(mod_path),
+    mod_path(contextlib.contextmanager),
+    mod_path(screenpy.narration.stdout_adapter.StdOutAdapter.aside),
+    mod_path(screenpy.pacing.act),
+    mod_path(screenpy.narration.narrator._chainify),
+    mod_path(screenpy.actor.Actor.named),
+    mod_path(screenpy.actions.eventually.Eventually.describe),
+    mod_path(screenpy.actions.either.Either.or_),
+    mod_path(screenpy.actions.see.See.describe),
+    mod_path(screenpy_examples.screenpy.silently_logging.actions.see.See.describe),
+    mod_path(hamcrest.core.base_matcher.BaseMatcher.matches),
+    mod_path(hamcrest.assert_that),
+    mod_path(hamcrest.core.core.isnot.is_not),
+]
 
 
 class ScreenpyLogger(__logger):  # type: ignore
     TRACE = TRACE
+    ALL = ALL
+    STDERR = STDERR
+    STDOUT = STDOUT
     CRITICAL = CRITICAL
     FATAL = FATAL
     ERROR = ERROR
@@ -66,112 +106,71 @@ class ScreenpyLogger(__logger):  # type: ignore
     WARN = WARN
     INFO = INFO
     DEBUG = DEBUG
-    TRACE = TRACE
+    NOTSET = NOTSET
+    timestamp_format = "%Y-%m-%dT%H-%M-%S"
 
-    # when adding functions to this list, you must avoid those which have decorators.
-    ignore_srcfiles: ClassVar[set] = set()
-
-    def __init__(self, name, level=DEBUG):
+    def __init__(self, name: str, level: int = NOTSET) -> None:
         super().__init__(name, level)
         self.__add_level_name("TRACE", TRACE)
 
-        self.ignore_file(logging)
-        self.ignore_file(inspect.currentframe())
-        self.ignore_file(contextlib)
-        self.ignore_file(screenpy.narration.stdout_adapter.stdout_adapter)
-        self.ignore_file(screenpy.pacing)
-        self.ignore_file(screenpy.narration.narrator.Narrator)
-        self.ignore_file(screenpy.actor)
-        self.ignore_file(screenpy.actions.eventually)
-        self.ignore_file(screenpy.actions.see)
-        self.ignore_file(screenpy.actions.see_any_of)
-        self.ignore_file(screenpy.actions.see_all_of)
-        self.ignore_file(screenpy.actions.either)
-        self.ignore_file(screenpy.resolutions.base_resolution)
-        self.ignore_file(hamcrest.core.base_matcher)
-        self.ignore_file(hamcrest.core.assert_that)
-        self.ignore_file(hamcrest.core.core.isnot)
-        self.ignore_file(webdriver_manager.core.logger)
-        return
-
     @staticmethod
-    def __add_level_name(name: str, level: int):
+    def __add_level_name(name: str, level: int) -> None:
         logging.addLevelName(level, name)
         setattr(logging, name, level)
 
-    def _log(
+    def __log(self, level: int, msg: object, *args: Any, **kwargs: Any) -> None:
+        if self.isEnabledFor(level):
+            if ignore_srcfiles:
+                fn, lno, func, sinfo = self.findCaller()
+                file_line = f"{os.path.basename(fn)}:{lno}"
+            else:
+                file_line = "(unknown file):0"
+
+            extra = {"fileline": file_line} | kwargs.pop("extra", {})
+            self._log(level, msg, args, **kwargs, extra=extra)
+
+    def makeRecord(
         self,
+        name: str,
         level: int,
-        msg,
-        args,
-        exc_info=None,
-        extra=None,
-        stack_info=False,
-        stacklevel=1,
-    ):
+        fn: str,
+        lno: int,
+        msg: object,
+        args: tuple[object, ...] | Mapping[str, object] | None,
+        exc_info: T_exc,
+        func: str | None = None,
+        extra: dict | None = None,
+        sinfo: str | None = None,
+    ) -> logging.LogRecord:
         """
-        Low-level logging routine which creates a LogRecord and then calls
-        all the handlers of this logger to handle the record.
+        bypassing restrictions to override created timestamp
         """
-        sinfo = None
-        if self.ignore_srcfiles:
-            # IronPython doesn't track Python frames, so findCaller raises an
-            # exception on some versions of IronPython. We trap it here so that
-            # IronPython can use logging.
-            try:
-                fn, lno, func, sinfo = self.findCaller(stack_info, stacklevel)
-            except ValueError:  # pragma: no cover
-                fn, lno, func = "(unknown file)", 0, "(unknown function)"
-        else:  # pragma: no cover
-            fn, lno, func = "(unknown file)", 0, "(unknown function)"
+        rv = _logRecordFactory(name, level, fn, lno, msg, args, exc_info, func, sinfo)
+        if extra is not None:
+            for key in extra:
+                rv.__dict__[key] = extra[key]
+        return rv
 
-        file_line = f"{os.path.basename(fn)}:{lno}"
-        if not extra:
-            extra = {}
-        extra["fileline"] = file_line
+    def log(self, level: int, msg: object, *args: Any, **kwargs: Any) -> None:
+        self.__log(level, msg, *args, **kwargs)
 
-        if exc_info:
-            if isinstance(exc_info, BaseException):
-                exc_info = (type(exc_info), exc_info, exc_info.__traceback__)
-            elif not isinstance(exc_info, tuple):
-                exc_info = sys.exc_info()
-        record = self.makeRecord(
-            self.name, level, fn, lno, msg, args, exc_info, func, extra, sinfo
-        )
-        self.handle(record)
+    def trace(self, msg: object, *args: Any, **kwargs: Any) -> None:
+        self.__log(TRACE, msg, *args, **kwargs)
 
-    # def findCaller2(self, stack_info=False, stacklevel=1):
-    #     """
-    #     Find the stack frame of the caller so that we can note the source
-    #     file name, line number and function name.
-    #     """
-    #     # alternative way of finding the path of the module
-    #     stack = inspect.stack()[2:]
-    #     f = stack[0][0]
-    #     info = inspect.getframeinfo(f)
-    #
-    #     for i in range(stacklevel, len(stack)):
-    #         f = stack[i][0]
-    #         info = inspect.getframeinfo(f)
-    #         filename = os.path.normcase(info.filename)
-    #         if filename in self.ignore_srcfiles:
-    #             continue
-    #         break
-    #
-    #     sinfo = None
-    #     if stack_info:
-    #         sio = io.StringIO()
-    #         sio.write('Stack (most recent call last):\n')
-    #         traceback.print_stack(f, file=sio)
-    #         sinfo = sio.getvalue()
-    #         if sinfo[-1] == '\n':
-    #             sinfo = sinfo[:-1]
-    #         sio.close()
-    #
-    #     rv = (info.filename, info.lineno, info.function, sinfo)
-    #     return rv
+    def debug(self, msg: object, *args: Any, **kwargs: Any) -> None:
+        self.__log(DEBUG, msg, *args, **kwargs)
 
-    def findCaller(self, stack_info=False, stacklevel=1):
+    def info(self, msg: object, *args: Any, **kwargs: Any) -> None:
+        self.__log(INFO, msg, *args, **kwargs)
+
+    def print_stack_trace(self) -> None:
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        str_list = traceback.format_exception(exc_type, exc_value, exc_traceback)
+        self.critical("".join(str_list))
+
+    def findCaller(
+        self, stack_info: bool = False, stacklevel: int = 1
+    ) -> tuple[str, int, str, str | None]:
         """
         Find the stack frame of the caller so that we can note the source
         file name, line number and function name.
@@ -180,19 +179,21 @@ class ScreenpyLogger(__logger):  # type: ignore
         # On some versions of IronPython, currentframe() returns None if
         # IronPython isn't run with -X:Frames.
         if f is not None:
-            f = f.f_back
-        orig_f = f
+            f = cast(FrameType, f.f_back)
+
+        orig_f: FrameType = f
         while f and stacklevel > 1:
-            f = f.f_back
+            f = f.f_back  # type: ignore
             stacklevel -= 1
         if not f:
             f = orig_f
+        rv: tuple[str, int, str, str | None]
         rv = "(unknown file)", 0, "(unknown function)", None
         while hasattr(f, "f_code"):
             co = f.f_code
             filename = os.path.normcase(co.co_filename)
-            if filename in self.ignore_srcfiles:
-                f = f.f_back
+            if filename in ignore_srcfiles:
+                f = cast(FrameType, f.f_back)
                 continue
             sinfo = None
             if stack_info:
@@ -206,10 +207,6 @@ class ScreenpyLogger(__logger):  # type: ignore
             rv = (co.co_filename, f.f_lineno, co.co_name, sinfo)
             break
         return rv
-
-    def ignore_file(self, path):
-        p = inspect.getfile(path)
-        self.ignore_srcfiles.add(p)
 
 
 def create_logger(name: str = "scrnpy") -> ScreenpyLogger:

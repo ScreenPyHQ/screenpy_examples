@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Generator, Type
+import os
+from typing import TYPE_CHECKING, Generator, Type, TypeAlias
 
 import pytest
 from screenpy import (
@@ -10,7 +11,6 @@ from screenpy import (
     StdOutAdapter,
     StdOutManager,
     aside,
-    settings,
     the_narrator,
 )
 from setup_selenium import Browser, SetupSelenium, set_logger
@@ -22,7 +22,11 @@ if TYPE_CHECKING:
     # from _pytest.config import Config
     # from _pytest.config.argparsing import Parser
     from _pytest.fixtures import SubRequest
+    from selenium.webdriver import Chrome, Edge, Firefox, Ie, Safari
     from selenium.webdriver.remote.webdriver import WebDriver
+    from setup_selenium.selenium_module import T_DrvOpts
+
+    AnyDriver: TypeAlias = Chrome | Firefox | Safari | Ie | Edge
 
 logger = create_logger()
 set_logger(logger)
@@ -43,40 +47,62 @@ class RemoveAbilityWithouClosingSelenium(Performable):
 
 
 @pytest.fixture(scope="session", autouse=True)
-def selenium(request: "SubRequest") -> Generator["WebDriver", None, None]:
+def selenium(
+    request: SubRequest,
+) -> Generator[WebDriver, None, None]:
     aside("Creating fixture Selenium Client FIXTURE")
-    settings.TIMEOUT = 6
+
     browser: Browser = Browser.CHROME
-    headless = True
+    headless: bool = True
     log_perf = False
     log_console = False
     log_driver = False
     log_dir = "./logs"
     driver_version: str | None = None
-    driver_path = None
-    binary = None
+    browser_version: str | None = None
+    binary_path: str | None = None
+    driver_path: str | None = None
 
     if driver_path:
-        aside(f"Using driver from config: {driver_path}")
-        # if the path doesn't exist.. let selenium raise the exception?
-    else:
-        driver_path = SetupSelenium.install_driver(browser, driver_version)
-        aside(f"Using driver installed by webdriver_manager: {driver_path}")
+        driver_path = os.path.abspath(os.path.expanduser(driver_path))
 
-    driver = SetupSelenium.create_driver(
+    if binary_path:
+        binary_path = os.path.abspath(os.path.expanduser(binary_path))
+
+    driverpath, binarypath = SetupSelenium.install_driver(
+        browser=browser,
+        driver_version=driver_version,
+        browser_version=browser_version,
+        browser_path=binary_path,
+    )
+    driver_path = driver_path or driverpath
+    binary_path = binary_path or binarypath
+    aside(f"Using driver installed: {driver_path}")
+
+    options: T_DrvOpts | None = None
+    if browser == Browser.CHROME:
+        options = SetupSelenium.chrome_options()
+    elif browser == Browser.FIREFOX:
+        options = SetupSelenium.firefox_options()
+    elif browser == Browser.EDGE:
+        options = SetupSelenium.edge_options()
+
+    driver: AnyDriver = SetupSelenium.create_driver(
         browser=browser,
         headless=headless,
         enable_log_performance=log_perf,
         enable_log_console=log_console,
         enable_log_driver=log_driver,
         log_dir=log_dir,
-        binary=binary,
+        binary=binary_path,
         driver_path=driver_path,
+        options=options,
     )
-    driver.set_window_size(1280, 960)
     driver.set_window_position(0, 0)
+    driver.set_window_size(1600, 1080)
     aside("Creating Selenium Client FIXTURE - Complete")
     yield driver
+
     aside("closing selenium FIXTURE")
     if driver:
         driver.quit()
