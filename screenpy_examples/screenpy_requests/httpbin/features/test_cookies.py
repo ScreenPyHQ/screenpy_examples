@@ -1,6 +1,7 @@
 """
 API test example that tests cookies.
 """
+
 from __future__ import annotations
 
 from screenpy import Actor, ContainTheEntry, IsEqualTo, SeeAllOf, then, when

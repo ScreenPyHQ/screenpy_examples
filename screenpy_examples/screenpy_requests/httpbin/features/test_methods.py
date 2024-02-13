@@ -1,6 +1,7 @@
 """
 API test examples that use all the HTTP methods.
 """
+
 from __future__ import annotations
 
 import pytest

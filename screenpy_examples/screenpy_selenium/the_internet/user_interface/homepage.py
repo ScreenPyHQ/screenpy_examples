@@ -1,6 +1,7 @@
 """
 Locators and URL for The Internet app's homepage.
 """
+
 from __future__ import annotations
 
 from screenpy_selenium import Target

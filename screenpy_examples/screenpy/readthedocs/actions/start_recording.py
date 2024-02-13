@@ -1,6 +1,7 @@
 """
 Start recording a screenplay on one or more cameras!
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

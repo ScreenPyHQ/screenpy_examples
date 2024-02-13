@@ -1,6 +1,7 @@
 """
 Fixtures for API testing.
 """
+
 from __future__ import annotations
 
 from typing import Generator

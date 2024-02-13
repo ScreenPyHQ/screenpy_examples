@@ -1,6 +1,7 @@
 """
 Zoom in/out on the active camera.
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

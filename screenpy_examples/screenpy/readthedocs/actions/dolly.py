@@ -1,6 +1,7 @@
 """
 Dolly a camera in a direction.
 """
+
 from __future__ import annotations
 
 from screenpy import Actor, UnableToAct, beat

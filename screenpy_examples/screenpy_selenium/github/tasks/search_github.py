@@ -1,6 +1,7 @@
 """
 A slightly more interesting task to search GitHub for a string.
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

@@ -1,6 +1,7 @@
 """
 Skip to a specific scene while recording.
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

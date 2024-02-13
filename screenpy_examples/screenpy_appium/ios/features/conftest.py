@@ -1,6 +1,7 @@
 """
 Fixtures for the Android Appium example suite.
 """
+
 from __future__ import annotations
 
 import os

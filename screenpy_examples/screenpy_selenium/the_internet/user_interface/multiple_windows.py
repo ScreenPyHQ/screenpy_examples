@@ -1,6 +1,7 @@
 """
 Locators and URLs for the Multiple Windows page.
 """
+
 from __future__ import annotations
 
 from screenpy_selenium import Target

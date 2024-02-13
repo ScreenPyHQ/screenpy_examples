@@ -1,6 +1,7 @@
 """
 Setup and fixtures for our feature tests.
 """
+
 from __future__ import annotations
 
 import logging

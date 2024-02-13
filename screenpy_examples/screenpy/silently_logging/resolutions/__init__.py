@@ -1,5 +1,3 @@
 from .broken import IsEqualButRaisesException
 
-__all__ = (
-    "IsEqualButRaisesException",
-    )
+__all__ = ("IsEqualButRaisesException",)

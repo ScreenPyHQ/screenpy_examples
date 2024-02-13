@@ -1,6 +1,7 @@
 """
 Locators and URL for the Add & Remove Elements page.
 """
+
 from __future__ import annotations
 
 from screenpy_selenium import Target

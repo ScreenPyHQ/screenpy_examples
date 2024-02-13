@@ -1,6 +1,7 @@
 """
 A Question for finding out the displayed search results message.
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING

@@ -2,6 +2,7 @@
 An example of a test module that follows the typical unittest.TestCase
 test structure. These tests exercise the Wait and Enter Actions.
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Callable, Tuple

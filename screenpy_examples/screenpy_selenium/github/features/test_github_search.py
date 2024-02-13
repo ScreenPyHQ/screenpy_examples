@@ -3,6 +3,7 @@ An example of a test module that follows the typical pytest test
 structure. These tests show off how to use custom tasks and Questions,
 though they are a little bit contrived.
 """
+
 from __future__ import annotations
 
 from typing import Generator

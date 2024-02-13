@@ -3,6 +3,7 @@ Our audience-polling mock-library for the example!
 
 This library *purportedly* lets you to do polls on audiences. But it's a mock.
 """
+
 from __future__ import annotations
 
 from unittest import mock
