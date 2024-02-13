@@ -8,8 +8,9 @@ import unittest
 from typing import Callable, Tuple
 
 from screenpy import AnActor, ReadsExactly, See, act, given, scene, then, when
-from screenpy_selenium import BrowseTheWeb, Enter, Open, Text, Wait
 from selenium.webdriver import Firefox, Remote
+
+from screenpy_selenium import BrowseTheWeb, Enter, Open, Text, Wait
 
 from ..user_interface.key_presses import ENTRY_INPUT, RESULT_TEXT, URL
 

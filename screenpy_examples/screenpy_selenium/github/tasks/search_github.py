@@ -6,13 +6,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from screenpy import beat
-from screenpy_selenium import Enter, Wait
 from selenium.webdriver.common.keys import Keys
 
 from screenpy_examples.screenpy_selenium.github.ui.github_header_bar import SEARCH_INPUT
 from screenpy_examples.screenpy_selenium.github.ui.github_search_results_page import (
     RESULTS_MESSAGE,
 )
+from screenpy_selenium import Enter, Wait
 
 if TYPE_CHECKING:
     from screenpy import Actor

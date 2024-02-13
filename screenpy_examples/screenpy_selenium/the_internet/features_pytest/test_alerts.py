@@ -5,6 +5,7 @@ test structure. These tests exercise the alert checking Actions.
 from __future__ import annotations
 
 from screenpy import Either, ReadsExactly, See, act, scene
+
 from screenpy_selenium import (
     AcceptAlert,
     Click,

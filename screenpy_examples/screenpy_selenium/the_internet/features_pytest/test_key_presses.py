@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Callable, Tuple
 
 from screenpy import ReadsExactly, See, act, scene
+
 from screenpy_selenium import Enter, Open, Text, Wait
 
 from ..user_interface.key_presses import ENTRY_INPUT, RESULT_TEXT, URL

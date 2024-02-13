@@ -7,13 +7,13 @@ from __future__ import annotations
 import unittest
 
 from screenpy import AnActor, ReadsExactly, See, act, given, scene, then, when
-from screenpy_selenium import BrowseTheWeb, Open, SwitchTo, Text
 
 from screenpy_examples.screenpy_selenium.the_internet.user_interface.iframe import (
     CONTENT_BOX,
     URL,
     WYSIWYG_IFRAME,
 )
+from screenpy_selenium import BrowseTheWeb, Open, SwitchTo, Text
 
 
 class TestFrames(unittest.TestCase):

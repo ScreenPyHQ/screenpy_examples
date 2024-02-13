@@ -18,6 +18,7 @@ from screenpy import (
     then,
     when,
 )
+
 from screenpy_selenium import BrowserURL, BrowseTheWeb, Click, Open, SwitchToTab, Text
 
 from ..user_interface.multiple_windows import CLICK_HERE_LINK, HEADER_MESSAGE, URL

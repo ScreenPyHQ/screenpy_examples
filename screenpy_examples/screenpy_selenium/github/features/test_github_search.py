@@ -23,10 +23,10 @@ from screenpy import (
     then,
     when,
 )
-from screenpy_selenium import BrowseTheWeb, Open, SaveScreenshot
 
 from screenpy_examples.screenpy_selenium.github.tasks.search_github import SearchGitHub
 from screenpy_examples.screenpy_selenium.github.ui.github_home_page import URL
+from screenpy_selenium import BrowseTheWeb, Open, SaveScreenshot
 
 from ..questions.number_of_search_results import NumberOfSearchResults
 from ..questions.search_results_message import SearchResultsMessage

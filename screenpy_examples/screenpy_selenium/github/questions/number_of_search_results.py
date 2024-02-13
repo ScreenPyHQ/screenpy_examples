@@ -7,11 +7,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from screenpy import beat
-from screenpy_selenium import Number
 
 from screenpy_examples.screenpy_selenium.github.ui.github_search_results_page import (
     SEARCH_RESULTS,
 )
+from screenpy_selenium import Number
 
 if TYPE_CHECKING:
     from screenpy import Actor

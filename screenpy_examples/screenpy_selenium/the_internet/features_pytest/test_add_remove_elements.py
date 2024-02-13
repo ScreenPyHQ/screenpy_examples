@@ -7,6 +7,7 @@ from __future__ import annotations
 import random
 
 from screenpy import ContainsTheText, IsEqualTo, See, act, scene
+
 from screenpy_selenium import Attribute, Click, Element, IsVisible, Number, Open, Wait
 
 from ..user_interface.add_remove_elements import ADD_BUTTON, ADDED_ELEMENTS, URL

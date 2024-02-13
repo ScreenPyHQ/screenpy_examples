@@ -5,12 +5,12 @@ test structure. These tests exercise the selecting Actions.
 from __future__ import annotations
 
 from screenpy import ReadsExactly, See, act, scene
-from screenpy_selenium import Open, Select, Selected
 
 from screenpy_examples.screenpy_selenium.the_internet.user_interface.dropdown import (
     THE_DROPDOWN,
     URL,
 )
+from screenpy_selenium import Open, Select, Selected
 
 
 class TestDropdowns:

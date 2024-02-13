@@ -5,13 +5,13 @@ test structure. These tests exercise the frame switching Actions.
 from __future__ import annotations
 
 from screenpy import Eventually, ReadsExactly, See, act, scene
-from screenpy_selenium import Open, SwitchTo, Text
 
 from screenpy_examples.screenpy_selenium.the_internet.user_interface.iframe import (
     CONTENT_BOX,
     URL,
     WYSIWYG_IFRAME,
 )
+from screenpy_selenium import Open, SwitchTo, Text
 
 
 class TestFrames:

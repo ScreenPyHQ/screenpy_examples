@@ -13,11 +13,10 @@ from screenpy import (
     settings,
     the_narrator,
 )
-from screenpy_selenium import BrowseTheWeb
+from setup_selenium import Browser, SetupSelenium, set_logger
 
 from screenpy_examples.screenpy_logger import create_logger
-
-from setup_selenium import Browser, SetupSelenium, set_logger
+from screenpy_selenium import BrowseTheWeb
 
 if TYPE_CHECKING:
     # from _pytest.config import Config

@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import pytest
 from screenpy import Eventually, ReadsExactly, See, act, scene
+
 from screenpy_selenium import Chain, HoldDown, MoveMouse, Open, Release, Text, Wait
 
 from ..user_interface.drag_and_drop import (

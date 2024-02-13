@@ -7,13 +7,13 @@ from __future__ import annotations
 import unittest
 
 from screenpy import AnActor, ReadsExactly, See, act, given, scene, then, when
-from screenpy_selenium import BrowseTheWeb, Open, Select, Selected
 from selenium.webdriver import Firefox
 
 from screenpy_examples.screenpy_selenium.the_internet.user_interface.dropdown import (
     THE_DROPDOWN,
     URL,
 )
+from screenpy_selenium import BrowseTheWeb, Open, Select, Selected
 
 
 class TestDropdowns(unittest.TestCase):

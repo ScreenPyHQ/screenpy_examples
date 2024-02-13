@@ -18,6 +18,8 @@ from screenpy import (
     then,
     when,
 )
+from selenium.webdriver import Firefox
+
 from screenpy_selenium import (
     Attribute,
     BrowseTheWeb,
@@ -28,7 +30,6 @@ from screenpy_selenium import (
     Open,
     Wait,
 )
-from selenium.webdriver import Firefox
 
 from ..user_interface.add_remove_elements import ADD_BUTTON, ADDED_ELEMENTS, URL
 

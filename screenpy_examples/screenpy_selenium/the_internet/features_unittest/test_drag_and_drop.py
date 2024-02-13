@@ -7,6 +7,7 @@ from __future__ import annotations
 import unittest
 
 from screenpy import AnActor, ReadsExactly, See, act, given, scene, then, when
+
 from screenpy_selenium import (
     BrowseTheWeb,
     Chain,
