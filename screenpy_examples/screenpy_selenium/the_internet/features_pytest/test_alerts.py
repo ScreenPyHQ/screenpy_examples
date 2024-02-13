@@ -4,7 +4,7 @@ test structure. These tests exercise the alert checking Actions.
 """
 from __future__ import annotations
 
-from screenpy import Either, ReadsExactly, See, act, scene
+from screenpy import Actor, Either, ReadsExactly, See, act, scene
 
 from screenpy_selenium import (
     AcceptAlert,
@@ -33,7 +33,7 @@ class TestAlerts:
 
     @act("Perform")
     @scene("TextOfTheAlert")
-    def test_inspect_alert(self, marcel) -> None:
+    def test_inspect_alert(self, marcel: Actor) -> None:
         """User can read the text of the alert."""
         marcel.will(Open.their_browser_on(URL))
         marcel.will(Click.on_the(JS_ALERT_BUTTON))
@@ -41,7 +41,7 @@ class TestAlerts:
 
     @act("Perform")
     @scene("AcceptAlert")
-    def test_accept_alert(self, marcel) -> None:
+    def test_accept_alert(self, marcel: Actor) -> None:
         """User can accept an alert."""
         marcel.will(
             Either(
@@ -57,7 +57,7 @@ class TestAlerts:
 
     @act("Perform")
     @scene("DismissAlert")
-    def test_dismiss_alert(self, marcel) -> None:
+    def test_dismiss_alert(self, marcel: Actor) -> None:
         """User can dismiss an alert."""
         marcel.will(Open.their_browser_on(URL), Click.on_the(JS_CONFIRM_BUTTON))
         marcel.will(DismissAlert())
@@ -67,7 +67,7 @@ class TestAlerts:
 
     @act("Perform")
     @scene("RespondToPrompt")
-    def test_respond_to_prompt(self, marcel) -> None:
+    def test_respond_to_prompt(self, marcel: Actor) -> None:
         """User can enter text into a prompt."""
         test_text = "Hello! I am responding to this prompt."
 

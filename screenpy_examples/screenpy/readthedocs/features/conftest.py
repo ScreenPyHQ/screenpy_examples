@@ -4,7 +4,7 @@ Setup and fixtures for our feature tests.
 from __future__ import annotations
 
 import logging
-from typing import Generator
+from typing import TYPE_CHECKING, Generator
 
 import _pytest.logging
 import pytest
@@ -20,6 +20,9 @@ from screenpy_examples.screenpy.readthedocs.pollster import (
     tense_packet,
 )
 from screenpy_examples.screenpy_logger import create_logger
+
+if TYPE_CHECKING:
+    from _pytest.config import Config
 
 the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger()))]
 
@@ -57,7 +60,7 @@ def pytest_runtest_setup(item: pytest.Item) -> Generator:
 
 
 @pytest.hookimpl(trylast=True)
-def pytest_configure(config):
+def pytest_configure(config: Config) -> None:
     logging_plugin = config.pluginmanager.get_plugin("logging-plugin")
     formatter = logging_plugin.log_cli_handler.formatter
 

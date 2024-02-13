@@ -68,7 +68,7 @@ def test_passes_with_quietly(marcel: Actor) -> None:
     marcel.will(PerformB(Quietly(PerformPass())))
 
 
-def test_fails_without_quietly(marcel) -> None:
+def test_fails_without_quietly(marcel: Actor) -> None:
     """
     Generates a normal log showing failure:
 
@@ -91,7 +91,7 @@ def test_fails_without_quietly(marcel) -> None:
     marcel.will(PerformB(PerformPass()))
 
 
-def test_fails_with_quietly(marcel) -> None:
+def test_fails_with_quietly(marcel: Actor) -> None:
     """
     Generates a "quiet" log, but demonstrates that in a case of failure the output
     looks identical to a normal log.

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from screenpy import ContainsTheText, IsEqualTo, SeeAllOf, given, then, when
+from screenpy import Actor, ContainsTheText, IsEqualTo, SeeAllOf, given, then, when
 from screenpy_playwright.actions import Click
 from screenpy_playwright.questions import Number, Text
 
@@ -19,7 +19,7 @@ from screenpy_examples.screenpy_playwright.swaglabs.ui.store_page import (
 from screenpy_examples.screenpy_playwright.swaglabs.user_types import StandardUser
 
 
-def test_add_to_cart(Swalter):
+def test_add_to_cart(Swalter: Actor) -> None:
     given(Swalter).was_able_to(LogIn.as_(StandardUser))
 
     when(Swalter).attempts_to(

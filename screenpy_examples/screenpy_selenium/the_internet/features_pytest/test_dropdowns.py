@@ -4,7 +4,7 @@ test structure. These tests exercise the selecting Actions.
 """
 from __future__ import annotations
 
-from screenpy import ReadsExactly, See, act, scene
+from screenpy import Actor, ReadsExactly, See, act, scene
 
 from screenpy_examples.screenpy_selenium.the_internet.user_interface.dropdown import (
     THE_DROPDOWN,
@@ -20,7 +20,7 @@ class TestDropdowns:
 
     @act("Perform")
     @scene("Select by text")
-    def test_select_by_text(self, marcel) -> None:
+    def test_select_by_text(self, marcel: Actor) -> None:
         """Can select an option from a dropdown by text."""
         marcel.will(Open.their_browser_on(URL))
         marcel.will(Select.the_option_named("Option 1").from_(THE_DROPDOWN))
@@ -30,7 +30,7 @@ class TestDropdowns:
 
     @act("Perform")
     @scene("Select by index")
-    def test_select_by_index(self, marcel) -> None:
+    def test_select_by_index(self, marcel: Actor) -> None:
         """Can select an option from a dropdown by index."""
         marcel.will(Open.their_browser_on(URL))
         marcel.will(Select.the_option_at_index(1).from_(THE_DROPDOWN))
@@ -40,7 +40,7 @@ class TestDropdowns:
 
     @act("Perform")
     @scene("Select by value")
-    def test_select_by_value(self, marcel) -> None:
+    def test_select_by_value(self, marcel: Actor) -> None:
         """Can select an option from a dropdown by value."""
         marcel.will(Open.their_browser_on(URL))
         marcel.will(Select.the_option_with_value("2").from_(THE_DROPDOWN))

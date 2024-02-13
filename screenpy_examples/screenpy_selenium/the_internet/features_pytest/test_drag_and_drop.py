@@ -5,7 +5,7 @@ structure. These tests exercise the Actions to perform drag and drop.
 from __future__ import annotations
 
 import pytest
-from screenpy import Eventually, ReadsExactly, See, act, scene
+from screenpy import Actor, Eventually, ReadsExactly, See, act, scene
 
 from screenpy_selenium import Chain, HoldDown, MoveMouse, Open, Release, Text, Wait
 
@@ -26,7 +26,7 @@ class TestDragAndDrop:
     @scene("MoveMouse")
     @scene("Release")
     @pytest.mark.xfail
-    def test_drag_and_drop(self, marcel) -> None:
+    def test_drag_and_drop(self, marcel: Actor) -> None:
         """
         User is able to drag and drop.
 

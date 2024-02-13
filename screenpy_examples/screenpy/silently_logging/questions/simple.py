@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import NoReturn
+
 from screenpy import Actor, Answerable, beat
 
 
@@ -14,8 +16,8 @@ class SimpleQuestion(Answerable):
 
 class SimpleQuestionException(Answerable):
     @beat("{} examines SimpleQuestionException")
-    def answered_by(self, actor: Actor):
+    def answered_by(self, actor: Actor) -> NoReturn:
         raise Exception("This question raises exception")
 
-    def describe(self):
+    def describe(self) -> str:
         return "SimpleQuestionException"

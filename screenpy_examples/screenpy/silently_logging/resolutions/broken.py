@@ -20,5 +20,5 @@ class IsEqualButRaisesException:
         """Produce the Matcher to make the assertion."""
         raise Exception("This resolution raises exception")
 
-    def __init__(self, obj: Any) -> None:
+    def __init__(self, obj: Any) -> None:  # noqa: ANN401
         self.expected = obj

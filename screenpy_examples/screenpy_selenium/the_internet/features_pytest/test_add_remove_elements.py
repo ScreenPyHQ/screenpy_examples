@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import random
 
-from screenpy import ContainsTheText, IsEqualTo, See, act, scene
+from screenpy import Actor, ContainsTheText, IsEqualTo, See, act, scene
 
 from screenpy_selenium import Attribute, Click, Element, IsVisible, Number, Open, Wait
 
@@ -20,7 +20,7 @@ class TestAddRemoveElements:
 
     @act("Perform")
     @scene("Click")
-    def test_add_one_element(self, marcel) -> None:
+    def test_add_one_element(self, marcel: Actor) -> None:
         """User is able to add one element."""
         marcel.will(Open.their_browser_on(URL))
         marcel.will(Click.on_the(ADD_BUTTON), Wait.for_the(ADDED_ELEMENTS))
@@ -28,7 +28,7 @@ class TestAddRemoveElements:
 
     @act("Perform")
     @scene("Click")
-    def test_add_many_elements(self, marcel) -> None:
+    def test_add_many_elements(self, marcel: Actor) -> None:
         """
         User is able to add many elements. This test chooses a random
         number of elements to add, just to show off how to do that, if you
@@ -42,7 +42,7 @@ class TestAddRemoveElements:
 
     @act("Perform")
     @scene("Click")
-    def test_remove_element(self, marcel) -> None:
+    def test_remove_element(self, marcel: Actor) -> None:
         """User is able to remove an element that was added."""
         marcel.will(
             Open.their_browser_on(URL),
@@ -54,7 +54,7 @@ class TestAddRemoveElements:
 
     @act("Perform")
     @scene("Attribute")
-    def test_class_name(self, marcel) -> None:
+    def test_class_name(self, marcel: Actor) -> None:
         """Class name is correctly set."""
         marcel.will(
             Open.their_browser_on(URL),
@@ -70,7 +70,7 @@ class TestAddRemoveElements:
 
     @act("Perform")
     @scene("Attribute")
-    def test_many_class_names(self, marcel) -> None:
+    def test_many_class_names(self, marcel: Actor) -> None:
         """Class name is correctly set."""
         number_of_times = random.choice(range(2, 10))
 

@@ -4,7 +4,7 @@ test structure. These tests exercise the frame switching Actions.
 """
 from __future__ import annotations
 
-from screenpy import Eventually, ReadsExactly, See, act, scene
+from screenpy import Actor, Eventually, ReadsExactly, See, act, scene
 
 from screenpy_examples.screenpy_selenium.the_internet.user_interface.iframe import (
     CONTENT_BOX,
@@ -21,7 +21,7 @@ class TestFrames:
 
     @act("Perform")
     @scene("SwitchTo")
-    def test_switch_to_iframe(self, marcel) -> None:
+    def test_switch_to_iframe(self, marcel: Actor) -> None:
         """User is able to switch to an iframe."""
         marcel.will(Open.their_browser_on(URL))
         marcel.will(SwitchTo.the(WYSIWYG_IFRAME))
