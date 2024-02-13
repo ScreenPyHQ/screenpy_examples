@@ -67,7 +67,7 @@ else:  # pragma: no cover
         """Return the frame object for the caller's stack frame."""
         try:
             raise Exception
-        except Exception:
+        except Exception:  # noqa: BLE001
             rt = sys.exc_info()
             return rt[2].tb_frame.f_back  # type: ignore
 
