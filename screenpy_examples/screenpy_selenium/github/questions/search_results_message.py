@@ -4,7 +4,7 @@ A Question for finding out the displayed search results message.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from screenpy import beat
 
@@ -33,4 +33,4 @@ class SearchResultsMessage:
     @beat("{} checks the results message...")
     def answered_by(self, the_actor: Actor) -> str:
         """Direct the Actor to read off the text of the results message."""
-        return Text.of(RESULTS_MESSAGE).answered_by(the_actor)
+        return cast(str, Text.of(RESULTS_MESSAGE).answered_by(the_actor))
