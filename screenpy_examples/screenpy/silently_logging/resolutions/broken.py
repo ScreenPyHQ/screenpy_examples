@@ -19,7 +19,10 @@ class IsEqualButRaisesException:
     def resolve(self) -> Matcher[Any]:
         """Produce the Matcher to make the assertion."""
         msg = "This resolution raises exception"
-        raise Exception(msg)
+        raise ResolutionError(msg)
 
     def __init__(self, obj: Any) -> None:  # noqa: ANN401
         self.expected = obj
+
+
+class ResolutionError(Exception): ...

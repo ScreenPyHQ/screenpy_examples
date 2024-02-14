@@ -18,7 +18,10 @@ class SimpleQuestionException(Answerable):
     @beat("{} examines SimpleQuestionException")
     def answered_by(self, _: Actor) -> NoReturn:
         msg = "This question raises exception"
-        raise Exception(msg)
+        raise SimpleQuestionError(msg)
 
     def describe(self) -> str:
         return "SimpleQuestionException"
+
+
+class SimpleQuestionError(Exception): ...

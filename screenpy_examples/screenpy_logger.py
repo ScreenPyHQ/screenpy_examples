@@ -19,7 +19,16 @@ import os
 import sys
 import traceback
 from types import FrameType, FunctionType, TracebackType
-from typing import TYPE_CHECKING, Any, Callable, Mapping, Type, TypeAlias, cast
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Callable,
+    Mapping,
+    NoReturn,
+    Type,
+    TypeAlias,
+    cast,
+)
 
 import hamcrest
 import hamcrest.core.base_matcher
@@ -64,11 +73,16 @@ if hasattr(sys, "_getframe"):
 
 else:  # pragma: no cover
 
+    class CustomError(Exception): ...
+
+    def error() -> NoReturn:
+        raise CustomError
+
     def currentframe() -> FrameType:
         """Return the frame object for the caller's stack frame."""
         try:
-            raise Exception
-        except Exception:  # noqa: BLE001
+            error()
+        except CustomError:
             rt = sys.exc_info()
             return rt[2].tb_frame.f_back
 

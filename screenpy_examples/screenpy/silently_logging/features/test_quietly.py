@@ -139,7 +139,7 @@ def test_exception_in_question(marcel: Actor):
         Marcel examines SimpleQuestionException
         ***ERROR***
 
-    Exception: This question raises exception
+    SimpleQuestionError: This question raises exception
     """
     marcel.will(See(SimpleQuestionException(), IsEqual(False)))
 
@@ -152,7 +152,7 @@ def test_exception_in_resolution(marcel: Actor):
         ... hoping it's equal to True.
     ***ERROR***
 
-    Exception: This resolution raises exception
+    ResolutionError: This resolution raises exception
     """
     marcel.will(See(SimpleQuestion(), IsEqualButRaisesException(True)))
 
