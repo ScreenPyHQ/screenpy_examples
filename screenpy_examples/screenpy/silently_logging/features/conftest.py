@@ -1,11 +1,14 @@
 from __future__ import annotations
 
-from typing import Generator
+from typing import TYPE_CHECKING
 
 import pytest
 from screenpy import Actor, StdOutAdapter, StdOutManager, aside, settings, the_narrator
 
 from screenpy_examples.screenpy_logger import create_logger
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 logger = create_logger()
 the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger()))]

@@ -3,7 +3,7 @@ Dolly-zoom, that classic tension shot.
 https://en.wikipedia.org/wiki/Dolly_zoom
 """
 
-from typing import Optional
+from __future__ import annotations
 
 from screenpy import Actor, beat
 
@@ -22,7 +22,7 @@ class DollyZoom:
     """
 
     @staticmethod
-    def on(character: str) -> "DollyZoom":
+    def on(character: str) -> DollyZoom:
         """Specify the character to put in frame before dolly zooming."""
         return DollyZoom(character)
 
@@ -43,6 +43,6 @@ class DollyZoom:
             ),
         )
 
-    def __init__(self, character: Optional[str] = None) -> None:
+    def __init__(self, character: str | None = None) -> None:
         self.character = character
         self.detail = f" on {character}" if character else ""

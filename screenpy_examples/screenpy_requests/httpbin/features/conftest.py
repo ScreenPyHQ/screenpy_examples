@@ -4,7 +4,7 @@ Fixtures for API testing.
 
 from __future__ import annotations
 
-from typing import Generator
+from typing import TYPE_CHECKING
 
 import pytest
 from screenpy import AnActor, StdOutAdapter, StdOutManager, the_narrator
@@ -12,6 +12,9 @@ from screenpy_adapter_allure import AllureAdapter
 from screenpy_requests.abilities import MakeAPIRequests
 
 from screenpy_examples.screenpy_logger import create_logger
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 the_narrator.adapters.append(AllureAdapter())
 

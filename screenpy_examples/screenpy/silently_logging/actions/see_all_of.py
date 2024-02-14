@@ -3,14 +3,16 @@ Make several assertions using any number of Question and Resolution tuples,
 all of which are expected to be true.
 """
 
-from typing import Tuple, Type, TypeVar, Union
+from __future__ import annotations
+
+from typing import TypeVar
 
 from screenpy import Actor, Answerable, BaseResolution, UnableToAct, beat
 
 from .see import See
 
 SelfSeeAllOf = TypeVar("SelfSeeAllOf", bound="SeeAllOf")
-T_T = Tuple[Union[Answerable, object], BaseResolution]
+T_T = tuple[Answerable | object, BaseResolution]
 
 
 class SeeAllOf:
@@ -35,10 +37,10 @@ class SeeAllOf:
         )
     """
 
-    tests: Tuple[T_T, ...]
+    tests: tuple[T_T, ...]
 
     @classmethod
-    def the(cls: Type[SelfSeeAllOf], *tests: T_T) -> SelfSeeAllOf:
+    def the(cls: type[SelfSeeAllOf], *tests: T_T) -> SelfSeeAllOf:
         """Supply any number of Question/value + Resolution tuples to test."""
         return cls(*tests)
 

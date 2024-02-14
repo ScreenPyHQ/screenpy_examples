@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from screenpy_playwright import Target
 
 URL = "https://www.saucedemo.com/"

@@ -5,12 +5,15 @@ Fixtures for the Android Appium example suite.
 from __future__ import annotations
 
 import os
-from typing import Generator
+from typing import TYPE_CHECKING
 
 import pytest
 from appium.webdriver import Remote
 from screenpy import AnActor
 from screenpy_appium.abilities import UseAnIOSDevice
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 
 @pytest.fixture()

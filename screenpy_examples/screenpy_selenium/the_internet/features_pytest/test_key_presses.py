@@ -5,7 +5,7 @@ test structure. These tests exercise the Wait and Enter Actions.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Callable, Tuple
+from typing import TYPE_CHECKING
 
 from screenpy import ReadsExactly, See, act, scene
 
@@ -14,6 +14,8 @@ from screenpy_selenium import Enter, Open, Text, Wait
 from ..user_interface.key_presses import ENTRY_INPUT, RESULT_TEXT, URL
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from screenpy import Actor
     from selenium.webdriver.remote.webdriver import WebDriver
 
@@ -44,7 +46,7 @@ class TestKeyPresses:
         test_text = "H"
 
         def text_to_have_all(
-            locator: Tuple[str, str], preamble: str, body: str, suffix: str
+            locator: tuple[str, str], preamble: str, body: str, suffix: str
         ) -> Callable:
             """A very contrived custom condition."""
 

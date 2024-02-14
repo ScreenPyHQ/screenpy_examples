@@ -19,16 +19,7 @@ import os
 import sys
 import traceback
 from types import FrameType, FunctionType, TracebackType
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    Callable,
-    Mapping,
-    NoReturn,
-    Type,
-    TypeAlias,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, NoReturn, TypeAlias, cast
 
 import hamcrest
 import hamcrest.core.base_matcher
@@ -41,6 +32,8 @@ import screenpy.resolutions
 import screenpy_examples.screenpy.silently_logging.actions.see
 
 if TYPE_CHECKING:
+    from collections.abc import Callable, Mapping
+
     T_exc: TypeAlias = (
         tuple[type[BaseException], BaseException, TracebackType | None]
         | tuple[None, None, None]
@@ -48,7 +41,7 @@ if TYPE_CHECKING:
     )
     __logger = logging.Logger
 else:
-    __logger: Type[logging.Logger] = logging.getLoggerClass()
+    __logger: type[logging.Logger] = logging.getLoggerClass()
 _logRecordFactory = logging.getLogRecordFactory()
 
 

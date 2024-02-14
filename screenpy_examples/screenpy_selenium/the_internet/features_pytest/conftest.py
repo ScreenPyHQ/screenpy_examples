@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING, Generator, Type, TypeAlias
+from typing import TYPE_CHECKING, TypeAlias
 
 import pytest
 from screenpy import (
@@ -19,6 +19,8 @@ from screenpy_examples.screenpy_logger import create_logger
 from screenpy_selenium import BrowseTheWeb
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
+
     from selenium.webdriver import Chrome, Edge, Firefox, Ie, Safari
     from selenium.webdriver.remote.webdriver import WebDriver
     from setup_selenium.selenium_module import T_DrvOpts
@@ -39,7 +41,7 @@ class RemoveAbilityWithouClosingSelenium(Performable):
     def perform_as(self, actor: Actor) -> None:
         actor.abilities.remove(actor.uses_ability_to(self.ability))
 
-    def __init__(self, ability: Type[Forgettable]):
+    def __init__(self, ability: type[Forgettable]):
         self.ability = ability
 
 

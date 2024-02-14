@@ -28,12 +28,12 @@ class LogIn:
     """
 
     @staticmethod
-    def as_(user: User) -> "LogIn":
+    def as_(user: User) -> LogIn:
         """Log in as a predefined user."""
         return LogIn.using(user.username, user.password)
 
     @staticmethod
-    def using(username: str, password: str) -> "LogIn":
+    def using(username: str, password: str) -> LogIn:
         """Log in using the supplied username and password combination."""
         return LogIn(username, password)
 

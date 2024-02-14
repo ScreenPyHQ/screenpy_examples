@@ -24,22 +24,22 @@ class Dolly:
     def __init__(self) -> None:
         self.vector: tuple[int, int] = (0, 0)
 
-    def forward(self) -> "Dolly":
+    def forward(self) -> Dolly:
         """Dolly forward!"""
         self.vector = (self.vector[0], self.vector[1] + 1)
         return self
 
-    def backward(self) -> "Dolly":
+    def backward(self) -> Dolly:
         """Dolly backward!"""
         self.vector = (self.vector[0], self.vector[1] - 1)
         return self
 
-    def left(self) -> "Dolly":
+    def left(self) -> Dolly:
         """Dolly left!"""
         self.vector = (self.vector[0] - 1, self.vector[1])
         return self
 
-    def right(self) -> "Dolly":
+    def right(self) -> Dolly:
         """Dolly right!"""
         self.vector = (self.vector[0] + 1, self.vector[1])
         return self

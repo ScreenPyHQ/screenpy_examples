@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from screenpy_examples.screenpy.readthedocs import pollster
 
 

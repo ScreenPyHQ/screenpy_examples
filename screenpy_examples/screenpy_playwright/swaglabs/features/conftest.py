@@ -1,12 +1,15 @@
 from __future__ import annotations
 
-from typing import Any, Generator
+from typing import TYPE_CHECKING, Any
 
 import pytest
 from screenpy import AnActor, StdOutAdapter, StdOutManager, the_narrator
 from screenpy_playwright.abilities import BrowseTheWebSynchronously
 
 from screenpy_examples.screenpy_logger import create_logger
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger()))]
 

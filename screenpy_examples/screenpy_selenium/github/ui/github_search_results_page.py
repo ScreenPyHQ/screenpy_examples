@@ -2,6 +2,8 @@
 Locators for the GitHub search results page.
 """
 
+from __future__ import annotations
+
 from screenpy_selenium import Target
 
 RESULTS_MESSAGE = Target.the("search results message").located_by(

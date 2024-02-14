@@ -31,16 +31,16 @@ class Zoom:
     camera: mock.MagicMock | None
 
     @staticmethod
-    def out() -> "Zoom":
+    def out() -> Zoom:
         """Zoom out!"""
         return Zoom(-1, "out")
 
     @staticmethod
-    def in_() -> "Zoom":
+    def in_() -> Zoom:
         """Zoom in!"""
         return Zoom(1, "in")
 
-    def on_camera(self, camera: mock.MagicMock) -> "Zoom":
+    def on_camera(self, camera: mock.MagicMock) -> Zoom:
         """Zoom in on a specific camera (camera)."""
         self.camera = camera
         return self

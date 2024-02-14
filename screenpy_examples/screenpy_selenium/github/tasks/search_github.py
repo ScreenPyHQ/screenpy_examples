@@ -30,7 +30,7 @@ class SearchGitHub:
     """
 
     @staticmethod
-    def for_text(search_query: str) -> "SearchGitHub":
+    def for_text(search_query: str) -> SearchGitHub:
         """Supply the text to search GitHub for."""
         return SearchGitHub(search_query)
 

@@ -25,12 +25,12 @@ class Pan:
     """
 
     @staticmethod
-    def left() -> "Pan":
+    def left() -> Pan:
         """Pan left!."""
         return Pan(-1, "left")
 
     @staticmethod
-    def right() -> "Pan":
+    def right() -> Pan:
         """Pan right!"""
         return Pan(1, "right")
 

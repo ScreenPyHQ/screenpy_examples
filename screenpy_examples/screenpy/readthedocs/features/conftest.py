@@ -5,7 +5,7 @@ Setup and fixtures for our feature tests.
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, Generator
+from typing import TYPE_CHECKING
 
 import _pytest.logging
 import pytest
@@ -23,6 +23,8 @@ from screenpy_examples.screenpy.readthedocs.pollster import (
 from screenpy_examples.screenpy_logger import create_logger
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
+
     from _pytest.config import Config
 
 the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger()))]

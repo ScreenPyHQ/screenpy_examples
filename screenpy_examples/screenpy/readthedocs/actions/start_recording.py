@@ -34,7 +34,7 @@ class StartRecording:
 
     cameras: list[mock.MagicMock]
 
-    def on(self, camera: mock.MagicMock) -> "StartRecording":
+    def on(self, camera: mock.MagicMock) -> StartRecording:
         """Record on an already-created camera."""
         self.cameras.append(camera)
         return self

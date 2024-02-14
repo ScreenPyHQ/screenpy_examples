@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from screenpy_playwright import Target
 
 CART_ITEMS = Target.the("cart items").located_by("div.cart_item")

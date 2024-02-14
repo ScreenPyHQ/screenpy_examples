@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from screenpy_playwright import Target
 
 CART_ICON = Target.the("cart icon").located_by("#shopping_cart_container")

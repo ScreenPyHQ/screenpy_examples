@@ -2,6 +2,8 @@
 URLs to be tested via API requests.
 """
 
+from __future__ import annotations
+
 BASE_URL = "https://httpbin.org"
 
 BASIC_AUTH_URL = f"{BASE_URL}/basic-auth"

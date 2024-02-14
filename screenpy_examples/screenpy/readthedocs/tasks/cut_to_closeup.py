@@ -2,6 +2,8 @@
 Cut to a closeup for some personal reactions.
 """
 
+from __future__ import annotations
+
 from screenpy import Actor, beat
 
 from screenpy_examples.screenpy.readthedocs.abilities import ControlCameras
@@ -17,7 +19,7 @@ class CutToCloseup:
     """
 
     @staticmethod
-    def on(character: str) -> "CutToCloseup":
+    def on(character: str) -> CutToCloseup:
         """Specify the character to cut to."""
         return CutToCloseup(character)
 

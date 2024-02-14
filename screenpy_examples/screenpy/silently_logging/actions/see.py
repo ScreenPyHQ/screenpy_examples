@@ -2,8 +2,9 @@
 """
 Make an assertion using a Question and a Resolution.
 """
+from __future__ import annotations
 
-from typing import Self, TypeVar, Union
+from typing import Self
 
 from hamcrest import assert_that
 from screenpy import (
@@ -18,8 +19,7 @@ from screenpy import (
 )
 from screenpy.speech_tools import get_additive_description
 
-SelfSee = TypeVar("SelfSee", bound="See")
-T_Q = Union[Answerable, object]
+T_Q = Answerable | object
 
 
 class _See:
@@ -58,9 +58,7 @@ class _See:
 
         assert_that(value, matcher, reason)
 
-    def __init__(
-        self, question: T_Q, resolution: Union[BaseResolution, Resolvable]
-    ) -> None:
+    def __init__(self, question: T_Q, resolution: BaseResolution | Resolvable) -> None:
         self.question = question
         self.resolution = resolution
 
@@ -85,11 +83,11 @@ class See:
 
     question: T_Q
     question_to_log: str
-    resolution: Union[BaseResolution, Resolvable]
+    resolution: BaseResolution | Resolvable
     resolution_to_log: str
 
     @classmethod
-    def the(cls, question: T_Q, resolution: Union[BaseResolution, Resolvable]) -> Self:
+    def the(cls, question: T_Q, resolution: BaseResolution | Resolvable) -> Self:
         """Supply the Question (or value) and Resolution to test."""
         return cls(question, resolution)
 
@@ -102,9 +100,7 @@ class See:
         """Direct the Actor to make an observation."""
         the_actor.will(Quietly(_See(self.question, self.resolution)))
 
-    def __init__(
-        self, question: T_Q, resolution: Union[BaseResolution, Resolvable]
-    ) -> None:
+    def __init__(self, question: T_Q, resolution: BaseResolution | Resolvable) -> None:
         self.question = question
         self.question_to_log = get_additive_description(question)
         self.resolution = resolution

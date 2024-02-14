@@ -6,7 +6,7 @@ though they are a little bit contrived.
 
 from __future__ import annotations
 
-from typing import Generator
+from typing import TYPE_CHECKING
 
 import pytest
 from allure_commons.types import AttachmentType
@@ -31,6 +31,9 @@ from screenpy_selenium import BrowseTheWeb, Open, SaveScreenshot
 
 from ..questions.number_of_search_results import NumberOfSearchResults
 from ..questions.search_results_message import SearchResultsMessage
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 
 @pytest.fixture(name="Perry")
