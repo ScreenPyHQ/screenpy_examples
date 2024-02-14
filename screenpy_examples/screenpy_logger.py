@@ -129,7 +129,7 @@ class ScreenpyLogger(__logger):
             extra = {"fileline": file_line} | kwargs.pop("extra", {})
             self._log(level, msg, args, **kwargs, extra=extra)
 
-    def makeRecord(
+    def makeRecord(  # noqa: PLR0913
         self,
         name: str,
         level: int,

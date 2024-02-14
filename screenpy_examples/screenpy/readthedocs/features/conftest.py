@@ -68,4 +68,3 @@ def pytest_configure(config: Config) -> None:
     if isinstance(formatter, _pytest.logging.ColoredLevelFormatter):
         formatter.add_color_level(logging.INFO, "green")
         formatter.add_color_level(logging.ERROR, "red")
-    return
