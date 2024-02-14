@@ -133,7 +133,7 @@ select = [
     "I",  # isort
     "ICN",  # flake8-import-conventions
     "ISC",  # flake8-implicit-str-concat
-#    "PGH",  # pygrep-hooks
+    "PGH",  # pygrep-hooks
     "PIE",  # flake8-pie
 #    "PL",  # pylint
 #    "PT",  # flake8-pytest-style

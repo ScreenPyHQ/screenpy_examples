@@ -37,8 +37,9 @@ if TYPE_CHECKING:
         | tuple[None, None, None]
         | None
     )
-
-__logger: Type[logging.Logger] = logging.getLoggerClass()
+    __logger = logging.Logger
+else:
+    __logger: Type[logging.Logger] = logging.getLoggerClass()
 _logRecordFactory = logging.getLogRecordFactory()
 
 
@@ -69,7 +70,7 @@ else:  # pragma: no cover
             raise Exception
         except Exception:  # noqa: BLE001
             rt = sys.exc_info()
-            return rt[2].tb_frame.f_back  # type: ignore
+            return rt[2].tb_frame.f_back
 
 
 def mod_path(function: FunctionType | Callable) -> str:
@@ -93,7 +94,7 @@ ignore_srcfiles = [
 ]
 
 
-class ScreenpyLogger(__logger):  # type: ignore
+class ScreenpyLogger(__logger):
     TRACE = TRACE
     ALL = ALL
     STDERR = STDERR
@@ -138,7 +139,7 @@ class ScreenpyLogger(__logger):  # type: ignore
         args: tuple[object, ...] | Mapping[str, object] | None,
         exc_info: T_exc,
         func: str | None = None,
-        extra: dict | None = None,
+        extra: Mapping[str, object] | None = None,
         sinfo: str | None = None,
     ) -> logging.LogRecord:
         """
@@ -182,7 +183,7 @@ class ScreenpyLogger(__logger):  # type: ignore
 
         orig_f: FrameType = f
         while f and stacklevel > 1:
-            f = f.f_back  # type: ignore
+            f = f.f_back
             stacklevel -= 1
         if not f:
             f = orig_f
@@ -213,7 +214,7 @@ def create_logger(name: str = "scrnpy") -> ScreenpyLogger:
     logging.setLoggerClass(ScreenpyLogger)
     # pycharm gets confused about getLogger returning ScreenpyLogger.
     # mypy also doesn't understand this since it is a dynamic call.
-    logger: ScreenpyLogger = logging.getLogger(name)  # type: ignore
+    logger: ScreenpyLogger = cast(ScreenpyLogger, logging.getLogger(name))
     logger.setLevel(DEBUG)
     logger.propagate = True
     return logger
