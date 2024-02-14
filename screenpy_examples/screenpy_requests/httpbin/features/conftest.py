@@ -18,7 +18,7 @@ the_narrator.adapters.append(AllureAdapter())
 the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger()))]
 
 
-@pytest.fixture
+@pytest.fixture()
 def Perry() -> Generator:
     """An Actor who can make API requests."""
     the_actor = AnActor.named("Perry").who_can(MakeAPIRequests())

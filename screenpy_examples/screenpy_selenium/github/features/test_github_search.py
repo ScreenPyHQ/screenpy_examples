@@ -33,7 +33,7 @@ from ..questions.number_of_search_results import NumberOfSearchResults
 from ..questions.search_results_message import SearchResultsMessage
 
 
-@pytest.fixture(scope="function", name="Perry")
+@pytest.fixture(name="Perry")
 def fixture_actor() -> Generator:
     """Create the Actor for our example tests!"""
     the_actor = Actor.named("Perry").who_can(BrowseTheWeb.using_firefox())

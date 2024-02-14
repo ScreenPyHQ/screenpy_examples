@@ -28,7 +28,7 @@ if TYPE_CHECKING:
 the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger()))]
 
 
-@pytest.fixture
+@pytest.fixture()
 def Cameron() -> Generator:
     """Generate our cameraman, Cameron."""
     the_actor = AnActor.named("Cameron").who_can(ControlCameras())
@@ -36,7 +36,7 @@ def Cameron() -> Generator:
     the_actor.exit()
 
 
-@pytest.fixture
+@pytest.fixture()
 def Polly() -> Generator:
     """Generate our audience-polling stats wizard, Polly."""
     the_actor = AnActor.named("Polly").who_can(PollTheAudience())

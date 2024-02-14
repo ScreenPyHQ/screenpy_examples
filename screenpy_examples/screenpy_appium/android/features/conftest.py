@@ -13,7 +13,7 @@ from screenpy import AnActor
 from screenpy_appium.abilities import UseAnIOSDevice
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def Andrew() -> Generator:
     capabilities = {
         "app": os.path.abspath("../apps/android-ApiDemos-debug.apk.zip"),

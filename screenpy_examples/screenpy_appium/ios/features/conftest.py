@@ -13,7 +13,7 @@ from screenpy import AnActor
 from screenpy_appium.abilities import UseAnIOSDevice
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def Io() -> Generator:
     capabilities = {
         "app": os.path.abspath("../apps/ios-UICatalog.app.zip"),

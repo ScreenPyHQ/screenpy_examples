@@ -11,7 +11,7 @@ from screenpy_examples.screenpy_logger import create_logger
 the_narrator.adapters = [StdOutAdapter(StdOutManager(create_logger()))]
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def Swalter() -> Generator[AnActor, Any, None]:
     """Swalter tests Swaglabs."""
     the_actor = AnActor.named("Swalter").who_can(
